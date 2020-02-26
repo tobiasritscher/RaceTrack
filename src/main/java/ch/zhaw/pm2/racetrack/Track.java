@@ -1,11 +1,8 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.solution.Car;
-import ch.zhaw.pm2.racetrack.solution.InvalidTrackFormatException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
 
 /**
  * This class represents the racetrack board.
@@ -15,7 +12,7 @@ import java.util.*;
  * <p>Positions on the track grid are specified using {@link PositionVector} objects. These are vectors containing an
  * x/y coordinate pair, pointing from the zero-point (top-left) to the addressed space in the grid.</p>
  *
- * <p>Each position in the grid represents a space which can hold an enum object of type {@link SpaceType}.<br>
+ * <p>Each position in the grid represents a space which can hold an enum object of type {@link Config.SpaceType}.<br>
  * Possible Space types are:
  * <ul>
  *  <li>WALL : road boundary or off track space</li>
