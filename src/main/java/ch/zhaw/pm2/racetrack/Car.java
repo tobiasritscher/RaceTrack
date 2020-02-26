@@ -23,7 +23,6 @@ public class Car {
     }
     public char getName(){
         return name;
-
     }
     public Point getPosition(){
         return position;
