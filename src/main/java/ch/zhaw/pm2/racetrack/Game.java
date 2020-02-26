@@ -45,6 +45,7 @@ public class Game {
      * Get the id of the specified car.
      * @param carIndex The zero-based carIndex number
      * @return A char containing the id of the car
+     * @throws IllegalArgumentException
      */
     public char getCarId(int carIndex) {
         if(isValidCarIndex(carIndex)){
@@ -66,10 +67,13 @@ public class Game {
      * Get the position of the specified car.
      * @param carIndex The zero-based carIndex number
      * @return A PositionVector containing the car's current position
+     * @throws IllegalArgumentException
      */
     public PositionVector getCarPosition(int carIndex) {
-        // todo
-        return null;
+        if(isValidCarIndex(carIndex)){
+            throw new IllegalArgumentException("Is not a legal car index.");
+        }
+        return raceTrack.getCarPos();
     }
 
     /**
