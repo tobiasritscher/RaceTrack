@@ -12,9 +12,24 @@ import static ch.zhaw.pm2.racetrack.PositionVector.*;
 public class Game {
     public static final int NO_WINNER = -1;
 
-    private int activeCar;
+    private int activeCar = -1;
     private List<Car> cars = new ArrayList<>();
+    private Track raceTrack;
 
+    /**
+     * Constructor of the class Game.
+     * Initialises track.
+     *
+     * @param track race track
+     */
+    public Game(Track track) {
+        try{
+            raceTrack = track;
+        }catch(NullPointerException e){
+            System.err.println("Track-Object is null");
+            System.exit(-1);
+        }
+    }
 
     /**
      * Return the index of the current active car.
