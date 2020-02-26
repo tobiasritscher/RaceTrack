@@ -20,19 +20,37 @@ public class Car {
         this.position = position;
         this.name = name;
     }
-    public char getName(){
-        return name;
-    }
-    public Point getPosition(){
+
+    public Point newSpeed(Point accelaration) throws IllegalArgumentException {
+        if (accelaration.getX() < -1 || accelaration.getX() > 1 || accelaration.getY() < -1 || accelaration.getY() > 1) {
+            throw new IllegalArgumentException("cant have such fast acceleration");
+        } else {
+            speed.x = (int) (speed.getX() + accelaration.getX());
+            speed.y = (int) (speed.getY() + accelaration.getY());
+            position.x = (int) (position.getX() + speed.getX());
+            position.y = (int) (position.getY() + speed.getY());
+        }
         return position;
     }
-    public Point getSpeed(){
+
+    public char getName() {
+        return name;
+    }
+
+    public Point getPosition() {
+        return position;
+    }
+
+    public Point getSpeed() {
         return speed;
     }
-    public boolean isCrashed(){
+
+    public boolean isCrashed() {
         return crashed;
     }
-    public void hasCrashed(){
+
+    public void hasCrashed() {
         crashed = true;
     }
+
 }
