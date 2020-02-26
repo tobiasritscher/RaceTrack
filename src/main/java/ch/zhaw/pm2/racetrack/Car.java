@@ -21,7 +21,14 @@ public class Car {
         this.name = name;
     }
 
-    public Point newSpeed(Point accelaration) throws IllegalArgumentException {
+    /**
+     * calculates the car's new speed and position
+     *
+     * @param accelaration takes in the user input for desired acceleration
+     * @return position     returns the new position of the car
+     * @throws IllegalArgumentException if given acceleration is not [-1,0,1]
+     */
+    public Point newSpeedandPosition(Point accelaration) throws IllegalArgumentException {
         if (accelaration.getX() < -1 || accelaration.getX() > 1 || accelaration.getY() < -1 || accelaration.getY() > 1) {
             throw new IllegalArgumentException("cant have such fast acceleration");
         } else {
