@@ -1,5 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
+import java.awt.*;
+
 /**
  * Class representing a car on the racetrack.
  * Uses {@link PositionVector} to store current position on the track grid and current velocity vector.
@@ -9,5 +11,26 @@ package ch.zhaw.pm2.racetrack;
  * The car is able to calculate the endpoint of its next position and on request moves to it.
  */
 public class Car {
+    private Point position = new Point();
+    private Point speed = new Point(0, 0);
+    private char name;
+    private boolean crashed = false;
 
+    public Car(Point position, char name) {
+        this.position = position;
+        this.name = name;
+
+    }
+    public char getName(){
+        return name;
+    }
+    public Point getPosition(){
+        return position;
+    }
+    public Point getSpeed(){
+        return speed;
+    }
+    public boolean isCrashed(){
+        return crashed;
+    }
 }
