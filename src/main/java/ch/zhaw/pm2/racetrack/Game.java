@@ -80,10 +80,13 @@ public class Game {
      * Get the velocity of the specified car.
      * @param carIndex The zero-based carIndex number
      * @return A PositionVector containing the car's current velocity
+     * @throws IllegalArgumentException
      */
     public PositionVector getCarVelocity(int carIndex) {
-        // todo
-        return null;
+        if(isValidCarIndex(carIndex)){
+            throw new IllegalArgumentException("Is not a legal car index.");
+        }
+        return raceTrack.getCarVelocity();
     }
 
     /**
