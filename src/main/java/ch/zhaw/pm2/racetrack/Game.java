@@ -15,6 +15,7 @@ public class Game {
     private int activeCarIndex=0;
     private Track raceTrack;
     private static final int MIN_CARS = 2;
+    private int winnerIndex = NO_WINNER;
     /**
      * Constructor of the class Game.
      * Initialises track.
@@ -94,8 +95,7 @@ public class Game {
      * @return The winning car's index (zero-based, see getCurrentCar()), or NO_WINNER if the game is still in progress
      */
     public int getWinner() {
-        //todo
-        return 0;
+        return winnerIndex;
     }
 
     /**
