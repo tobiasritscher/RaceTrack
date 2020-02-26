@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pm2-racetrack-handout.iml" filepath="$PROJECT_DIR$/.idea/modules/pm2-racetrack-handout.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pm2-racetrack-handout.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pm2-racetrack-handout.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pm2-racetrack-handout.test.iml" filepath="$PROJECT_DIR$/.idea/modules/pm2-racetrack-handout.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/test/test.iml" filepath="$PROJECT_DIR$/src/test/test.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/main/java/ch/zhaw/zhaw.iml" filepath="$PROJECT_DIR$/src/main/java/ch/zhaw/zhaw.iml" />
     </modules>
