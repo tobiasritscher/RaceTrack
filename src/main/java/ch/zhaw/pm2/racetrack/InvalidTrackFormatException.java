@@ -17,7 +17,7 @@ import java.io.File;
 
 public class InvalidTrackFormatException extends Exception {
     private File trackFile;
-    private int errorType;
+    //TODO: define error types via enum which are returned by this Exception class
 
     public InvalidTrackFormatException(File trackFile){ this.trackFile = trackFile; }
 
