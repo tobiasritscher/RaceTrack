@@ -1,6 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Class representing a car on the racetrack.
@@ -11,7 +11,7 @@ import java.awt.*;
  * The car is able to calculate the endpoint of its next position and on request moves to it.
  */
 public class Car {
-    private Point position = new Point();
+    private Point position;
     private Point speed = new Point(0, 0);
     private char name;
     private boolean crashed = false;
@@ -19,7 +19,6 @@ public class Car {
     public Car(Point position, char name) {
         this.position = position;
         this.name = name;
-
     }
     public char getName(){
         return name;
@@ -32,5 +31,8 @@ public class Car {
     }
     public boolean isCrashed(){
         return crashed;
+    }
+    public void hasCrashed(){
+        crashed = true;
     }
 }
