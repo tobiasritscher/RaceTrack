@@ -23,17 +23,20 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.1-jre'
+    implementation 'org.beryx:text-io:3.4.0'
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
 
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+
+    implementation fileTree(dir: 'lib', include: ['*.jar'])
 }
 
 application {
     // Define the main class for the application.
-    mainClassName = 'ch.zhaw.pm2.racetrack.App'
+    mainClassName = 'ch.zhaw.pm2.racetrack.Start'
 }
 
 test {
