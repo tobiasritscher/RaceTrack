@@ -12,6 +12,8 @@ import static ch.zhaw.pm2.racetrack.PositionVector.*;
 public class Game {
     public static final int NO_WINNER = -1;
 
+    private int activeCar;
+    private List<Car> cars = new ArrayList<>();
 
 
     /**
@@ -20,8 +22,7 @@ public class Game {
      * @return The zero-based number of the current car
      */
     public int getCurrentCarIndex() {
-        // todo
-        return 0;
+        return activeCar;
     }
 
     /**
