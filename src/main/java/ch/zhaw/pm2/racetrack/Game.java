@@ -12,10 +12,9 @@ import static ch.zhaw.pm2.racetrack.PositionVector.*;
 public class Game {
     public static final int NO_WINNER = -1;
 
-    private int activeCar = -1;
-    private List<Car> cars = new ArrayList<>();
+    private int activeCarIndex=0;
     private Track raceTrack;
-
+    private static final int MIN_CARS = 2;
     /**
      * Constructor of the class Game.
      * Initialises track.
@@ -26,18 +25,20 @@ public class Game {
         try{
             raceTrack = track;
         }catch(NullPointerException e){
-            System.err.println("Track-Object is null");
+            System.err.println("Track-Object is null!");
             System.exit(-1);
         }
+        if(track.getCarCount() < MIN_CARS || track.getCarCount() > Config.MAX_CARS){
+            throw new IllegalArgumentException("Number of car should >"+ (MIN_CARS-1) + " and <" + (Config.MAX_CARS+1));
+        }
     }
-
     /**
      * Return the index of the current active car.
      * Car indexes are zero-based, so the first car is 0, and the last car is getCarCount() - 1.
      * @return The zero-based number of the current car
      */
     public int getCurrentCarIndex() {
-        return activeCar;
+        return activeCarIndex;
     }
 
     /**
@@ -46,8 +47,19 @@ public class Game {
      * @return A char containing the id of the car
      */
     public char getCarId(int carIndex) {
-        // todo
-        return ' ';
+        if(isValidCarIndex(carIndex)){
+            throw new IllegalArgumentException("Is not a legal car index.");
+        }
+        return raceTrack.getCarId(carIndex);
+    }
+
+    /**
+     * Check if the given car index is valid.
+     * @param carIndex The car index
+     * @return true if a valid index given
+     */
+    private boolean isValidCarIndex(int carIndex){
+        return carIndex >= MIN_CARS || carIndex <= Config.MAX_CARS;
     }
 
     /**
