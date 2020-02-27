@@ -85,6 +85,7 @@ public class Game {
 
     /**
      * Get the velocity of the specified car.
+     *
      * @param carIndex The zero-based carIndex number
      * @return A PositionVector containing the car's current velocity
      * @throws IllegalArgumentException
@@ -98,6 +99,7 @@ public class Game {
 
     /**
      * Return the winner of the game. If the game is still in progress, returns NO_WINNER.
+     *
      * @return The winning car's index (zero-based, see getCurrentCar()), or NO_WINNER if the game is still in progress
      */
     public int getWinner() {
@@ -149,7 +151,7 @@ public class Game {
      * Switches to the next car who is still in the game. Skips crashed cars.
      */
     public void switchToNextActiveCar() {
-
+        activeCarIndex = (activeCarIndex+1)%raceTrack.getCarCount();
     }
 
 
@@ -161,6 +163,7 @@ public class Game {
      * - Detect which axis of the distance vector is longer (faster movement)
      * - for each pixel on the 'faster' axis calculate the position on the 'slower' axis.
      * Direction of the movement has to correctly considered
+     *
      * @param startPosition Starting position as a PositionVector
      * @param endPosition   Ending position as a PositionVector
      * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
@@ -173,6 +176,7 @@ public class Game {
 
     /**
      * Does indicate if a car would have a crash with a WALL space or another car at the given position.
+     *
      * @param carIndex The zero-based carIndex number
      * @param position A PositionVector of the possible crash position
      * @return A boolean indicator if the car would crash with a WALL or another car.
