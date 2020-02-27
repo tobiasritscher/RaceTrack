@@ -12,10 +12,11 @@ import static ch.zhaw.pm2.racetrack.PositionVector.*;
 public class Game {
     public static final int NO_WINNER = -1;
 
-    private int activeCarIndex=0;
+    private int activeCarIndex = 0;
     private Track raceTrack;
     private static final int MIN_CARS = 2;
     private int winnerIndex = NO_WINNER;
+
     /**
      * Constructor of the class Game.
      * Initialises track.
@@ -23,19 +24,21 @@ public class Game {
      * @param track race track
      */
     public Game(Track track) {
-        try{
+        try {
             raceTrack = track;
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.err.println("Track-Object is null!");
             System.exit(-1);
         }
-        if(track.getCarCount() < MIN_CARS || track.getCarCount() > Config.MAX_CARS){
-            throw new IllegalArgumentException("Number of car should >"+ (MIN_CARS-1) + " and <" + (Config.MAX_CARS+1));
+        if (track.getCarCount() < MIN_CARS || track.getCarCount() > Config.MAX_CARS) {
+            throw new IllegalArgumentException("Number of car should >" + (MIN_CARS - 1) + " and <" + (Config.MAX_CARS + 1));
         }
     }
+
     /**
      * Return the index of the current active car.
      * Car indexes are zero-based, so the first car is 0, and the last car is getCarCount() - 1.
+     *
      * @return The zero-based number of the current car
      */
     public int getCurrentCarIndex() {
@@ -44,12 +47,13 @@ public class Game {
 
     /**
      * Get the id of the specified car.
+     *
      * @param carIndex The zero-based carIndex number
      * @return A char containing the id of the car
      * @throws IllegalArgumentException
      */
     public char getCarId(int carIndex) {
-        if(isValidCarIndex(carIndex)){
+        if (isValidCarIndex(carIndex)) {
             throw new IllegalArgumentException("Is not a legal car index.");
         }
         return raceTrack.getCarId(carIndex);
@@ -57,24 +61,26 @@ public class Game {
 
     /**
      * Check if the given car index is valid.
+     *
      * @param carIndex The car index
      * @return true if a valid index given
      */
-    private boolean isValidCarIndex(int carIndex){
+    private boolean isValidCarIndex(int carIndex) {
         return carIndex >= MIN_CARS || carIndex <= Config.MAX_CARS;
     }
 
     /**
      * Get the position of the specified car.
+     *
      * @param carIndex The zero-based carIndex number
      * @return A PositionVector containing the car's current position
      * @throws IllegalArgumentException
      */
     public PositionVector getCarPosition(int carIndex) {
-        if(isValidCarIndex(carIndex)){
+        if (isValidCarIndex(carIndex)) {
             throw new IllegalArgumentException("Is not a legal car index.");
         }
-        return raceTrack.getCarPos();
+        return raceTrack.getCarPos(activeCarIndex);
     }
 
     /**
@@ -84,10 +90,10 @@ public class Game {
      * @throws IllegalArgumentException
      */
     public PositionVector getCarVelocity(int carIndex) {
-        if(isValidCarIndex(carIndex)){
+        if (isValidCarIndex(carIndex)) {
             throw new IllegalArgumentException("Is not a legal car index.");
         }
-        return raceTrack.getCarVelocity();
+        return raceTrack.getCarVelocity(activeCarIndex);
     }
 
     /**
@@ -125,7 +131,18 @@ public class Game {
      *                     for this turn
      */
     public void doCarTurn(Direction acceleration) {
+        //changes the current car's velocity
+        PositionVector newVelocity = PositionVector.add(getCarVelocity(activeCarIndex), acceleration.vector);
 
+        //Accelerate the current car
+        raceTrack.getCar(activeCarIndex).accelerate(acceleration);
+        PositionVector endPosition = PositionVector.add(getCarPosition(activeCarIndex), newVelocity);
+        List<PositionVector> path = calculatePath(getCarPosition(activeCarIndex), endPosition);
+        //crashes or passes??
+        //TODO
+        if(willCarCrash(activeCarIndex,endPosition)){
+
+        }
     }
 
     /**
@@ -145,7 +162,7 @@ public class Game {
      * - for each pixel on the 'faster' axis calculate the position on the 'slower' axis.
      * Direction of the movement has to correctly considered
      * @param startPosition Starting position as a PositionVector
-     * @param endPosition Ending position as a PositionVector
+     * @param endPosition   Ending position as a PositionVector
      * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
      */
     public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
