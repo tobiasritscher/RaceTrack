@@ -16,13 +16,18 @@ public class Start {
 
     }
 
-    public static void main(String[] args) {
-    amountOfPlayers();
+    public static void main(String[] args)  {
+        try {
+            setUpGame();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        amountOfPlayers();
     }
 
-    private void setUpGame() throws FileNotFoundException {
-        //init new UserInterface
-        new File("tracks/", "challange.txt");
+    private static void setUpGame() throws FileNotFoundException {
+        File files = new File("tracks/");
+        textIO.newIntInputReader().withMinVal(1).withMaxVal(4).read(files.toString());
     }
 
     public static void amountOfPlayers(){
