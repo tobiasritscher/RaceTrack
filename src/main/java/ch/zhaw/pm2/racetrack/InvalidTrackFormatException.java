@@ -17,15 +17,35 @@ import java.io.File;
 
 public class InvalidTrackFormatException extends Exception {
     private File trackFile;
+    private ErrorType errorType;
     //TODO: define error types via enum which are returned by this Exception class
 
-    public InvalidTrackFormatException(File trackFile){ this.trackFile = trackFile; }
+    public InvalidTrackFormatException(File trackFile, ErrorType errorType){ this.trackFile = trackFile; }
 
     public File getTrackFile() { return trackFile; }
 
+    public String printErrorType() {
+        String errorMessage;
+        switch(errorType){
+            case NOT_SAME_LENGTH:
+                errorMessage = "Width is not consistent over entire track (some lines are shorter/longer)";
+                break;
+            case NO_TRACK_LINES:
+                errorMessage = "Track contains no track lines";
+                break;
+            case TOO_MANY_CARS:
+                errorMessage = "Too many cars on track file. Maximum amount allowed is " +Config.MAX_CARS;
+                break;
+            default:
+                errorMessage = "Error not specified.";
+                break;
+        }
+        return errorMessage;
+    }
+
     public String toString(){
-        return("The following track file doesn't match the requirements:\n" + trackFile.toString() +
-                "Error Type <to be implemented>");
+        return("The following track file doesn't match the requirements: " + trackFile.toString() +
+                "\n" + printErrorType());
     }
 }
 
