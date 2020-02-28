@@ -142,7 +142,7 @@ public class Game {
         List<PositionVector> path = calculatePath(getCarPosition(activeCarIndex), endPosition);
         //crashes or passes??
         //TODO
-        if(willCarCrash(activeCarIndex,endPosition)){
+        if (willCarCrash(activeCarIndex, endPosition)) {
 
         }
     }
@@ -151,7 +151,7 @@ public class Game {
      * Switches to the next car who is still in the game. Skips crashed cars.
      */
     public void switchToNextActiveCar() {
-        activeCarIndex = (activeCarIndex+1)%raceTrack.getCarCount();
+        activeCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
     }
 
 
@@ -182,9 +182,24 @@ public class Game {
      * @return A boolean indicator if the car would crash with a WALL or another car.
      */
     public boolean willCarCrash(int carIndex, PositionVector position) {
-        // todo
-        return false;
+        return raceTrack.getSpaceType(position) == Config.SpaceType.WALL || isSomeCarHere(position);
     }
 
+    private boolean isSomeCarHere(PositionVector position) {
+            boolean result = false;
+            //back up
+            int realActiveCar = activeCarIndex;
+
+            //switch until you return to the same car, after the loop active car is the same one, that was at the beginning of the function
+            switchToNextActiveCar();
+            while(activeCarIndex != realActiveCar ){
+                //some car on this position?
+                if (position == raceTrack.getCarPos(activeCarIndex)){
+                    result = true;
+                }
+                switchToNextActiveCar();
+            }
+            return result;
+        }
 
 }
