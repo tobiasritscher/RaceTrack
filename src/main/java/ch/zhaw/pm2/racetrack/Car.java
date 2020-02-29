@@ -15,10 +15,15 @@ public class Car {
     private Point speed = new Point(0, 0);
     private char name;
     private boolean crashed = false;
+    private boolean byUser = true;
 
     public Car(Point position, char name) {
         this.position = position;
         this.name = name;
+    }
+
+    public Car() {
+
     }
 
     /**
@@ -31,13 +36,26 @@ public class Car {
     public Point newSpeedandPosition(Point accelaration) throws IllegalArgumentException {
         if (accelaration.getX() < -1 || accelaration.getX() > 1 || accelaration.getY() < -1 || accelaration.getY() > 1) {
             throw new IllegalArgumentException("cant have such fast acceleration");
-        } else {
+        } else if(byUser) {
             speed.x = (int) (speed.getX() + accelaration.getX());
             speed.y = (int) (speed.getY() + accelaration.getY());
             position.x = (int) (position.getX() + speed.getX());
             position.y = (int) (position.getY() + speed.getY());
+        }else {
+            return position;
         }
         return position;
+    }
+
+    public void byMachine(){
+        byUser = false;
+    }
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public void setName(char name) {
+        this.name = name;
     }
 
     public char getName() {
