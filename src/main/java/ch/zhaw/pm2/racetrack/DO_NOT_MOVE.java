@@ -6,7 +6,7 @@ public class DO_NOT_MOVE implements MoveStrategy {
 
     @Override
     public PositionVector.Direction nextMove() {
-        return null;
+        return PositionVector.Direction.NONE;
     }
 
 }
