@@ -22,7 +22,7 @@ public class Car {
     public Car() {
 
     }
-
+/*
     /**
      * calculates the car's new speed and position
      *
@@ -76,4 +76,15 @@ public class Car {
         this.speed = speed;
     }
 
+    public void move(){
+        //TODO implement
+    }
+
+    public void crash(){
+        //TODO implement
+    }
+
+    public void accelerate(PositionVector.Direction direction){
+        //TODO implement
+    }
 }

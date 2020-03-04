@@ -111,4 +111,9 @@ public class Track {
     public List<Car> getCars() {
         return cars;
     }
+
+    public Car getCar(int carIndex){
+        //Todo check if carIndex inbound
+       return cars.get(carIndex);
+    }
 }
