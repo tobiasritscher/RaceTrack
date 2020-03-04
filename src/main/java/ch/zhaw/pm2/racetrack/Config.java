@@ -24,7 +24,7 @@ public class Config {
         FINISH_DOWN('v'),
         FINISH_LEFT('<'),
         FINISH_RIGHT('>'),
-        ANY_CAR('a');
+        ANY_CAR('n');
 
         private final char value;
         SpaceType(final char c) {

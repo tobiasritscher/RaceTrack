@@ -2,9 +2,7 @@ package ch.zhaw.pm2.racetrack;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Reads files and converts the data into a Config.SpaceType array for use as track data.
@@ -14,9 +12,10 @@ import java.util.Scanner;
  */
 
 public class TrackBuilder {
-    int trackWidth = 0;
-    int trackHeight = 0;
-    int numberOfCars = 0;
+    private int trackWidth = 0;
+    private int trackHeight = 0;
+    private int numberOfCars = 0;
+    private Map<Character, PositionVector> carMap = new HashMap<>();
 
     /**
      * Main method for track building. Does the following things:
@@ -65,7 +64,6 @@ public class TrackBuilder {
         Config.SpaceType[][] trackArray = new Config.SpaceType[trackHeight][trackWidth];
 
         // Filling the array with track data, checking if car is already taken & creating them
-        ArrayList<Boolean> carTaken = new ArrayList<>(Arrays.asList(false,false,false,false,false,false,false,false,false));
 
         while (scanner.hasNext()) {
             for (int indexY = 0; indexY < trackHeight; indexY++) {
@@ -96,89 +94,15 @@ public class TrackBuilder {
                             trackArray[indexX][indexY] = Config.SpaceType.FINISH_RIGHT;
                             indexX++;
                             break;
-                        case "a|b|c|d|e|f|g|h|i":
-                            // TODO create new cars
-                            switch (fillArray[indexX]) {
-                                case "a":
-                                    if (carTaken.get(0)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(0, true);
-                                        // create new car 'a'
-                                    }
-                                    break;
-                                case "b":
-                                    if (carTaken.get(1)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(1, true);
-                                        // create new car 'b'
-                                    }
-                                    break;
-                                case "c":
-                                    if (carTaken.get(2)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(2, true);
-                                        // create new car 'c'
-                                    }
-                                    break;
-                                case "d":
-                                    if (carTaken.get(3)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(3, true);
-                                        // create new car 'd'
-                                    }
-                                    break;
-                                case "e":
-                                    if (carTaken.get(4)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(4, true);
-                                        // create new car 'e'
-                                    }
-                                    break;
-                                case "f":
-                                    if (carTaken.get(5)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(5, true);
-                                        // create new car 'b'
-                                    }
-                                    break;
-                                case "g":
-                                    if (carTaken.get(6)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(6, true);
-                                        // create new car 'b'
-                                    }
-                                    break;
-                                case "h":
-                                    if (carTaken.get(7)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(7, true);
-                                        // create new car 'b'
-                                    }
-                                    break;
-                                case "i":
-                                    if (carTaken.get(8)) {
-                                        throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                    } else {
-                                        carTaken.set(8, true);
-                                        // create new car 'b'
-                                    }
-                                    break;
-                                case "j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z":
-                                    throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                default:
-                                    System.err.println("Character not recognized!");
-                                    indexX++;
-                                    break;
+                        default:
+                            if (numberOfCars > Config.MAX_CARS){
+                                throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
+                            } else {
+                                numberOfCars++;
+                                carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
                             }
-                            break;
+                            trackArray[indexX][indexY] = Config.SpaceType.ANY_CAR;
+                            indexX++;
                     }
                 }
             }
@@ -193,5 +117,14 @@ public class TrackBuilder {
     public int getTrackHeight(){
         return trackHeight;
     }
+
+    public int getNumberOfCars(){
+        return numberOfCars;
+    }
+
+    public Map<Character, PositionVector> getCarMap() {
+        return carMap;
+    }
+
 }
 

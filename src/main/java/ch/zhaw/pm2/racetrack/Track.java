@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * This class represents the racetrack board.
@@ -54,12 +56,12 @@ import java.util.List;
  * <p>The Track can return a String representing the current state of the race (including car positons)</p>
  */
 public class Track {
-    List<Car> cars;
-    TrackBuilder builder;
-    Config.SpaceType[][] trackArray;
+    private List<Car> cars = new ArrayList<>();
+    private TrackBuilder builder = new TrackBuilder();
+    private Config.SpaceType[][] trackArray;
 
-    int width;
-    int height;
+    private int width;
+    private int height;
 
     /**
      * Initialize a Track from the given track file.
@@ -70,9 +72,10 @@ public class Track {
      */
     public Track(File trackFile) throws IOException, InvalidTrackFormatException//, InvalidTrackFormatException
     {
-        cars = new ArrayList<>();
-        builder = new TrackBuilder();
         trackArray = builder.buildTrack(trackFile);
+        for(Map.Entry entry: builder.getCarMap().entrySet()){
+            // cars.add(new Car(entry.getValue(), entry.getKey())); TODO: bugfix
+        }
     }
 
     public Config.SpaceType[][] getTrackArray() {
@@ -86,5 +89,9 @@ public class Track {
 
     public List<Car> getCars() {
         return cars;
+    }
+
+    public int getCarCount(){
+        return cars.size();
     }
 }
