@@ -68,7 +68,7 @@ public class Game {
      * @return true if a valid index given
      */
     private boolean isValidCarIndex(int carIndex) {
-        return carIndex >= MIN_CARS || carIndex <= Config.MAX_CARS;
+        return carIndex >= MIN_CARS && carIndex <= Config.MAX_CARS;
     }
 
     /**
