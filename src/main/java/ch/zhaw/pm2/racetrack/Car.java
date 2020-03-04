@@ -1,7 +1,5 @@
 package ch.zhaw.pm2.racetrack;
 
-import java.awt.Point;
-
 /**
  * Class representing a car on the racetrack.
  * Uses {@link PositionVector} to store current position on the track grid and current velocity vector.
@@ -11,13 +9,12 @@ import java.awt.Point;
  * The car is able to calculate the endpoint of its next position and on request moves to it.
  */
 public class Car {
-    private Point position;
-    private Point speed = new Point(0, 0);
+    private PositionVector position;
+    private PositionVector speed = new PositionVector(0, 0);
     private char name;
     private boolean crashed = false;
-    private boolean byUser = true;
 
-    public Car(Point position, char name) {
+    public Car(PositionVector position, char name) {
         this.position = position;
         this.name = name;
     }
@@ -33,10 +30,10 @@ public class Car {
      * @return position     returns the new position of the car
      * @throws IllegalArgumentException if given acceleration is not [-1,0,1]
      */
-    public Point newSpeedandPosition(Point accelaration) throws IllegalArgumentException {
+  /*  public Point newSpeedandPosition(Point accelaration) throws IllegalArgumentException {
         if (accelaration.getX() < -1 || accelaration.getX() > 1 || accelaration.getY() < -1 || accelaration.getY() > 1) {
             throw new IllegalArgumentException("cant have such fast acceleration");
-        } else if(byUser) {
+        } else if(doNotMove) {
             speed.x = (int) (speed.getX() + accelaration.getX());
             speed.y = (int) (speed.getY() + accelaration.getY());
             position.x = (int) (position.getX() + speed.getX());
@@ -45,12 +42,10 @@ public class Car {
             return position;
         }
         return position;
-    }
+    }**/
 
-    public void byMachine(){
-        byUser = false;
-    }
-    public void setPosition(Point position) {
+
+    public void setPosition(PositionVector position) {
         this.position = position;
     }
 
@@ -62,11 +57,11 @@ public class Car {
         return name;
     }
 
-    public Point getPosition() {
+    public PositionVector getPosition() {
         return position;
     }
 
-    public Point getSpeed() {
+    public PositionVector getSpeed() {
         return speed;
     }
 
@@ -76,6 +71,9 @@ public class Car {
 
     public void hasCrashed() {
         crashed = true;
+    }
+    public void setSpeed(PositionVector speed){
+        this.speed = speed;
     }
 
 }

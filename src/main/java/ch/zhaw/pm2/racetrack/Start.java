@@ -74,7 +74,7 @@ public class Start {
             do {
                 switch (choice) {
                     case 1:
-                        value.byMachine();
+
                         break;
                     case 2:
                         // TODO implement user strategy
