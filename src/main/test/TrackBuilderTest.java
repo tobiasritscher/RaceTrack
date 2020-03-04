@@ -15,8 +15,9 @@ public class TrackBuilderTest {
     private Object InvalidTrackFormatException;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         // TODO: initialize variables
+        trackBuilder = new TrackBuilder();
     }
 
     @Test
@@ -26,11 +27,36 @@ public class TrackBuilderTest {
             trackBuilder.buildTrack(testFile);
         });
     }
+
     @Test
     public void emptyTrackTest() throws IOException, InvalidTrackFormatException {
         File testFile = new File("testtracks/empty_track.txt");
         Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
             trackBuilder.buildTrack(testFile);
         });
+    }
+
+    @Test
+    public void tooManyCarsTest() throws InvalidTrackFormatException {
+        File testFile = new File("testtracks/too_many_cars.txt");
+        Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
+            trackBuilder.buildTrack(testFile);
+        });
+    }
+
+    @Test
+    public void duplicateCarsTest() throws InvalidTrackFormatException {
+        File testFile = new File("testtracks/duplicate_cars.txt");
+        Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
+            trackBuilder.buildTrack(testFile);
+        });
+    }
+
+    @Test
+    public void heightAndWidthTest() throws IOException, InvalidTrackFormatException {
+        File testFile = new File("testtracks/height_and_width_test.txt");
+        trackBuilder.buildTrack(testFile);
+        Assertions.assertEquals(10, trackBuilder.getTrackHeight());
+        Assertions.assertEquals(10, trackBuilder.getTrackWidth());
     }
 }

@@ -21,12 +21,13 @@ public class TrackBuilder {
      * Main method for track building. Does the following things:
      * 1. Checks + sets track width
      * 2. Checks + sets track height
-     * 3. Creates String array and fills it with data gathered from file
-     * 4. Returns the array to Track class.
+     * 3. Creates Config.SpaceType array and fills it with data gathered from file
+     * 4. Prepares + checks list of cars, including their position and character
+     * 5. Returns the array to Track class.
      *
      * @param file (provided by IO)
-     * @return trackArray String array for use with the game
-     * @throws IOException if the file couldn't be found
+     * @return trackArray Config.SpaceType array for use with the game
+     * @throws IOException                 if the file couldn't be found
      * @throws InvalidTrackFormatException if file requirements haven't been met //TODO decide where exactly the exception is thrown
      */
 
@@ -63,10 +64,10 @@ public class TrackBuilder {
         // Initializing track array with width + height data gathered before
         Config.SpaceType[][] trackArray = new Config.SpaceType[trackHeight][trackWidth];
 
-        // Filling the array with track data, checking if car is already taken & creating them
-
+        // Filling the array with track data
         while (scanner.hasNext()) {
             for (int indexY = 0; indexY < trackHeight; indexY++) {
+                // TODO: break loop if empty line is detected
                 String[] fillArray = scanner.next().split("(?!^)");
                 for (int indexX = 0; indexX < fillArray.length; indexX++) {
                     switch (fillArray[indexX]) {
@@ -95,11 +96,17 @@ public class TrackBuilder {
                             indexX++;
                             break;
                         default:
-                            if (numberOfCars > Config.MAX_CARS){
+                            // checking if number of cars exceed the allowed amount
+                            if (numberOfCars > Config.MAX_CARS) {
                                 throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
                             } else {
-                                numberOfCars++;
-                                carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
+                                // check if car character is already taken
+                                if (carMap.containsKey(fillArray[indexX].charAt(0))) {
+                                    throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
+                                } else {
+                                    numberOfCars++;
+                                    carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
+                                }
                             }
                             trackArray[indexX][indexY] = Config.SpaceType.ANY_CAR;
                             indexX++;
@@ -110,15 +117,16 @@ public class TrackBuilder {
         }
         return trackArray;
     }
-    public int getTrackWidth(){
+
+    public int getTrackWidth() {
         return trackWidth;
     }
 
-    public int getTrackHeight(){
+    public int getTrackHeight() {
         return trackHeight;
     }
 
-    public int getNumberOfCars(){
+    public int getNumberOfCars() {
         return numberOfCars;
     }
 
