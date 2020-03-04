@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 
 import java.util.*;
 
+import static ch.zhaw.pm2.racetrack.Config.SpaceType.*;
 import static ch.zhaw.pm2.racetrack.PositionVector.*;
 
 /**
@@ -176,7 +177,7 @@ public class Game {
                 finishVector = new PositionVector(1, 0);
                 break;
             case FINISH_DOWN:
-                finishVector = new PositionVector(-1; -1);
+                finishVector = new PositionVector(-1, -1);
                 break;
             case FINISH_LEFT:
                 finishVector = new PositionVector(-1, 0);
@@ -195,6 +196,7 @@ public class Game {
 
     private boolean isLastCarRemaining() {
         //todo
+        return false;
     }
 
     /**
