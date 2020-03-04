@@ -56,6 +56,9 @@ public class Track {
     TrackBuilder builder;
     Config.SpaceType[][] trackArray;
 
+    int width;
+    int height;
+
     /**
      * Initialize a Track from the given track file.
      *
@@ -71,5 +74,10 @@ public class Track {
 
     public Config.SpaceType[][] getTrackArray() {
         return trackArray;
+    }
+
+    public void setWidthAndHeight(){
+        this.width = builder.getTrackWidth();
+        this.height = builder.getTrackHeight();
     }
 }

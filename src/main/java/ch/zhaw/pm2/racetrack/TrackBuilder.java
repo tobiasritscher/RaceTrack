@@ -14,6 +14,9 @@ import java.util.Scanner;
  */
 
 public class TrackBuilder {
+    int trackWidth = 0;
+    int trackHeight = 0;
+    int numberOfCars = 0;
 
     /**
      * Main method for track building. Does the following things:
@@ -30,9 +33,6 @@ public class TrackBuilder {
 
     public Config.SpaceType[][] buildTrack(File file) throws IOException, InvalidTrackFormatException {
         Scanner scanner = new Scanner(file);
-
-        int trackWidth = 0;
-        int trackHeight = 0;
 
         // Creating test track ArrayList for width & height tests
         ArrayList<String> trackCheckArray = new ArrayList<>();
@@ -185,6 +185,13 @@ public class TrackBuilder {
             scanner.close();
         }
         return trackArray;
+    }
+    public int getTrackWidth(){
+        return trackWidth;
+    }
+
+    public int getTrackHeight(){
+        return trackHeight;
     }
 }
 

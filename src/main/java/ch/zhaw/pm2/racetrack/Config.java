@@ -23,7 +23,8 @@ public class Config {
         FINISH_UP('^'),
         FINISH_DOWN('v'),
         FINISH_LEFT('<'),
-        FINISH_RIGHT('>');
+        FINISH_RIGHT('>'),
+        ANY_CAR('a');
 
         private final char value;
         SpaceType(final char c) {

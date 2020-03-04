@@ -1,5 +1,5 @@
-import ch.zhaw.pm2.racetrack.Config;
 import ch.zhaw.pm2.racetrack.InvalidTrackFormatException;
+import ch.zhaw.pm2.racetrack.Track;
 import ch.zhaw.pm2.racetrack.TrackBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class TrackBuilderTest {
     private TrackBuilder trackBuilder;
+    private Track track;
     private Object IOException;
     private Object InvalidTrackFormatException;
 
@@ -19,8 +20,17 @@ public class TrackBuilderTest {
     }
 
     @Test
-    public void buildTrackTest() throws IOException, InvalidTrackFormatException {
+    public void wrongTrackWidthTest() throws IOException, InvalidTrackFormatException {
         File testFile = new File("testtracks/wrong_track_width.txt");
-        //Assertions.assertThrows(InvalidTrackFormatException,trackBuilder.buildTrack(testFile));
+        Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
+            trackBuilder.buildTrack(testFile);
+        });
+    }
+    @Test
+    public void emptyTrackTest() throws IOException, InvalidTrackFormatException {
+        File testFile = new File("testtracks/empty_track.txt");
+        Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
+            trackBuilder.buildTrack(testFile);
+        });
     }
 }
