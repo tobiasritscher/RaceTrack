@@ -170,8 +170,55 @@ public class Game {
      */
     public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
         // todo
+        List<PositionVector> path = new ArrayList<>();
+        int diffX = endPosition.getX() - startPosition.getX();
+        int diffY = endPosition.getY() - startPosition.getY();
 
-        return new ArrayList<PositionVector>();
+        //choose sampling direction
+        int distX = Math.abs(diffX);
+        int distY = Math.abs(diffY);
+
+        int dirX = Integer.signum(diffX);
+        int dirY = Integer.signum(diffY);
+
+        int distanceSlowAxis,distanceFastAxis;
+        int parallelStepX, parallelStepY;
+        int diagonalStepX, diagonalStepY;
+
+        if (distX > distY) {
+            // x axis is the 'fast' direction
+            //1,4,5,8 octant
+            parallelStepX = dirX; parallelStepY =0;
+            diagonalStepX = dirX; diagonalStepY =dirY;
+            distanceFastAxis = distX;
+            distanceSlowAxis = distY;
+        } else {
+            // y axis is the 'fast' direction
+            parallelStepX = 0; parallelStepY = dirY;
+            diagonalStepX = dirX; diagonalStepY = dirY;
+            distanceFastAxis = distY;
+            distanceSlowAxis = distY;
+        }
+        int x = startPosition.getX();
+        int y = startPosition.getY();
+        path.add(new PositionVector(x, y));
+
+        int error = distanceFastAxis / 2;
+        for (int step = 0; step < distanceFastAxis; step++) {
+
+            error -= distanceSlowAxis;
+            if(error<0){
+                error += distanceFastAxis;
+                x+=diagonalStepX;
+                y+=diagonalStepY;
+            }
+            else{
+                x+=parallelStepX;
+                y+=parallelStepY;
+            }
+            path.add(x,y);
+        }
+        return path;
     }
 
     /**
@@ -186,20 +233,20 @@ public class Game {
     }
 
     private boolean isSomeCarHere(PositionVector position) {
-            boolean result = false;
-            //back up
-            int realActiveCar = activeCarIndex;
+        boolean result = false;
+        //back up
+        int realActiveCar = activeCarIndex;
 
-            //switch until you return to the same car, after the loop active car is the same one, that was at the beginning of the function
-            switchToNextActiveCar();
-            while(activeCarIndex != realActiveCar ){
-                //some car on this position?
-                if (position == raceTrack.getCarPos(activeCarIndex)){
-                    result = true;
-                }
-                switchToNextActiveCar();
+        //switch until you return to the same car, after the loop active car is the same one, that was at the beginning of the function
+        switchToNextActiveCar();
+        while (activeCarIndex != realActiveCar) {
+            //some car on this position?
+            if (position == raceTrack.getCarPos(activeCarIndex)) {
+                result = true;
             }
-            return result;
+            switchToNextActiveCar();
         }
+        return result;
+    }
 
 }
