@@ -216,7 +216,7 @@ public class Game {
                 x+=parallelStepX;
                 y+=parallelStepY;
             }
-            path.add(x,y);
+            path.add(new PositionVector(x,y));
         }
         return path;
     }
