@@ -4,6 +4,8 @@ package ch.zhaw.pm2.racetrack;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the racetrack board.
@@ -52,7 +54,7 @@ import java.io.IOException;
  * <p>The Track can return a String representing the current state of the race (including car positons)</p>
  */
 public class Track {
-
+    List<Car> cars;
     TrackBuilder builder;
     Config.SpaceType[][] trackArray;
 
@@ -68,6 +70,7 @@ public class Track {
      */
     public Track(File trackFile) throws IOException, InvalidTrackFormatException//, InvalidTrackFormatException
     {
+        cars = new ArrayList<>();
         builder = new TrackBuilder();
         trackArray = builder.buildTrack(trackFile);
     }
@@ -79,5 +82,9 @@ public class Track {
     public void setWidthAndHeight(){
         this.width = builder.getTrackWidth();
         this.height = builder.getTrackHeight();
+    }
+
+    public List<Car> getCars() {
+        return cars;
     }
 }

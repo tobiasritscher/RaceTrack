@@ -25,4 +25,5 @@ public class IO {
     public boolean booleanInputReader(String output) {
         return textIO.newBooleanInputReader().read(output);
     }
+
 }
