@@ -2,8 +2,8 @@ package ch.zhaw.pm2.racetrack;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -30,41 +30,43 @@ public class TrackBuilder {
 
     public Config.SpaceType[][] buildTrack(File file) throws IOException, InvalidTrackFormatException {
         Scanner scanner = new Scanner(file);
-        LineNumberReader lineNumberReader = new LineNumberReader(new java.io.FileReader(file));
 
         int trackWidth = 0;
         int trackHeight = 0;
 
-        // Checking + setting trackHeight value
-        // TODO: replace LineNumberReader with something simpler + more elegant
-        while (lineNumberReader.readLine() != null) {
-            trackHeight++;
-        }
-
-        // Checking + setting trackWidth value
+        // Creating test track ArrayList for width & height tests
         ArrayList<String> trackCheckArray = new ArrayList<>();
         while (scanner.hasNext()) {
             trackCheckArray.add(scanner.next());
         }
+
         // Checking if no lines are present
-        if (trackCheckArray.size() == 0) {
+        if (trackCheckArray.isEmpty()) {
             throw new InvalidTrackFormatException(file, ErrorType.NO_TRACK_LINES);
         }
-        for (int i = 1; i < trackCheckArray.size() + 1; ++i) {
-            if (trackCheckArray.get(i - 1).length() != trackCheckArray.get(i).length()) {
+
+        // Checking if lines are same length
+        for (int index = 1; index < trackCheckArray.size() + 1; ++index) {
+            if (trackCheckArray.get(index - 1).length() != trackCheckArray.get(index).length()) {
                 throw new InvalidTrackFormatException(file, ErrorType.NOT_SAME_LENGTH);
             }
         }
 
+        // Setting track width
         String[] firstLine = scanner.nextLine().trim().split("\\s+");
         for (int index = 0; index < firstLine.length; index++) {
             trackWidth++;
         }
 
+        // Setting track height
+        trackHeight = trackCheckArray.size();
+
         // Initializing track array with width + height data gathered before
         Config.SpaceType[][] trackArray = new Config.SpaceType[trackHeight][trackWidth];
 
-        // Filling the array
+        // Filling the array, creating cars & checking if car is already taken
+        ArrayList<Boolean> carTaken = new ArrayList<>(Arrays.asList(false,false,false,false,false,false,false,false,false));
+
         while (scanner.hasNext()) {
             for (int indexY = 0; indexY < trackHeight; indexY++) {
                 String[] fillArray = scanner.next().split("|");
@@ -90,10 +92,24 @@ public class TrackBuilder {
                     } else if (fillArray[indexX] == ">") {
                         trackArray[indexX][indexY] = Config.SpaceType.FINISH_RIGHT;
                         indexX++;
-                    } else if (fillArray[indexX] == "a|b|c|d|e|f|g|h") {
+                    } else if (fillArray[indexX] == "a|b|c|d|e|f|g|h|i") {
                         // TODO create new cars
                         // TODO throw exception when there are too many cars on the track
-                        indexX++;
+                        if (fillArray[indexX] == "a"){
+                            if(carTaken.get(0) == true) {
+                                throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS)
+                            } else {
+                                carTaken.set(0, true);
+                                // create new car 'a'
+                            }
+                        } else if (fillArray[indexX] == "b") {
+                            if(carTaken.get(1) == true) {
+                                throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS)
+                            } else {
+                                carTaken.set(1, true);
+                                // create new car 'b'
+                            }
+                        // TODO: continue that pattern, ideally without code duplication (need input
                     } else {
                         System.err.println("Character not recognized!");
                         indexX++;
