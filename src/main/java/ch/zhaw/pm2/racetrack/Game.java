@@ -141,10 +141,32 @@ public class Game {
         PositionVector endPosition = PositionVector.add(getCarPosition(activeCarIndex), newVelocity);
         List<PositionVector> path = calculatePath(getCarPosition(activeCarIndex), endPosition);
         //crashes or passes??
-        //TODO
-        if (willCarCrash(activeCarIndex, endPosition)) {
+        for (PositionVector transitionPoint : path) {
+            if (willCarCrash(activeCarIndex, transitionPoint)) {
+                //crashed
+                //move car, update status
+                raceTrack.getCar(activeCarIndex).move();
+                raceTrack.getCar(activeCarIndex).crash();
+                if (isLastCarRemaining()) {
+                    switchToNextActiveCar();
+                    winnerIndex = getCurrentCarIndex();
+                }
+            } else if (crossedFinishLine(transitionPoint)) {
+                winnerIndex = activeCarIndex;
+            }else{
+                raceTrack.getCar(activeCarIndex).move();
+            }
 
         }
+
+    }
+
+    private boolean crossedFinishLine(PositionVector position) {
+        //todo
+    }
+
+    private boolean isLastCarRemaining() {
+        //todo
     }
 
     /**
@@ -181,21 +203,25 @@ public class Game {
         int dirX = Integer.signum(diffX);
         int dirY = Integer.signum(diffY);
 
-        int distanceSlowAxis,distanceFastAxis;
+        int distanceSlowAxis, distanceFastAxis;
         int parallelStepX, parallelStepY;
         int diagonalStepX, diagonalStepY;
 
         if (distX > distY) {
             // x axis is the 'fast' direction
             //1,4,5,8 octant
-            parallelStepX = dirX; parallelStepY =0;
-            diagonalStepX = dirX; diagonalStepY =dirY;
+            parallelStepX = dirX;
+            parallelStepY = 0;
+            diagonalStepX = dirX;
+            diagonalStepY = dirY;
             distanceFastAxis = distX;
             distanceSlowAxis = distY;
         } else {
             // y axis is the 'fast' direction
-            parallelStepX = 0; parallelStepY = dirY;
-            diagonalStepX = dirX; diagonalStepY = dirY;
+            parallelStepX = 0;
+            parallelStepY = dirY;
+            diagonalStepX = dirX;
+            diagonalStepY = dirY;
             distanceFastAxis = distY;
             distanceSlowAxis = distY;
         }
@@ -207,16 +233,15 @@ public class Game {
         for (int step = 0; step < distanceFastAxis; step++) {
 
             error -= distanceSlowAxis;
-            if(error<0){
+            if (error < 0) {
                 error += distanceFastAxis;
-                x+=diagonalStepX;
-                y+=diagonalStepY;
+                x += diagonalStepX;
+                y += diagonalStepY;
+            } else {
+                x += parallelStepX;
+                y += parallelStepY;
             }
-            else{
-                x+=parallelStepX;
-                y+=parallelStepY;
-            }
-            path.add(new PositionVector(x,y));
+            path.add(new PositionVector(x, y));
         }
         return path;
     }
