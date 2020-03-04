@@ -58,8 +58,7 @@ import java.util.Map;
 public class Track {
     private List<Car> cars = new ArrayList<>();
     private TrackBuilder builder = new TrackBuilder();
-    private Config.SpaceType[][] trackArray;
-
+    private Config.SpaceType[][] grid;
     private int width;
     private int height;
 
@@ -70,16 +69,16 @@ public class Track {
      * @throws FileNotFoundException if the given track file could not be found
      * @throws InvalidTrackFormatException if the track file contains invalid data (no tracklines, no
      */
-    public Track(File trackFile) throws IOException, InvalidTrackFormatException//, InvalidTrackFormatException
+    public Track(File trackFile) throws IOException, InvalidTrackFormatException
     {
-        trackArray = builder.buildTrack(trackFile);
+        grid = builder.buildTrack(trackFile);
         for(Map.Entry<Character, PositionVector> entry: builder.getCarMap().entrySet()){
             cars.add(new Car(entry.getValue(), entry.getKey()));
         }
     }
 
     public Config.SpaceType[][] getTrackArray() {
-        return trackArray;
+        return grid;
     }
 
     public void setWidthAndHeight(){
@@ -95,7 +94,7 @@ public class Track {
         return cars.get(index).getName();
     }
 
-    public PositionVector getCarPosition(int index){
+    public PositionVector getCarPos(int index){
         return cars.get(index).getPosition();
     }
 
@@ -106,7 +105,7 @@ public class Track {
     public Config.SpaceType getSpaceType(PositionVector position){
         int x = position.getX();
         int y = position.getY();
-        return trackArray[x][y];
+        return grid[x][y];
     }
 
     public List<Car> getCars() {
