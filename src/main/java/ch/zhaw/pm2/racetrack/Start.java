@@ -38,7 +38,8 @@ public class Start {
     }
 
     public static void amountOfPlayers() {
-        int players = textIO.newIntInputReader().withMinVal(2).withMaxVal(9).read("How many players will be playing: ");
+        int players = textIO.newIntInputReader().withMinVal(2).withMaxVal(9)
+                .read("How many players will be playing [2-9]: ");
         carArray = new Car[players];
         for (int i = 0; i < players; ++i) {
             carArray[i] = new Car();
