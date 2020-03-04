@@ -1,7 +1,5 @@
 package ch.zhaw.pm2.racetrack;
 
-import javafx.geometry.Pos;
-
 import java.util.*;
 
 import static ch.zhaw.pm2.racetrack.Config.SpaceType.*;

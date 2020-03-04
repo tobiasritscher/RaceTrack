@@ -73,8 +73,8 @@ public class Track {
     public Track(File trackFile) throws IOException, InvalidTrackFormatException//, InvalidTrackFormatException
     {
         trackArray = builder.buildTrack(trackFile);
-        for(Map.Entry entry: builder.getCarMap().entrySet()){
-            // cars.add(new Car(entry.getValue(), entry.getKey())); TODO: bugfix
+        for(Map.Entry<Character, PositionVector> entry: builder.getCarMap().entrySet()){
+            cars.add(new Car(entry.getValue(), entry.getKey()));
         }
     }
 
@@ -87,11 +87,29 @@ public class Track {
         this.height = builder.getTrackHeight();
     }
 
-    public List<Car> getCars() {
-        return cars;
-    }
-
     public int getCarCount(){
         return cars.size();
+    }
+
+    public char getCarId(int index){
+        return cars.get(index).getName();
+    }
+
+    public PositionVector getCarPosition(int index){
+        return cars.get(index).getPosition();
+    }
+
+    public PositionVector getCarVelocity(int index){
+        return cars.get(index).getSpeed();
+    }
+
+    public Config.SpaceType getSpaceType(PositionVector position){
+        int x = position.getX();
+        int y = position.getY();
+        return trackArray[x][y];
+    }
+
+    public List<Car> getCars() {
+        return cars;
     }
 }
