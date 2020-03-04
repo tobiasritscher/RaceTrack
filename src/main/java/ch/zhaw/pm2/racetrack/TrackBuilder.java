@@ -25,10 +25,10 @@ public class TrackBuilder {
      * @param file (provided by IO)
      * @return trackArray String array for use with the game
      * @throws IOException if the file couldn't be found
-     * NOT YET DECIDED: @throws InvalidTrackFormatException if the requirements haven't been met //TODO decide where exactly the exception is thrown
+     * @throws InvalidTrackFormatException if file requirements haven't been met //TODO decide where exactly the exception is thrown
      */
 
-    public String[][] readFile(File file) throws IOException, InvalidTrackFormatException {
+    public Config.SpaceType[][] buildTrack(File file) throws IOException, InvalidTrackFormatException {
         Scanner scanner = new Scanner(file);
         LineNumberReader lineNumberReader = new LineNumberReader(new java.io.FileReader(file));
 
@@ -47,11 +47,11 @@ public class TrackBuilder {
             trackCheckArray.add(scanner.next());
         }
         // Checking if no lines are present
-        if (trackCheckArray.size()==0){
+        if (trackCheckArray.size() == 0) {
             throw new InvalidTrackFormatException(file, ErrorType.NO_TRACK_LINES);
         }
-        for (int i = 1; i < trackCheckArray.size()+1; ++i){
-            if (trackCheckArray.get(i-1).length() != trackCheckArray.get(i).length()) {
+        for (int i = 1; i < trackCheckArray.size() + 1; ++i) {
+            if (trackCheckArray.get(i - 1).length() != trackCheckArray.get(i).length()) {
                 throw new InvalidTrackFormatException(file, ErrorType.NOT_SAME_LENGTH);
             }
         }
@@ -62,17 +62,47 @@ public class TrackBuilder {
         }
 
         // Initializing track array with width + height data gathered before
-        String[][] trackArray = new String[trackHeight][trackWidth];
+        Config.SpaceType[][] trackArray = new Config.SpaceType[trackHeight][trackWidth];
 
         // Filling the array
         while (scanner.hasNext()) {
             for (int indexY = 0; indexY < trackHeight; indexY++) {
-                for (int indexX = 0; indexX < trackWidth; indexX++) {
-                    trackArray[indexX][indexY] = (scanner.next());
+                String[] fillArray = scanner.next().split("|");
+                for (int indexX = 0; indexX < fillArray.length; indexX++) {
+                    if (fillArray[indexX] == "#") {
+                        trackArray[indexX][indexY] = Config.SpaceType.WALL;
+                        indexX++;
+                    } else if (fillArray[indexX] == " ") {
+                        trackArray[indexX][indexY] = Config.SpaceType.TRACK;
+                        indexX++;
+                    } else if (fillArray[indexX] == "^") {
+                        trackArray[indexX][indexY] = Config.SpaceType.FINISH_UP;
+                        indexX++;
+                    } else if (fillArray[indexX] == "v") {
+                        trackArray[indexX][indexY] = Config.SpaceType.FINISH_DOWN;
+                        indexX++;
+                    } else if (fillArray[indexX] == "<") {
+                        trackArray[indexX][indexY] = Config.SpaceType.FINISH_LEFT;
+                        indexX++;
+                    } else if (fillArray[indexX] == ">") {
+                        trackArray[indexX][indexY] = Config.SpaceType.FINISH_RIGHT;
+                        indexX++;
+                    } else if (fillArray[indexX] == ">") {
+                        trackArray[indexX][indexY] = Config.SpaceType.FINISH_RIGHT;
+                        indexX++;
+                    } else if (fillArray[indexX] == "a|b|c|d|e|f|g|h") {
+                        // TODO create new cars
+                        // TODO throw exception when there are too many cars on the track
+                        indexX++;
+                    } else {
+                        System.err.println("Character not recognized!");
+                        indexX++;
+                    }
                 }
+
             }
+            scanner.close();
         }
-        scanner.close();
         return trackArray;
     }
 }
