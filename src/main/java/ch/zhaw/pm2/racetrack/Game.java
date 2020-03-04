@@ -1,5 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
+import javafx.geometry.Pos;
+
 import java.util.*;
 
 import static ch.zhaw.pm2.racetrack.PositionVector.*;
@@ -153,7 +155,7 @@ public class Game {
                 }
             } else if (crossedFinishLine(transitionPoint)) {
                 winnerIndex = activeCarIndex;
-            }else{
+            } else {
                 raceTrack.getCar(activeCarIndex).move();
             }
 
@@ -162,7 +164,33 @@ public class Game {
     }
 
     private boolean crossedFinishLine(PositionVector position) {
-        //todo
+        boolean result = false;
+        //crossed?
+        getCarVelocity(activeCarIndex);
+        PositionVector finishVector;
+        switch (raceTrack.getSpaceType(position)) {
+            case FINISH_UP:
+                finishVector = new PositionVector(1, 1);
+                break;
+            case FINISH_RIGHT:
+                finishVector = new PositionVector(1, 0);
+                break;
+            case FINISH_DOWN:
+                finishVector = new PositionVector(-1; -1);
+                break;
+            case FINISH_LEFT:
+                finishVector = new PositionVector(-1, 0);
+                break;
+            default:
+                finishVector = new PositionVector(0, 0);
+        }
+        //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
+        //TODO crash on the finish line?
+        if (!finishVector.equals(new PositionVector(0,0)) && PositionVector.scalarProduct(getCarVelocity(activeCarIndex), finishVector) > 0) {
+            result = true;
+        }
+        //correct direction
+        return result;
     }
 
     private boolean isLastCarRemaining() {
