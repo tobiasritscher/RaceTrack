@@ -2,13 +2,15 @@ package ch.zhaw.pm2.racetrack;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 
 public class Start {
-    static Car car = new Car();
     private static Car[] carArray;
     static IO io = new IO();
+    static Track track;
+    static final int INDEX_OFFSET = 1;
 
     public Start() {
 
@@ -27,9 +29,16 @@ public class Start {
 
         io.print("Welcome to Racetrack!\nSelect Track file:\n");
         for (int i = 0; i < tracks.length; ++i) {
-            io.print("  " + (i + 1) + ": " + tracks[i] + "\n");
+            io.print("  " + (i + INDEX_OFFSET) + ": " + tracks[i] + "\n");
         }
-        int track = io.intInputReader(1, tracks.length, "Choose your map [1-" + tracks.length + "]:");
+        //choose Track from files
+        int trackChosen = io.intInputReader(1, tracks.length, "Choose your map [1-" + tracks.length + "]:") - INDEX_OFFSET;
+
+        try {
+            track = new Track(new File("tracks/" + tracks[trackChosen]));
+        } catch (IOException | InvalidTrackFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void amountOfPlayers() {
