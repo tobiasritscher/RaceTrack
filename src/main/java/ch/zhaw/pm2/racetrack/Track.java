@@ -3,6 +3,7 @@ package ch.zhaw.pm2.racetrack;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * This class represents the racetrack board.
@@ -52,6 +53,8 @@ import java.io.FileNotFoundException;
  */
 public class Track {
 
+    TrackBuilder builder;
+    Config.SpaceType[][] trackArray;
 
     /**
      * Initialize a Track from the given track file.
@@ -60,9 +63,13 @@ public class Track {
      * @throws FileNotFoundException if the given track file could not be found
      * @throws InvalidTrackFormatException if the track file contains invalid data (no tracklines, no
      */
-    public Track(File trackFile) throws FileNotFoundException//, InvalidTrackFormatException
+    public Track(File trackFile) throws IOException, InvalidTrackFormatException//, InvalidTrackFormatException
     {
-        // todo
+        builder = new TrackBuilder();
+        trackArray = builder.buildTrack(trackFile);
     }
 
+    public Config.SpaceType[][] getTrackArray() {
+        return trackArray;
+    }
 }

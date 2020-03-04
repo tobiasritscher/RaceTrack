@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class TrackBuilderTest {
     private TrackBuilder trackBuilder;
-    private File testTrack;
     private Object IOException;
+    private Object InvalidTrackFormatException;
 
     @BeforeEach
     public void init(){
@@ -19,11 +19,8 @@ public class TrackBuilderTest {
     }
 
     @Test
-    public Config.SpaceType[][] buildTrackTest(File file) throws IOException, InvalidTrackFormatException {
-        // test if file is found
-        //Assertions.assertThrows(IOException, ...);
-
-        Config.SpaceType[][] track = trackBuilder.buildTrack(testTrack);
-        return track;
+    public void buildTrackTest() throws IOException, InvalidTrackFormatException {
+        File testFile = new File("testtracks/wrong_track_width.txt");
+        //Assertions.assertThrows(InvalidTrackFormatException,trackBuilder.buildTrack(testFile));
     }
 }
