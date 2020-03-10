@@ -36,8 +36,8 @@ public class TrackBuilder {
 
         // Creating test track ArrayList for width & height tests
         ArrayList<String> trackCheckArray = new ArrayList<>();
-        while (scanner.hasNext()) {
-            trackCheckArray.add(scanner.next());
+        while (scanner.hasNextLine()) {
+            trackCheckArray.add(scanner.nextLine());
         }
 
         // Checking if no lines are present
@@ -46,17 +46,17 @@ public class TrackBuilder {
         }
 
         // Checking if lines are same length
-        for (int index = 1; index < trackCheckArray.size() + 1; ++index) {
+        for (int index = 1; index <= trackCheckArray.size() - 1; ++index) {
             if (trackCheckArray.get(index - 1).length() != trackCheckArray.get(index).length()) {
                 throw new InvalidTrackFormatException(file, ErrorType.NOT_SAME_LENGTH);
             }
         }
 
+        // Re-initializing scanner
+        scanner = new Scanner(file);
+
         // Setting track width
-        String[] firstLine = scanner.nextLine().trim().split("\\s+");
-        for (int index = 0; index < firstLine.length; index++) {
-            trackWidth++;
-        }
+        trackWidth = trackCheckArray.get(0).length();
 
         // Setting track height
         trackHeight = trackCheckArray.size();
@@ -68,32 +68,26 @@ public class TrackBuilder {
         while (scanner.hasNext()) {
             for (int indexY = 0; indexY < trackHeight; indexY++) {
                 // TODO: break loop if empty line is detected
-                String[] fillArray = scanner.next().split("(?!^)");
-                for (int indexX = 0; indexX < fillArray.length; indexX++) {
+                String[] fillArray = scanner.nextLine().split("(?!^)");
+                for (int indexX = 0; indexX < trackWidth; indexX++) {
                     switch (fillArray[indexX]) {
                         case "#":
-                            trackArray[indexX][indexY] = Config.SpaceType.WALL;
-                            indexX++;
+                            trackArray[indexY][indexX] = Config.SpaceType.WALL;
                             break;
                         case " ":
-                            trackArray[indexX][indexY] = Config.SpaceType.TRACK;
-                            indexX++;
+                            trackArray[indexY][indexX] = Config.SpaceType.TRACK;
                             break;
                         case "^":
-                            trackArray[indexX][indexY] = Config.SpaceType.FINISH_UP;
-                            indexX++;
+                            trackArray[indexY][indexX]  = Config.SpaceType.FINISH_UP;
                             break;
                         case "v":
-                            trackArray[indexX][indexY] = Config.SpaceType.FINISH_DOWN;
-                            indexX++;
+                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_DOWN;
                             break;
                         case "<":
-                            trackArray[indexX][indexY] = Config.SpaceType.FINISH_LEFT;
-                            indexX++;
+                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_LEFT;
                             break;
                         case ">":
-                            trackArray[indexX][indexY] = Config.SpaceType.FINISH_RIGHT;
-                            indexX++;
+                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_RIGHT;
                             break;
                         default:
                             // checking if number of cars exceed the allowed amount
@@ -109,11 +103,9 @@ public class TrackBuilder {
                                 }
                             }
                             trackArray[indexX][indexY] = Config.SpaceType.ANY_CAR;
-                            indexX++;
                     }
                 }
             }
-            scanner.close();
         }
         return trackArray;
     }
