@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class TrackBuilderTest {
     private TrackBuilder trackBuilder;
-    
+
     @BeforeEach
     public void init() {
         // TODO: initialize variables
@@ -38,6 +38,13 @@ public class TrackBuilderTest {
         Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
             trackBuilder.buildTrack(testFile);
         });
+    }
+
+    @Test
+    public void removeEmptyAndFollowingLinesTest() throws IOException, InvalidTrackFormatException {
+        File testFile = new File("testtracks/empty_and_following_lines.txt");
+        trackBuilder.buildTrack(testFile);
+        Assertions.assertEquals(3, trackBuilder.getTrackHeight());
     }
 
     @Test
@@ -71,7 +78,7 @@ public class TrackBuilderTest {
         Assertions.assertEquals(11, trackBuilder.getTrackWidth());
     }
 
-    /**@Test public void mapFillTest() throws IOException, InvalidTrackFormatException {
+    @Test public void mapFillTest() throws IOException, InvalidTrackFormatException {
     Config.SpaceType[][] testMap = new Config.SpaceType[2][5];
     testMap[0][0] = Config.SpaceType.WALL;
     testMap[0][1] = Config.SpaceType.FINISH_UP;
@@ -87,6 +94,6 @@ public class TrackBuilderTest {
 
     File testFile = new File("testtracks/track_fill_test.txt");
 
-    Assertions.assertEquals(testMap, trackBuilder.buildTrack(testFile));
-    }**/
+    Assertions.assertArrayEquals(testMap, trackBuilder.buildTrack(testFile));
+    }
 }

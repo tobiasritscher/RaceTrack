@@ -35,8 +35,15 @@ public class TrackBuilder {
 
         // Creating test track ArrayList for width & height tests
         ArrayList<String> trackCheckArray = new ArrayList<>();
-        while (scanner.hasNextLine()) {
-            trackCheckArray.add(scanner.nextLine());
+        boolean removeAllFollowing = false;
+        while (scanner.hasNextLine() && !removeAllFollowing) {
+            String nextLine = scanner.nextLine();
+            String compareString = nextLine.replaceAll("\\s+","");
+            if (!compareString.equals("") || removeAllFollowing) {
+                trackCheckArray.add(nextLine);
+            } else {
+                removeAllFollowing = true;
+            }
         }
 
         // Checking if no lines are present
@@ -66,7 +73,6 @@ public class TrackBuilder {
         // Filling the array with track data
         while (scanner.hasNext()) {
             for (int indexY = 0; indexY < trackHeight; indexY++) {
-                // TODO: break loop if empty line is detected
                 String[] fillArray = scanner.nextLine().split("(?!^)");
                 for (int indexX = 0; indexX < trackWidth; indexX++) {
                     switch (fillArray[indexX]) {
