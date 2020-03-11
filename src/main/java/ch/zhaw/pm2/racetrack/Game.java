@@ -25,15 +25,7 @@ public class Game {
      * @param track race track
      */
     public Game(Track track) {
-        try {
-            raceTrack = track;
-        } catch (NullPointerException e) {
-            System.err.println("Track-Object is null!");
-            System.exit(-1);
-        }
-        if (track.getCarCount() < MIN_CARS || track.getCarCount() > Config.MAX_CARS) {
-            throw new IllegalArgumentException("Number of car should >" + (MIN_CARS - 1) + " and <" + (Config.MAX_CARS + 1));
-        }
+        raceTrack = track;
     }
 
     /**
@@ -51,23 +43,9 @@ public class Game {
      *
      * @param carIndex The zero-based carIndex number
      * @return A char containing the id of the car
-     * @throws IllegalArgumentException
      */
     public char getCarId(int carIndex) {
-        if (isValidCarIndex(carIndex)) {
-            throw new IllegalArgumentException("Is not a legal car index.");
-        }
         return raceTrack.getCarId(carIndex);
-    }
-
-    /**
-     * Check if the given car index is valid.
-     *
-     * @param carIndex The car index
-     * @return true if a valid index given
-     */
-    private boolean isValidCarIndex(int carIndex) {
-        return carIndex >= MIN_CARS && carIndex <= Config.MAX_CARS;
     }
 
     /**
@@ -75,12 +53,8 @@ public class Game {
      *
      * @param carIndex The zero-based carIndex number
      * @return A PositionVector containing the car's current position
-     * @throws IllegalArgumentException
      */
     public PositionVector getCarPosition(int carIndex) {
-        if (isValidCarIndex(carIndex)) {
-            throw new IllegalArgumentException("Is not a legal car index.");
-        }
         return raceTrack.getCarPos(activeCarIndex);
     }
 
@@ -89,12 +63,8 @@ public class Game {
      *
      * @param carIndex The zero-based carIndex number
      * @return A PositionVector containing the car's current velocity
-     * @throws IllegalArgumentException
      */
     public PositionVector getCarVelocity(int carIndex) {
-        if (isValidCarIndex(carIndex)) {
-            throw new IllegalArgumentException("Is not a legal car index.");
-        }
         return raceTrack.getCarVelocity(activeCarIndex);
     }
 
