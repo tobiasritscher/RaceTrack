@@ -1,5 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
+
 import java.util.*;
 
 import static ch.zhaw.pm2.racetrack.Config.SpaceType.*;
@@ -17,6 +19,7 @@ public class Game {
     private Track raceTrack;
     private static final int MIN_CARS = 2;
     private int winnerIndex = NO_WINNER;
+    private Map<Integer, MoveStrategy> strategies = new HashMap<>();
 
     /**
      * Constructor of the class Game.
@@ -26,6 +29,15 @@ public class Game {
      */
     public Game(Track track) {
         raceTrack = track;
+    }
+
+    /**
+     * Set move strategies.
+     *
+     * @param strategies A map, car index to move strategy.
+     */
+    public void setMoveStrategies(Map<Integer, MoveStrategy> strategies) {
+        this.strategies = strategies;
     }
 
     /**
@@ -127,7 +139,6 @@ public class Game {
             } else {
                 raceTrack.getCar(activeCarIndex).move();
             }
-
         }
 
     }
@@ -155,7 +166,7 @@ public class Game {
         }
         //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
         //TODO crash on the finish line?
-        if (!finishVector.equals(new PositionVector(0,0)) && PositionVector.scalarProduct(getCarVelocity(activeCarIndex), finishVector) > 0) {
+        if (!finishVector.equals(new PositionVector(0, 0)) && PositionVector.scalarProduct(getCarVelocity(activeCarIndex), finishVector) > 0) {
             result = true;
         }
         //correct direction
