@@ -58,9 +58,6 @@ public class TrackBuilder {
             }
         }
 
-        // Re-initializing scanner
-        scanner = new Scanner(file);
-
         // Setting track width
         trackWidth = trackCheckArray.get(0).length();
 
@@ -71,58 +68,50 @@ public class TrackBuilder {
         Config.SpaceType[][] trackArray = new Config.SpaceType[trackHeight][trackWidth];
 
         // Filling the array with track data
-        while (scanner.hasNext()) {
-            for (int indexY = 0; indexY < trackHeight; indexY++) {
-                String[] fillArray = scanner.nextLine().split("(?!^)");
-                for (int indexX = 0; indexX < trackWidth; indexX++) {
-                    switch (fillArray[indexX]) {
-                        case "#":
-                            trackArray[indexY][indexX] = Config.SpaceType.WALL;
-                            break;
-                        case " ":
-                            trackArray[indexY][indexX] = Config.SpaceType.TRACK;
-                            break;
-                        case "^":
-                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_UP;
-                            break;
-                        case "v":
-                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_DOWN;
-                            break;
-                        case "<":
-                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_LEFT;
-                            break;
-                        case ">":
-                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_RIGHT;
-                            break;
-                        default:
-                            // checking if number of cars exceed the allowed amount
-                            if (carMap.size() + 1 > Config.MAX_CARS) {
+        for (int indexY = 0; indexY < trackHeight; indexY++) {
+            String[] fillArray = trackCheckArray.get(indexY).split("(?!^)");
+            for (int indexX = 0; indexX < trackWidth; indexX++) {
+                switch (fillArray[indexX]) {
+                    case "#":
+                        trackArray[indexY][indexX] = Config.SpaceType.WALL;
+                        break;
+                    case " ":
+                        trackArray[indexY][indexX] = Config.SpaceType.TRACK;
+                        break;
+                    case "^":
+                        trackArray[indexY][indexX] = Config.SpaceType.FINISH_UP;
+                        break;
+                    case "v":
+                        trackArray[indexY][indexX] = Config.SpaceType.FINISH_DOWN;
+                        break;
+                    case "<":
+                        trackArray[indexY][indexX] = Config.SpaceType.FINISH_LEFT;
+                        break;
+                    case ">":
+                        trackArray[indexY][indexX] = Config.SpaceType.FINISH_RIGHT;
+                        break;
+                    default:
+                        // checking if number of cars exceed the allowed amount
+                        if (carMap.size() + 1 > Config.MAX_CARS) {
+                            throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
+                        } else {
+                            // check if car character is already taken
+                            if (carMap.containsKey(fillArray[indexX].charAt(0))) {
                                 throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
                             } else {
-                                // check if car character is already taken
-                                if (carMap.containsKey(fillArray[indexX].charAt(0))) {
-                                    throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                                } else {
-                                    carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
-                                }
+                                carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
                             }
-                            trackArray[indexY][indexX] = Config.SpaceType.ANY_CAR;
-                    }
+                        }
+                        trackArray[indexY][indexX] = Config.SpaceType.ANY_CAR;
                 }
             }
         }
         return trackArray;
     }
 
-    public int getTrackWidth() {
-        return trackWidth;
-    }
+    public int getTrackWidth() { return trackWidth; }
 
-    public int getTrackHeight() {
-        return trackHeight;
-    }
+    public int getTrackHeight() { return trackHeight; }
 
-    public Map<Character, PositionVector> getCarMap() {
-        return carMap;
-    }
+    public Map<Character, PositionVector> getCarMap() { return carMap; }
 }
