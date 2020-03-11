@@ -14,7 +14,6 @@ import java.util.*;
 public class TrackBuilder {
     private int trackWidth = 0;
     private int trackHeight = 0;
-    private int numberOfCars = 0;
     private Map<Character, PositionVector> carMap = new HashMap<>();
 
     /**
@@ -78,7 +77,7 @@ public class TrackBuilder {
                             trackArray[indexY][indexX] = Config.SpaceType.TRACK;
                             break;
                         case "^":
-                            trackArray[indexY][indexX]  = Config.SpaceType.FINISH_UP;
+                            trackArray[indexY][indexX] = Config.SpaceType.FINISH_UP;
                             break;
                         case "v":
                             trackArray[indexY][indexX] = Config.SpaceType.FINISH_DOWN;
@@ -91,18 +90,17 @@ public class TrackBuilder {
                             break;
                         default:
                             // checking if number of cars exceed the allowed amount
-                            if (numberOfCars > Config.MAX_CARS) {
+                            if (carMap.size() + 1 > Config.MAX_CARS) {
                                 throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
                             } else {
                                 // check if car character is already taken
                                 if (carMap.containsKey(fillArray[indexX].charAt(0))) {
                                     throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
                                 } else {
-                                    numberOfCars++;
                                     carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
                                 }
                             }
-                            trackArray[indexX][indexY] = Config.SpaceType.ANY_CAR;
+                            trackArray[indexY][indexX] = Config.SpaceType.ANY_CAR;
                     }
                 }
             }
@@ -118,13 +116,7 @@ public class TrackBuilder {
         return trackHeight;
     }
 
-    public int getNumberOfCars() {
-        return numberOfCars;
-    }
-
     public Map<Character, PositionVector> getCarMap() {
         return carMap;
     }
-
 }
-

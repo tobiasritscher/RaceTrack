@@ -59,8 +59,6 @@ public class Track {
     private List<Car> cars = new ArrayList<>();
     private TrackBuilder builder = new TrackBuilder();
     private Config.SpaceType[][] grid;
-    private int width;  // TODO: remove if not needed
-    private int height;  // TODO: remove if not needed
 
     /**
      * Initialize a Track from the given track file.
@@ -72,7 +70,6 @@ public class Track {
     public Track(File trackFile) throws IOException, InvalidTrackFormatException
     {
         grid = builder.buildTrack(trackFile);
-        setWidthAndHeight(); // TODO: remove if not needed
         for(Map.Entry<Character, PositionVector> entry: builder.getCarMap().entrySet()){
             cars.add(new Car(entry.getValue(), entry.getKey()));
         }
@@ -80,11 +77,6 @@ public class Track {
 
     public Config.SpaceType[][] getTrackArray() {
         return grid;
-    }
-
-    public void setWidthAndHeight(){
-        this.width = builder.getTrackWidth();
-        this.height = builder.getTrackHeight();
     }
 
     public int getCarCount(){
