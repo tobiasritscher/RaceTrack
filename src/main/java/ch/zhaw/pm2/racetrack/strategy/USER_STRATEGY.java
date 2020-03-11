@@ -1,5 +1,7 @@
-package ch.zhaw.pm2.racetrack;
+package ch.zhaw.pm2.racetrack.strategy;
 
+import ch.zhaw.pm2.racetrack.Car;
+import ch.zhaw.pm2.racetrack.PositionVector;
 import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
