@@ -17,7 +17,6 @@ public class Game {
 
     private int activeCarIndex = 0;
     private Track raceTrack;
-    private static final int MIN_CARS = 2;
     private int winnerIndex = NO_WINNER;
     private Map<Integer, MoveStrategy> strategies = new HashMap<>();
 
@@ -179,10 +178,21 @@ public class Game {
     }
 
     /**
-     * Switches to the next car who is still in the game. Skips crashed cars.
+     * Switches to the next car who is still in the game. Skips
+     * crashed cars.
      */
     public void switchToNextActiveCar() {
-        activeCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
+        //TODO what if all autos crashed
+        int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
+        if (raceTrack.getCar(nextCarIndex).isCrashed()) {
+            switchToNextActiveCar();
+        } else {
+            if (activeCarIndex != nextCarIndex) {
+                activeCarIndex = nextCarIndex;
+            } else {
+                //STOPGAME
+            }
+        }
     }
 
 
