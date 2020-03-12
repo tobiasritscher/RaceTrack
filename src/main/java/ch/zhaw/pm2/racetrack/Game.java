@@ -133,7 +133,7 @@ public class Game {
         }
         //move to the crash coordinates
         if(activeCar.isCrashed()){
-            activeCar.accelerate(activeCar.getVelocity());
+            activeCar.setCarPosition();
         }
         //set correct velocity
         activeCar.accelerate(acceleration);

@@ -40,6 +40,9 @@ public class Car {
         return name;
     }
 
+    public PositionVector setCarPosition() {
+        return position;
+    }
     public PositionVector getCarPosition() {
         return position;
     }
