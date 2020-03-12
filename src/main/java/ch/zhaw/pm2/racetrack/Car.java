@@ -1,53 +1,36 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
+
 /**
  * Class representing a car on the racetrack.
  * Uses {@link PositionVector} to store current position on the track grid and current velocity vector.
  * Each car has an identifier character which represents the car on the race track board.
  * Also keeps the state, if the car is crashed (not active anymore). The state can not be changed back to uncrashed.
- * The velocity is changed by providing an acelleration vector.
+ * The velocity is changed by providing an acceleration vector.
  * The car is able to calculate the endpoint of its next position and on request moves to it.
  */
 public class Car {
     private PositionVector position;
-    private PositionVector speed = new PositionVector(0, 0);
+    private PositionVector velocity = new PositionVector(0, 0);
     private char name;
-    private boolean crashed = false;
+    private boolean isCrashed = false;
+
+    private MoveStrategy carMoveStrategy;
+
+    public void setCarMoveStrategy(MoveStrategy carMoveStrategy) {
+        this.carMoveStrategy = carMoveStrategy;
+    }
+
+    public MoveStrategy getCarMoveStrategy() {
+        return carMoveStrategy;
+    }
 
     public Car(PositionVector position, char name) {
         this.position = position;
         this.name = name;
     }
 
-    public Car() {
-
-    }
-/*
-    /**
-     * calculates the car's new speed and position
-     *
-     * @param accelaration takes in the user input for desired acceleration
-     * @return position     returns the new position of the car
-     * @throws IllegalArgumentException if given acceleration is not [-1,0,1]
-     */
-  /*  public Point newSpeedandPosition(Point accelaration) throws IllegalArgumentException {
-        if (accelaration.getX() < -1 || accelaration.getX() > 1 || accelaration.getY() < -1 || accelaration.getY() > 1) {
-            throw new IllegalArgumentException("cant have such fast acceleration");
-        } else if(doNotMove) {
-            speed.x = (int) (speed.getX() + accelaration.getX());
-            speed.y = (int) (speed.getY() + accelaration.getY());
-            position.x = (int) (position.getX() + speed.getX());
-            position.y = (int) (position.getY() + speed.getY());
-        }else {
-            return position;
-        }
-        return position;
-    }**/
-
-
-    public void setPosition(PositionVector position) {
-        this.position = position;
-    }
 
     public void setName(char name) {
         this.name = name;
@@ -57,34 +40,62 @@ public class Car {
         return name;
     }
 
-    public PositionVector getPosition() {
+    public PositionVector getCarPosition() {
         return position;
     }
 
-    public PositionVector getSpeed() {
-        return speed;
+    public PositionVector getVelocity() {
+        return velocity;
     }
 
     public boolean isCrashed() {
-        return crashed;
+        return isCrashed;
     }
 
-    public void hasCrashed() {
-        crashed = true;
-    }
-    public void setSpeed(PositionVector speed){
-        this.speed = speed;
+    /**
+     * Calculate the next position from to current position and calculated velocity at this turn.
+     * <p>The formula used for calculation is: p<sub>n</sub>=p<sub>n-1</sub>+v<sub>n</sub></p>
+     * <p>Where: </p>
+     * <ul>
+     *  <li>p<sub>n</sub> - new position after this turn</li>
+     *  <li>v<sub>n</sub> - calculated velocity at this turn </li>
+     *   <li>p<sub>n-1</sub> - position at the beginning of this turn.</li>
+     * </ul>
+     */
+    public PositionVector nextPosition(){
+        return PositionVector.add(velocity, position);
     }
 
-    public void move(){
-        //TODO implement
+    /**
+     * Move the car to the end position.
+     */
+    public void move() {
+        position = nextPosition();
     }
 
-    public void crash(){
-        //TODO implement
+    /**
+     * Crash the car.
+     * <p>Note: Cannot be undone.</p>
+     */
+    public void crash() {
+        this.isCrashed = true;
     }
 
-    public void accelerate(PositionVector.Direction direction){
-        //TODO implement
+    /**
+     * Accelerate the car.
+     * <p>Set velocity for the current turn by changing the old car velocity by given acceleration.</p>
+     * <p>The formula used for calculation is: v<sub>n</sub>=v<sub>n-1</sub>+a<sub>n</sub></p>
+     * <p>Where: </p>
+     * <ul>
+     *  <li>v<sub>n</sub> - the new velocity at this turn</li>
+     *  <li>v<sub>n-1</sub> - velocity at turn before</li>
+     *   <li>a<sub>n</sub> - acceleration at this turn.</li>
+     * </ul>
+     *
+     * @param acceleration The acceleration at this turn.
+     */
+    public void accelerate(PositionVector.Direction acceleration) {
+        //todo decide if at this place arguments needs to be checked.
+        velocity = PositionVector.add(velocity, acceleration.vector);
     }
 }
