@@ -88,11 +88,11 @@ public class Track {
     }
 
     public PositionVector getCarPos(int index){
-        return cars.get(index).getPosition();
+        return cars.get(index).getCarPosition();
     }
 
     public PositionVector getCarVelocity(int index){
-        return cars.get(index).getSpeed();
+        return cars.get(index).getVelocity();
     }
 
     public Config.SpaceType getSpaceType(PositionVector position){
@@ -108,5 +108,22 @@ public class Track {
     public Car getCar(int carIndex){
         //Todo check if carIndex inbound
        return cars.get(carIndex);
+    }
+
+    /**
+     * Tells if some car at give position.
+     *
+     * @param position Position to be tested.
+     * @return True, if some car at given position.
+     */
+    public boolean someCarIsHere(PositionVector position){
+        //todo test
+        boolean isAcarHere = false;
+        for(Car car: cars){
+            if(car.getCarPosition().equals(position)){
+                isAcarHere = true;
+            }
+        }
+        return isAcarHere;
     }
 }
