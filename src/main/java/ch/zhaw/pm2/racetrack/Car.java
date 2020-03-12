@@ -63,8 +63,12 @@ public class Car {
         //TODO implement
     }
 
-    public void crash(){
-        //TODO implement
+    /**
+     * Crash the car.
+     * <p>Note: Cannot be undone.</p>
+     */
+    public void crash() {
+        this.isCrashed = true;
     }
 
     /**
