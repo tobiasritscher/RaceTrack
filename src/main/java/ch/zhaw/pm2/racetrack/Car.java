@@ -52,11 +52,18 @@ public class Car {
         return isCrashed;
     }
 
-    public void hasCrashed() {
-        crashed = true;
-    }
-    public void setSpeed(PositionVector speed){
-        this.speed = speed;
+    /**
+     * Calculate the next position from to current position and calculated velocity at this turn.
+     * <p>The formula used for calculation is: p<sub>n</sub>=p<sub>n-1</sub>+v<sub>n</sub></p>
+     * <p>Where: </p>
+     * <ul>
+     *  <li>p<sub>n</sub> - new position after this turn</li>
+     *  <li>v<sub>n</sub> - calculated velocity at this turn </li>
+     *   <li>p<sub>n-1</sub> - position at the beginning of this turn.</li>
+     * </ul>
+     */
+    public PositionVector nextPosition(){
+        return PositionVector.add(velocity, position);
     }
 
     /**
