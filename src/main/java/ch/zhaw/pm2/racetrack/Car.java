@@ -1,16 +1,18 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
+
 /**
  * Class representing a car on the racetrack.
  * Uses {@link PositionVector} to store current position on the track grid and current velocity vector.
  * Each car has an identifier character which represents the car on the race track board.
  * Also keeps the state, if the car is crashed (not active anymore). The state can not be changed back to uncrashed.
- * The velocity is changed by providing an acelleration vector.
+ * The velocity is changed by providing an acceleration vector.
  * The car is able to calculate the endpoint of its next position and on request moves to it.
  */
 public class Car {
     private PositionVector position;
-    private PositionVector speed = new PositionVector(0, 0);
+    private PositionVector velocity = new PositionVector(0, 0);
     private char name;
     private boolean isCrashed = false;
 
@@ -67,16 +69,16 @@ public class Car {
         return name;
     }
 
-    public PositionVector getPosition() {
+    public PositionVector getCarPosition() {
         return position;
     }
 
-    public PositionVector getSpeed() {
-        return speed;
+    public PositionVector getVelocity() {
+        return velocity;
     }
 
     public boolean isCrashed() {
-        return crashed;
+        return isCrashed;
     }
 
     public void hasCrashed() {
