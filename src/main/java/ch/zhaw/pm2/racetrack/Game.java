@@ -1,10 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-
 import java.util.*;
 
-import static ch.zhaw.pm2.racetrack.Config.SpaceType.*;
 import static ch.zhaw.pm2.racetrack.PositionVector.*;
 
 /**
@@ -18,7 +15,6 @@ public class Game {
     private int activeCarIndex = 0;
     private Track raceTrack;
     private int winnerIndex = NO_WINNER;
-    private Map<Integer, MoveStrategy> strategies = new HashMap<>();
 
     /**
      * Constructor of the class Game.
@@ -28,15 +24,6 @@ public class Game {
      */
     public Game(Track track) {
         raceTrack = track;
-    }
-
-    /**
-     * Set move strategies.
-     *
-     * @param strategies A map, car index to move strategy.
-     */
-    public void setMoveStrategies(Map<Integer, MoveStrategy> strategies) {
-        this.strategies = strategies;
     }
 
     /**
@@ -101,7 +88,7 @@ public class Game {
      *      <ul>
      *          <li>TRACK: check for collision with other car (crashed &amp; don't continue), otherwise do nothing</li>
      *          <li>WALL: car did collide with the wall - crashed &amp; don't continue</li>
-     *          <li>FINISH_*: car hits the finish line - wins only if it crosses the line in the correct direction</li>
+     *          <li>FINISH: car hits the finish line - wins only if it crosses the line in the correct direction</li>
      *      </ul>
      *   </li>
      *   <li>If the car crashed or wins, set its position to the crash/win coordinates</li>
@@ -115,34 +102,45 @@ public class Game {
      *                     for this turn
      */
     public void doCarTurn(Direction acceleration) {
-        //changes the current car's velocity
-        PositionVector newVelocity = PositionVector.add(getCarVelocity(activeCarIndex), acceleration.vector);
+        //TODO any parameter checks?
+        Car activeCar = raceTrack.getCar(activeCarIndex);
 
         //Accelerate the current car
-        raceTrack.getCar(activeCarIndex).accelerate(acceleration);
-        PositionVector endPosition = PositionVector.add(getCarPosition(activeCarIndex), newVelocity);
-        List<PositionVector> path = calculatePath(getCarPosition(activeCarIndex), endPosition);
+        activeCar.accelerate(acceleration);
+
+        //calculate path between actual and end positions
+        List<PositionVector> path = calculatePath(raceTrack.getCarPos(activeCarIndex), activeCar.nextPosition());
+
         //crashes or passes??
         for (PositionVector transitionPoint : path) {
             if (willCarCrash(activeCarIndex, transitionPoint)) {
-                //crashed
-                //move car, update status
-                raceTrack.getCar(activeCarIndex).move();
-                raceTrack.getCar(activeCarIndex).crash();
+                //crashed place car at crash point
+                //todo now there are two cars at same point >> the transitionpoint before crash will set as crash point
+                //move car to the crash coordinates
+                activeCar.move();
+                activeCar.crash();
+                //there is a car remaining
                 if (isLastCarRemaining()) {
                     switchToNextActiveCar();
+
                     winnerIndex = getCurrentCarIndex();
                 }
-            } else if (crossedFinishLine(transitionPoint)) {
+            } else if (willCarCrosseTheFinishLine(transitionPoint)) {
                 winnerIndex = activeCarIndex;
             } else {
-                raceTrack.getCar(activeCarIndex).move();
+                activeCar.move();
             }
         }
+        //move to the crash coordinates
+        if(activeCar.isCrashed()){
+            activeCar.accelerate(activeCar.getVelocity());
+        }
+        //set correct velocity
+        activeCar.accelerate(acceleration);
 
     }
 
-    private boolean crossedFinishLine(PositionVector position) {
+    private boolean willCarCrosseTheFinishLine(PositionVector position) {
         boolean result = false;
         //crossed?
         getCarVelocity(activeCarIndex);
@@ -183,6 +181,8 @@ public class Game {
      */
     public void switchToNextActiveCar() {
         //TODO what if all autos crashed
+        //TODO test switch next, switch cycle
+        //TODO what if all cars are crashed? >> set NO_WINNER?
         int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
         if (raceTrack.getCar(nextCarIndex).isCrashed()) {
             switchToNextActiveCar();
@@ -273,24 +273,7 @@ public class Game {
      * @return A boolean indicator if the car would crash with a WALL or another car.
      */
     public boolean willCarCrash(int carIndex, PositionVector position) {
-        return raceTrack.getSpaceType(position) == Config.SpaceType.WALL || isSomeCarHere(position);
-    }
-
-    private boolean isSomeCarHere(PositionVector position) {
-        boolean result = false;
-        //back up
-        int realActiveCar = activeCarIndex;
-
-        //switch until you return to the same car, after the loop active car is the same one, that was at the beginning of the function
-        switchToNextActiveCar();
-        while (activeCarIndex != realActiveCar) {
-            //some car on this position?
-            if (position == raceTrack.getCarPos(activeCarIndex)) {
-                result = true;
-            }
-            switchToNextActiveCar();
-        }
-        return result;
+        return raceTrack.getSpaceType(position) == Config.SpaceType.WALL || raceTrack.someCarIsHere(position);
     }
 
 }
