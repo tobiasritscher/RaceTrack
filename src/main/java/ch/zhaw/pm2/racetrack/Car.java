@@ -31,35 +31,6 @@ public class Car {
         this.name = name;
     }
 
-    public Car() {
-
-    }
-/*
-    /**
-     * calculates the car's new speed and position
-     *
-     * @param accelaration takes in the user input for desired acceleration
-     * @return position     returns the new position of the car
-     * @throws IllegalArgumentException if given acceleration is not [-1,0,1]
-     */
-  /*  public Point newSpeedandPosition(Point accelaration) throws IllegalArgumentException {
-        if (accelaration.getX() < -1 || accelaration.getX() > 1 || accelaration.getY() < -1 || accelaration.getY() > 1) {
-            throw new IllegalArgumentException("cant have such fast acceleration");
-        } else if(doNotMove) {
-            speed.x = (int) (speed.getX() + accelaration.getX());
-            speed.y = (int) (speed.getY() + accelaration.getY());
-            position.x = (int) (position.getX() + speed.getX());
-            position.y = (int) (position.getY() + speed.getY());
-        }else {
-            return position;
-        }
-        return position;
-    }**/
-
-
-    public void setPosition(PositionVector position) {
-        this.position = position;
-    }
 
     public void setName(char name) {
         this.name = name;
