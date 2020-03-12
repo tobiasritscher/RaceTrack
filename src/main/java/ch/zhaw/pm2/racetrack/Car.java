@@ -12,7 +12,17 @@ public class Car {
     private PositionVector position;
     private PositionVector speed = new PositionVector(0, 0);
     private char name;
-    private boolean crashed = false;
+    private boolean isCrashed = false;
+
+    private MoveStrategy carMoveStrategy;
+
+    public void setCarMoveStrategy(MoveStrategy carMoveStrategy) {
+        this.carMoveStrategy = carMoveStrategy;
+    }
+
+    public MoveStrategy getCarMoveStrategy() {
+        return carMoveStrategy;
+    }
 
     public Car(PositionVector position, char name) {
         this.position = position;
