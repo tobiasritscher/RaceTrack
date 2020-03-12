@@ -59,8 +59,11 @@ public class Car {
         this.speed = speed;
     }
 
-    public void move(){
-        //TODO implement
+    /**
+     * Move the car to the end position.
+     */
+    public void move() {
+        position = nextPosition();
     }
 
     /**
