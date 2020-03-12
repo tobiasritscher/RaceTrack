@@ -96,7 +96,21 @@ public class Car {
         //TODO implement
     }
 
-    public void accelerate(PositionVector.Direction direction){
-        //TODO implement
+    /**
+     * Accelerate the car.
+     * <p>Set velocity for the current turn by changing the old car velocity by given acceleration.</p>
+     * <p>The formula used for calculation is: v<sub>n</sub>=v<sub>n-1</sub>+a<sub>n</sub></p>
+     * <p>Where: </p>
+     * <ul>
+     *  <li>v<sub>n</sub> - the new velocity at this turn</li>
+     *  <li>v<sub>n-1</sub> - velocity at turn before</li>
+     *   <li>a<sub>n</sub> - acceleration at this turn.</li>
+     * </ul>
+     *
+     * @param acceleration The acceleration at this turn.
+     */
+    public void accelerate(PositionVector.Direction acceleration) {
+        //todo decide if at this place arguments needs to be checked.
+        velocity = PositionVector.add(velocity, acceleration.vector);
     }
 }
