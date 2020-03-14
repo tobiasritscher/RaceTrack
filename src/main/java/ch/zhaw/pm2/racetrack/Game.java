@@ -10,11 +10,18 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
  * and if we have a winner.
  */
 public class Game {
+
     public static final int NO_WINNER = -1;
+    private int winnerIndex = NO_WINNER;
+
+    public static final int NUMBER_OF_LAPS = 1;
+    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS;
+
+    private Track raceTrack;
 
     private int activeCarIndex = 0;
-    private Track raceTrack;
-    private int winnerIndex = NO_WINNER;
+
+    Map<Character, Integer> penaltyPoints = new HashMap<>();
 
     /**
      * Constructor of the class Game.
