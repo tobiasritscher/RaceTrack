@@ -155,26 +155,20 @@ public class Game {
         }
     }
 
-    private boolean willCarCrosseTheFinishLine(PositionVector position) {
-        boolean result = false;
-        //crossed?
-        getCarVelocity(activeCarIndex);
-        PositionVector finishVector;
-        switch (raceTrack.getSpaceType(position)) {
-            case FINISH_UP:
-                finishVector = new PositionVector(1, 1);
-                break;
-            case FINISH_RIGHT:
-                finishVector = new PositionVector(1, 0);
-                break;
-            case FINISH_DOWN:
-                finishVector = new PositionVector(-1, -1);
-                break;
-            case FINISH_LEFT:
-                finishVector = new PositionVector(-1, 0);
-                break;
-            default:
-                finishVector = new PositionVector(0, 0);
+    /**
+     * Adjust the penalty points of active car.
+     * <p>
+     * The function first check if there is an penalty entry in the map. If not new entry with INITIAL_NUMBER_OF_PENALTY_POINTS penalty points will be created.
+     * A penalty point will be added or subtracted if and only if, car crossed the finish line meaning
+     */
+    private void adjustPenaltyPointsForActiveCar() {
+        char activeCarId = getCarId(activeCarIndex);
+        if (!penaltyPoints.containsKey(activeCarId)) {
+            penaltyPoints.put(activeCarId, INITIAL_NUMBER_OF_PENALTY_POINTS);
+        }
+        /*
+        if (isValidDirection()) {
+            penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) + 1);
         }
         //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
         //TODO crash on the finish line?
