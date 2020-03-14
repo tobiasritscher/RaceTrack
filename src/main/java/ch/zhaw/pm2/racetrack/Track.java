@@ -126,4 +126,15 @@ public class Track {
         }
         return isAcarHere;
     }
+
+    /**
+     * Tell if there is a wall at given position.
+     *
+     * @param position The position to be checked if there is a wall.
+     * @return True if there is a wall at given position.
+     */
+    public boolean isTrackBound(PositionVector position){
+        //todo test if position is valid??
+        return getSpaceType(position).equals(Config.SpaceType.WALL);
+    }
 }

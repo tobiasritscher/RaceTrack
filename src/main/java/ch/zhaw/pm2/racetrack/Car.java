@@ -40,9 +40,10 @@ public class Car {
         return name;
     }
 
-    public PositionVector setCarPosition() {
-        return position;
+    private void setCarPosition(PositionVector position) {
+        this.position = position;
     }
+
     public PositionVector getCarPosition() {
         return position;
     }
@@ -78,12 +79,15 @@ public class Car {
 
     /**
      * Crash the car.
+     *<p>Move the car to crash location and set the crash status.</p>
+     *<p>Note: Is used both for finish and crash. </p>
      * <p>Note: Cannot be undone.</p>
      */
-    public void crash() {
+    public void crash(PositionVector crashLocation) {
         this.isCrashed = true;
+        position = crashLocation;
     }
-
+    //TODO what about finish??? finish()
     /**
      * Accelerate the car.
      * <p>Set velocity for the current turn by changing the old car velocity by given acceleration.</p>
