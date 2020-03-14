@@ -192,11 +192,12 @@ public class Game {
     /**
      * Returns a direction unit vector which is in the valid finish direction and is orthogonal to finish line.
      * The coordinate system is assumed to be directed as following: first coordinate to the right and second coordinate downwards.
-     * 
+     *
+     * Note: Is package private only for test purposes.
      * @param positionOnFinishLine A point on finish line.
      * @return (x,y)=(0,0) if not a point on finish line, otherwise finish line direction unit vector
      */
-    private PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
+    PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
         //todo test
         PositionVector finishDirectionUnitVector;
         switch (raceTrack.getSpaceType(positionOnFinishLine)) {
