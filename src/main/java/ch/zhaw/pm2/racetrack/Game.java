@@ -170,6 +170,20 @@ public class Game {
         if (isValidDirection()) {
             penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) + 1);
         }
+         */
+    }
+
+    /**
+     * Tell if the active car crosses the finish line(FL) in valid direction.
+     * The function calculates the scalar product between active car velocity vector and the unit vector of the finish direction.
+     * <p>
+     * Note: caller has to make sure the given position is actually the finish line.
+     *
+     * @param position A position, which is FINISH_*
+     * @return True, if crossed FL in the valid direction. False, if crossed FL in a false direction, or the given position is not a finish line.
+     */
+    private boolean isValidDirection(PositionVector position) {
+          boolean isValidDirection = false;
         //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
         //TODO crash on the finish line?
         return isValidDirection;
