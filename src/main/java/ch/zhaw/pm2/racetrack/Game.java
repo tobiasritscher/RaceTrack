@@ -190,6 +190,45 @@ public class Game {
     }
 
     /**
+     * Returns a direction unit vector which is in the valid finish direction and is orthogonal to finish line.
+     * The coordinate system is assumed to be directed as following: first coordinate to the right and second coordinate downwards.
+     * 
+     * @param positionOnFinishLine A point on finish line.
+     * @return (x,y)=(0,0) if not a point on finish line, otherwise finish line direction unit vector
+     */
+    private PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
+        //todo test
+        PositionVector finishDirectionUnitVector;
+        switch (raceTrack.getSpaceType(positionOnFinishLine)) {
+            case FINISH_UP:
+                finishDirectionUnitVector = new PositionVector(0, -1);
+                break;
+            case FINISH_RIGHT:
+                finishDirectionUnitVector = new PositionVector(1, 0);
+                break;
+            case FINISH_DOWN:
+                finishDirectionUnitVector = new PositionVector(0, 1);
+                break;
+            case FINISH_LEFT:
+                finishDirectionUnitVector = new PositionVector(-1, 0);
+                break;
+            default:
+                finishDirectionUnitVector = new PositionVector(0, 0);
+        }
+        return finishDirectionUnitVector;
+    }
+
+    /**
+     * Tell if there is only one active car left.
+     *
+     * @return True, if only one car left.
+     */
+    private boolean oneCarRemaining() {
+        final int ONLY_ONE_CAR = 1;
+        return raceTrack.getNumberActiveCarsRemaining() == ONLY_ONE_CAR;
+    }
+
+    /**
      * Switches to the next car who is still in the game. Skips
      * crashed cars.
      */
