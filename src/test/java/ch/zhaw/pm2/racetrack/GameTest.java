@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 public class GameTest {
 
     @Test
-    public void getFinishDirectionUnitVector_FinishUP(){
+    public void getFinishDirectionUnitVector_FinishUp(){
 
     }
 }

@@ -118,33 +118,41 @@ public class Game {
             //calculate path between actual and end positions
             List<PositionVector> path = calculatePath(raceTrack.getCarPos(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
 
-        //crashes or passes??
-        for (PositionVector transitionPoint : path) {
-            if (willCarCrash(activeCarIndex, transitionPoint)) {
-                //crashed place car at crash point
-                //todo now there are two cars at same point >> the transitionpoint before crash will set as crash point
-                //move car to the crash coordinates
-                activeCar.move();
-                activeCar.crash();
-                //there is a car remaining
-                if (isLastCarRemaining()) {
-                    switchToNextActiveCar();
-
-                    winnerIndex = getCurrentCarIndex();
+            //crashes or passes??
+            Iterator<PositionVector> iterator = path.iterator();
+            boolean isCrashed = false;
+            while (iterator.hasNext() && !isCrashed) {
+                //todo my current location is it a element of path??? >> car crash with itself
+                PositionVector pathTransitionPoint = iterator.next();
+                if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
+                    isCrashed = true;
+                    raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
+                    if (oneCarRemaining()) {
+                        switchToNextActiveCar();
+                        winnerIndex = activeCarIndex;
+                    }
+                } else if (raceTrack.isFinishLine(pathTransitionPoint)) {
+                    //get the previous point get the next point?
+                    adjustPenaltyPointsForActiveCar();
+                    //TODO
+                    final int ZERO_PENALTY_POINTS = 0;
+                    if (penaltyPoints.get(raceTrack.getCarId(activeCarIndex)) == ZERO_PENALTY_POINTS) {
+                        isCrashed = true;
+                        //move to the FL
+                        raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
+                        winnerIndex = activeCarIndex;
+                        //todo penalty
+                    }
                 }
-            } else if (willCarCrosseTheFinishLine(transitionPoint)) {
-                winnerIndex = activeCarIndex;
-            } else {
-                activeCar.move();
             }
-        }
-        //move to the crash coordinates
-        if(activeCar.isCrashed()){
-            activeCar.setCarPosition();
-        }
-        //set correct velocity
-        activeCar.accelerate(acceleration);
 
+            //move to the wished destination if not crashed
+            if (!raceTrack.isCarCrashed(activeCarIndex)) {
+                raceTrack.moveCar(activeCarIndex);
+            }
+
+            switchToNextActiveCar();
+        }
     }
 
     private boolean willCarCrosseTheFinishLine(PositionVector position) {
@@ -170,16 +178,7 @@ public class Game {
         }
         //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
         //TODO crash on the finish line?
-        if (!finishVector.equals(new PositionVector(0, 0)) && PositionVector.scalarProduct(getCarVelocity(activeCarIndex), finishVector) > 0) {
-            result = true;
-        }
-        //correct direction
-        return result;
-    }
-
-    private boolean isLastCarRemaining() {
-        //todo
-        return false;
+        return isValidDirection;
     }
 
     /**
