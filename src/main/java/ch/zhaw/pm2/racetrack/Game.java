@@ -258,7 +258,10 @@ public class Game {
                 activeCarIndex = nextCarIndex;
             } else {
                 //STOPGAME
-                //todo no active cars exception
+                //todo no active car left exception >> will be caught by game
+                //todo active car is the same
+                //todo active cat index set to NO_WINNER
+                activeCarIndex = NO_WINNER;
             }
         }
     }
