@@ -96,6 +96,7 @@ public class Track {
     }
 
     public Config.SpaceType getSpaceType(PositionVector position){
+        //todo if x and y are not on the list??
         int x = position.getX();
         int y = position.getY();
         return grid[x][y];
