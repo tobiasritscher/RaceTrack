@@ -2,7 +2,7 @@ package ch.zhaw.pm2.racetrack;
 
 import java.util.*;
 
-import static ch.zhaw.pm2.racetrack.PositionVector.*;
+import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 
 /**
  * Game controller class, performing all actions to modify the game state.
@@ -88,7 +88,7 @@ public class Game {
      *      <ul>
      *          <li>TRACK: check for collision with other car (crashed &amp; don't continue), otherwise do nothing</li>
      *          <li>WALL: car did collide with the wall - crashed &amp; don't continue</li>
-     *          <li>FINISH: car hits the finish line - wins only if it crosses the line in the correct direction</li>
+     *          <li>FINISH_*: car hits the finish line - wins only if it crosses the line in the correct direction</li>
      *      </ul>
      *   </li>
      *   <li>If the car crashed or wins, set its position to the crash/win coordinates</li>
@@ -102,14 +102,14 @@ public class Game {
      *                     for this turn
      */
     public void doCarTurn(Direction acceleration) {
-        //TODO any parameter checks?
-        Car activeCar = raceTrack.getCar(activeCarIndex);
+        if (!raceTrack.isCarCrashed(activeCarIndex) && !(winnerIndex == NO_WINNER)) {
+            //TODO any parameter checks?
 
-        //Accelerate the current car
-        activeCar.accelerate(acceleration);
+            //Accelerate the current car
+            raceTrack.accelerateCar(activeCarIndex, acceleration);
 
-        //calculate path between actual and end positions
-        List<PositionVector> path = calculatePath(raceTrack.getCarPos(activeCarIndex), activeCar.nextPosition());
+            //calculate path between actual and end positions
+            List<PositionVector> path = calculatePath(raceTrack.getCarPos(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
 
         //crashes or passes??
         for (PositionVector transitionPoint : path) {

@@ -118,13 +118,95 @@ public class Track {
      */
     public boolean someCarIsHere(PositionVector position){
         //todo test
-        boolean isAcarHere = false;
+        boolean isCarHere = false;
         for(Car car: cars){
             if(car.getCarPosition().equals(position)){
-                isAcarHere = true;
+                isCarHere = true;
             }
         }
-        return isAcarHere;
+        return isCarHere;
+    }
+
+    /**
+     * Accelerates a car with the given index.
+     *
+     * @param carIndex The index of a car.
+     * @param acceleration Acceleration vector of the car.
+     */
+    public void accelerateCar(int carIndex, PositionVector.Direction acceleration){
+        //todo m.b. check if index in bound.
+        cars.get(carIndex).accelerate(acceleration);
+    }
+
+    /**
+     * Returns the next position of the given car.
+     *
+     * @param carIndex The car index.
+     * @return Car next position.
+     */
+    public PositionVector getCarNextPosition(int carIndex){
+        //todo check car index.
+        return cars.get(carIndex).nextPosition();
+    }
+
+    /**
+     * Crashes car.
+     * Moves car to crash location and makes it inactive.
+     * @param carIndex The car index.
+     * @param crashLocation A location of the crash.
+     */
+    public void crashCar(int carIndex, PositionVector crashLocation){
+        //todo checks if car index is correct
+        //Todo check coordintates.
+        cars.get(carIndex).crash(crashLocation);
+    }
+
+    /**
+     * Moves car.
+     *
+     * @param carIndex The index of a car.
+     */
+    public void moveCar(int carIndex){
+        //todo check index
+        cars.get(carIndex).move();
+    }
+
+    /**
+     * Tells if the car is crashed.
+     *
+     * @param carIndex
+     * @return True, if the car is crashed
+     */
+    public boolean isCarCrashed(int carIndex){
+        return cars.get(carIndex).isCrashed();
+    }
+
+
+    /**
+     * Return a number of car which are still active(can be moved).
+     *
+     * @return integer number of active cars.
+     */
+    public int getNumberActiveCarsRemaining(){
+        int counter = 0;
+        for(Car car: cars){
+            if(!car.isCrashed()){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    /**
+     * Tell if the given position is the finish line.
+     *
+     * @param position
+     * @return True, if the position finish line.
+     */
+    public boolean isFinishLine(PositionVector position) {
+        //todo test if position is valid??
+        Config.SpaceType spaceType = getSpaceType(position);
+        return spaceType == Config.SpaceType.FINISH_DOWN || spaceType == Config.SpaceType.FINISH_LEFT || spaceType == Config.SpaceType.FINISH_UP || spaceType == Config.SpaceType.FINISH_RIGHT;
     }
 
     /**
