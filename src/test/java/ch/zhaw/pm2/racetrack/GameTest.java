@@ -115,7 +115,7 @@ public class GameTest {
     }
 
     @Test
-    public void switchToNextActiveCar_FIVE_CARS() {
+    public void switchToNextActiveCar_Five_Cars() {
         final int NUMBER_ACTIVE_CARS = 5;
         final int NUMBER_LOOPS = 3;
 
