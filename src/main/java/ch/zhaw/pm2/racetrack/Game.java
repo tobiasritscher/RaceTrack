@@ -12,6 +12,7 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 public class Game {
 
     public static final int NO_WINNER = -1;
+    public static final int FIRST_TURN_CAR_INDEX = 0;
     private int winnerIndex = NO_WINNER;
 
     public static final int NUMBER_OF_LAPS = 1;
@@ -19,7 +20,7 @@ public class Game {
 
     private Track raceTrack;
 
-    private int activeCarIndex = 0;
+    private int activeCarIndex = FIRST_TURN_CAR_INDEX;
 
     Map<Character, Integer> penaltyPoints = new HashMap<>();
 
@@ -175,7 +176,7 @@ public class Game {
 
     /**
      * Tell if the active car crosses the finish line(FL) in valid direction.
-     *
+     * <p>
      * Calculation:
      * <ol>
      *  <li>The function calculates the scalar product between active car velocity vector and the unit vector of the finish direction.</li>
@@ -188,7 +189,7 @@ public class Game {
      * @return True, if crossed FL in the valid direction. False, if crossed FL in a false direction, or the given position is not a finish line.
      */
     private boolean isValidDirection(PositionVector position) {
-          boolean isValidDirection = false;
+        boolean isValidDirection = false;
         //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
         //TODO crash on the finish line?
         return isValidDirection;
@@ -197,14 +198,15 @@ public class Game {
     /**
      * Returns a direction unit vector which is in the valid finish direction and is orthogonal to finish line.
      * The coordinate system is assumed to be directed as following: first coordinate to the right and second coordinate downwards.
-     *
+     * <p>
      * Note:
      * <ol>
      *     <li>Any exception thrown by function call getSpaceType() will be ignored, a (0,0) PositionVector will be returned.</li>
      *     <li>Is package private only for test purposes.</li>
      * </ol>
+     *
      * @param positionOnFinishLine A point on finish line.
-     * @return (x,y)=(0,0) if the point is not on finish line, otherwise returns finish direction unit vector.
+     * @return (x, y)=(0,0) if the point is not on finish line, otherwise returns finish direction unit vector.
      */
     PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
         //todo test
@@ -226,7 +228,7 @@ public class Game {
                 default:
                     finishDirectionUnitVector = new PositionVector(0, 0);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             finishDirectionUnitVector = new PositionVector(0, 0);
         }
         return finishDirectionUnitVector;
