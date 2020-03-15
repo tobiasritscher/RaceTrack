@@ -142,7 +142,7 @@ public class Track {
     /**
      * Returns the next position of the given car.
      *
-     * @param carIndex The car index.
+     * @param carIndex The zero-based car index number.
      * @return Car next position.
      */
     public PositionVector getCarNextPosition(int carIndex){
@@ -153,7 +153,7 @@ public class Track {
     /**
      * Crashes car.
      * Moves car to crash location and makes it inactive.
-     * @param carIndex The car index.
+     * @param carIndex The zero-based car index number.
      * @param crashLocation A location of the crash.
      */
     public void crashCar(int carIndex, PositionVector crashLocation){
@@ -165,7 +165,7 @@ public class Track {
     /**
      * Moves car.
      *
-     * @param carIndex The index of a car.
+     * @param carIndex The zero-based car index number
      */
     public void moveCar(int carIndex){
         //todo check index
@@ -175,7 +175,7 @@ public class Track {
     /**
      * Tells if the car is crashed.
      *
-     * @param carIndex
+     * @param carIndex The zero-based car index number.
      * @return True, if the car is crashed
      */
     public boolean isCarCrashed(int carIndex){
