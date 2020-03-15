@@ -249,18 +249,19 @@ public class Game {
      * crashed cars.
      */
     public void switchToNextActiveCar() {
-        //TODO what if all autos crashed
-        //TODO test switch next, switch cycle
         //TODO what if all cars are crashed? >> set NO_WINNER?
-        int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
-        if (raceTrack.getCar(nextCarIndex).isCrashed()) {
-            switchToNextActiveCar();
-        } else {
-            if (activeCarIndex != nextCarIndex) {
-                activeCarIndex = nextCarIndex;
+        //todo no active car left unchecked exception >> will be caught by game
+        if (activeCarIndex != NO_WINNER) {
+            int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
+            while (raceTrack.isCarCrashed(nextCarIndex) && activeCarIndex != nextCarIndex) {
+                nextCarIndex = (nextCarIndex + 1) % raceTrack.getCarCount();
+            }
+            //at this point actviteCarIndex==nextCarIndex or nextCarIndex car is not crashed
+            if (activeCarIndex == nextCarIndex) {
+                //we made a loop and found no cars
+                activeCarIndex = NO_WINNER;
             } else {
-                //STOPGAME
-                //todo no active cars exception
+                activeCarIndex = nextCarIndex;
             }
         }
     }
