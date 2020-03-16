@@ -3,6 +3,7 @@ package ch.zhaw.pm2.racetrack;
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
+import ch.zhaw.pm2.racetrack.Config.StrategyType;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,18 +49,19 @@ public class Start {
      * lets the players decide on their strategies for the game
      */
     public static void strategies() {
+        var strategies = StrategyType.values();
         for (Car car: track.getCars()) {
             int i = 1;
             io.print("\n" + car.getName() + " what do you want your strategy to be?\n");
 
-            for (Config.StrategyType strategies: Config.StrategyType.values()) {
-                io.print(i++ + ": " + strategies.toString());
+            for (StrategyType strategy: strategies) {
+                io.print(i++ + ": " + strategy.toString());
                 io.print("\n");
             }
 
-            int choice = io.intInputReader(1,Config.StrategyType.values().length,
-                    "\nPlease choose [1, " + Config.StrategyType.values().length + "]: ");
-            Config.StrategyType strategy = Config.StrategyType.codeOfOption(choice);
+            int choice = io.intInputReader(1, strategies.length,
+                    "\nPlease choose [1, " + strategies.length + "]: ");
+            StrategyType strategy = StrategyType.codeOfOption(choice);
             assert strategy != null;
 
             switch (strategy) {
