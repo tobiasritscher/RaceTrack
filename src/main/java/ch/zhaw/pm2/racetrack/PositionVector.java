@@ -74,8 +74,8 @@ public final class PositionVector implements Cloneable {
      * @return The length of vector.
      */
     public static double vectorLength(PositionVector vector){
-        //todo Test
-        return Math.sqrt(Math.pow(vector.getX(),2) + Math.pow(vector.getY(),2));
+        final int TWO =2;
+        return Math.sqrt(Math.pow(vector.getX(),TWO) + Math.pow(vector.getY(),TWO));
     }
 
     public PositionVector(final int x, final int y) {
