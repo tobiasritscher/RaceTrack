@@ -41,7 +41,7 @@ public class Car {
 
     public Car(){};
 
-    public HashMap getCarList(){
+    public HashMap <Character,Object> getCarList(){
         return carList;
     }
 
