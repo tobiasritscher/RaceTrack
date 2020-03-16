@@ -24,6 +24,7 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.1-jre'
     implementation 'org.beryx:text-io:3.4.0'
+    implementation 'org.slf4j:slf4j-nop:1.7.30'
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
@@ -34,7 +35,8 @@ dependencies {
     implementation fileTree(dir: 'lib', include: ['*.jar'])
 
     // Use Mockito for writing tests
-    testCompile "org.mockito:mockito-core:2.+"
+    testImplementation "org.mockito:mockito-core:2.+"
+
 }
 
 application {
