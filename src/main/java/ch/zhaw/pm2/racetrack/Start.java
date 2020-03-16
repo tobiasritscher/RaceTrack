@@ -57,7 +57,7 @@ public class Start {
                 io.print("\n");
             }
 
-            int choice = io.intInputReader(1,2,
+            int choice = io.intInputReader(1,Config.StrategyType.values().length,
                     "\nPlease choose [1, " + Config.StrategyType.values().length + "]: ");
             Config.StrategyType strategy = Config.StrategyType.codeOfOption(choice);
             assert strategy != null;
