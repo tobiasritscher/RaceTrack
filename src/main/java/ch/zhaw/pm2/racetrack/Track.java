@@ -1,6 +1,8 @@
 package ch.zhaw.pm2.racetrack;
 
 
+import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,6 +60,7 @@ import java.util.Map;
 public class Track {
     private List<Car> cars = new ArrayList<>();
     private Config.SpaceType[][] grid;
+    Car car = new Car();
 
     /**
      * Initialize a Track from the given track file.
@@ -220,5 +223,8 @@ public class Track {
     public boolean isTrackBound(PositionVector position){
         //todo test if position is valid??
         return getSpaceType(position).equals(Config.SpaceType.WALL);
+    }
+    public void setStrategy(MoveStrategy moveStrategy){
+        car.setCarMoveStrategy(moveStrategy);
     }
 }
