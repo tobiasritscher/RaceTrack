@@ -16,6 +16,7 @@ public class Start {
     static Game game;
     static final int INDEX_OFFSET = 1;
     Car car = new Car();
+    static File file;
 
     public Start() {
 
@@ -25,11 +26,12 @@ public class Start {
 
         setUpGame();
         strategies(); //set strategies for each player
+        io.printGrid(file);
     }
 
     private static void setUpGame() {
-        File files = new File("tracks");
-        String[] tracks = Objects.requireNonNull(files.list());
+        file = new File("tracks");
+        String[] tracks = Objects.requireNonNull(file.list());
 
         io.print("Welcome to Racetrack!\nSelect Track file:\n");
         for (int i = 0; i < tracks.length; ++i) {
@@ -37,9 +39,9 @@ public class Start {
         }
         //choose Track from files
         int trackChosen = io.intInputReader(1, tracks.length, "Choose your map [1-" + tracks.length + "]:") - INDEX_OFFSET;
-
+        file = new File("tracks/" + tracks[trackChosen]);
         try {
-            track = new Track(new File("tracks/" + tracks[trackChosen]));
+            track = new Track(file);
         } catch (IOException | InvalidTrackFormatException e) {
             e.printStackTrace();
         }
@@ -56,7 +58,7 @@ public class Start {
             io.print("\n" + car.getName() + " what do you want your strategy to be?\n");
 
             for (StrategyType strategy: strategies) {
-                io.print(i++ + ": " + strategy.toString());
+                io.print(i++ + ": " + strategy.getTextForUser());
                 io.print("\n");
             }
 
@@ -67,13 +69,13 @@ public class Start {
 
             switch (strategy) {
                 case DO_NOT_MOVE:
-                    car.setCarMoveStrategy(new DoNotMoveStrategy());
+                    track.setStrategy(new DoNotMoveStrategy());
                     break;
                 case USER:
-                    car.setCarMoveStrategy(new UserStrategy());
+                    track.setStrategy(new UserStrategy());
                     break;
                 case MOVE_LIST:
-                    car.setCarMoveStrategy(new MoveListeStrategy());
+                    track.setStrategy(new MoveListeStrategy());
                     break;
                 default:
                     io.print("ups, something went wrong");
