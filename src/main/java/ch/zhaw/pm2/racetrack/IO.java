@@ -1,9 +1,16 @@
 package ch.zhaw.pm2.racetrack;
-import org.beryx.textio.*;
+
+import org.beryx.textio.TextIO;
+import org.beryx.textio.TextIoFactory;
+import org.beryx.textio.TextTerminal;
 import org.beryx.textio.swing.SwingTextTerminal;
 
-import java.io.*;
-import java.util.Objects;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IO {
     private static TextIO textIO = TextIoFactory.getTextIO();
@@ -42,6 +49,49 @@ public class IO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This function closes the terminal window
+     */
+    public void closeTerminal() {
+        textIO.dispose();
+    }
+
+    /**
+     * This function prints a prompt in the terminal window that asks the user to press enter
+     */
+    public void promptEnter() {
+        textIO.newStringInputReader()
+                .withMinLength(0)
+                .read("\nPress enter to continue");
+    }
+
+    /**
+     * This function sets a bookmark in the terminal window
+     *
+     */
+    public void setBookmarkBlankScreen() {
+        textTerminal.setBookmark("BLANK_SCREEN");
+    }
+
+    /**
+     * This function allows the terminal window to jump to a bookmark that has been set before
+     *
+     * @param bookmark Name of the bookmark that the window will be reset to
+     */
+    public void resetBookmark(String bookmark) {
+        textTerminal.resetToBookmark(bookmark);
+    }
+
+    /**
+     * This function refreshes the gameboard, when e.g. a new settlement has been built.
+     * It does so by jumping back to a "blank screen" that has been set in the beginning
+     * of the game and prints an instance of the gameboard.
+     */
+    public void refresh(File file) {
+        resetBookmark("BLANK_SCREEN");
+        printGrid(file);
     }
 
 }
