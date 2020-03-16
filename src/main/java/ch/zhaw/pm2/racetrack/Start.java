@@ -1,6 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
+import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
 
 import java.io.File;
@@ -56,21 +57,24 @@ public class Start {
                 io.print("\n");
             }
 
-            int choice = io.intInputReader(1,2,"\nPlease choose [1,2]: ");
-            boolean invalidChoice = false;
-            do {
-                switch (choice) {
-                    case 1:
-                        car.setCarMoveStrategy(new DoNotMoveStrategy());
-                        break;
-                    case 2:
-                        car.setCarMoveStrategy(new UserStrategy());
-                        break;
-                    default:
-                        io.print("This isnt a valid choice, please choose again");
-                        invalidChoice = true;
-                }
-            } while (invalidChoice);
+            int choice = io.intInputReader(1,2,
+                    "\nPlease choose [1, " + Config.StrategyType.values().length + "]: ");
+            Config.StrategyType strategy = Config.StrategyType.codeOfOption(choice);
+            assert strategy != null;
+
+            switch (strategy) {
+                case DO_NOT_MOVE:
+                    car.setCarMoveStrategy(new DoNotMoveStrategy());
+                    break;
+                case USER:
+                    car.setCarMoveStrategy(new UserStrategy());
+                    break;
+                case MOVE_LIST:
+                    car.setCarMoveStrategy(new MoveListeStrategy());
+                    break;
+                default:
+                    io.print("ups, something went wrong");
+            }
         }
     }
 }
