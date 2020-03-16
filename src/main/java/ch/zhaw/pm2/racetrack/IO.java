@@ -5,10 +5,7 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.beryx.textio.swing.SwingTextTerminal;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +38,8 @@ public class IO {
     }
 
     public void printGrid(File file){
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+       // try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 print(line + "\n");
