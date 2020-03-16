@@ -9,7 +9,7 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.beryx.textio.swing.SwingTextTerminal;
 
-public class USER_STRATEGY implements MoveStrategy {
+public class UserStrategy implements MoveStrategy {
     IO io = new IO();
 
     //todo rename according to clean code rules(find paragraph)

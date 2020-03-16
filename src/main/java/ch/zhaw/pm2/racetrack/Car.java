@@ -1,11 +1,10 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.DO_NOT_MOVE_STRATEGY;
+import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-import ch.zhaw.pm2.racetrack.strategy.USER_STRATEGY;
+import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 /**
  * Class representing a car on the racetrack.
@@ -20,8 +19,8 @@ public class Car {
     private PositionVector velocity = new PositionVector(0, 0);
     private char name;
     private boolean isCrashed = false;
-    DO_NOT_MOVE_STRATEGY do_not_move_strategy = new DO_NOT_MOVE_STRATEGY();
-    USER_STRATEGY user_strategy = new USER_STRATEGY();
+    DoNotMoveStrategy do_not_move_strategy = new DoNotMoveStrategy();
+    UserStrategy user_strategy = new UserStrategy();
     HashMap<Character, Object> carList = new HashMap<>();
 
     private MoveStrategy carMoveStrategy;
