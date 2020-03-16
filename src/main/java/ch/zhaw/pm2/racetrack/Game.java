@@ -3,6 +3,7 @@ package ch.zhaw.pm2.racetrack;
 import java.util.*;
 
 import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
+import static ch.zhaw.pm2.racetrack.PositionVector.scalarProduct;
 
 /**
  * Game controller class, performing all actions to modify the game state.
@@ -13,16 +14,12 @@ public class Game {
 
     public static final int NO_WINNER = -1;
     public static final int FIRST_TURN_CAR_INDEX = 0;
-    private int winnerIndex = NO_WINNER;
-
     public static final int NUMBER_OF_LAPS = 1;
     public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS;
-
-    private Track raceTrack;
-
-    private int activeCarIndex = FIRST_TURN_CAR_INDEX;
-
     Map<Character, Integer> penaltyPoints = new HashMap<>();
+    private int winnerIndex = NO_WINNER;
+    private Track raceTrack;
+    private int activeCarIndex = FIRST_TURN_CAR_INDEX;
 
     /**
      * Constructor of the class Game.
@@ -175,23 +172,31 @@ public class Game {
     }
 
     /**
-     * Tell if the active car crosses the finish line(FL) in valid direction.
+     * Evaluate if the active car is crossing the finish line(FL) in valid direction.
      * <p>
      * Calculation:
      * <ol>
-     *  <li>The function calculates the scalar product between active car velocity vector and the unit vector of the finish direction.</li>
-     *  <li></li>
+     *  <li>Movement direction vector is calculated: vector which results from difference between next position and current position.</li>
+     *  <li>FL???</li>
+     *  <li>Scalar product between finish line direction unit vector and the calculated difference vector is taken.</li>
+     *  <li>Scalar product gives the sign of the penalty point</li>
      * </ol>
      * <p>
      * Note: The caller function has to make sure the given position is actually the finish line.
      *
-     * @param position A position, which is FINISH_*
      * @return True, if crossed FL in the valid direction. False, if crossed FL in a false direction, or the given position is not a finish line.
      */
-    private boolean isValidDirection(PositionVector position) {
+    private boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {
+        //todo test
         boolean isValidDirection = false;
-        //TODO deal with case: after start, went in the reverse direction, turn around, went in the correct direction.[Lap,Direction]
-        //TODO crash on the finish line?
+        double carVelocityVectorLength = PositionVector.vectorLength(carVelocity);
+        double finishDirectionVectorLength = PositionVector.vectorLength(finishDirection);
+        int scalarProduct = scalarProduct(carVelocity, finishDirection);
+
+        int angle = (int) Math.acos((double) scalarProduct / (carVelocityVectorLength * finishDirectionVectorLength));
+        if (angle < Math.PI / 2 && angle >= 0) {
+            isValidDirection = true;
+        }
         return isValidDirection;
     }
 
@@ -209,7 +214,6 @@ public class Game {
      * @return (x, y)=(0,0) if the point is not on finish line, otherwise returns finish direction unit vector.
      */
     PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
-        //todo test
         PositionVector finishDirectionUnitVector;
         try {
             switch (raceTrack.getSpaceType(positionOnFinishLine)) {
