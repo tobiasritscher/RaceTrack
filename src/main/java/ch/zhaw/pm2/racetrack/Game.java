@@ -129,7 +129,7 @@ public class Game {
                         switchToNextActiveCar();
                         winnerIndex = activeCarIndex;
                     }
-                } else if (raceTrack.isFinishLine(pathTransitionPoint)) {
+                } else if ((raceTrack.isFinishLine(pathTransitionPoint) && !raceTrack.isFinishLine(raceTrack.getCarPos(activeCarIndex))) || (!raceTrack.isFinishLine(raceTrack.getCarPos(activeCarIndex)) && raceTrack.isFinishLine(raceTrack.getCarPos(activeCarIndex)))) {
                     //get the previous point get the next point?
                     adjustPenaltyPointsForActiveCar(pathTransitionPoint);
                     //TODO
@@ -139,17 +139,22 @@ public class Game {
                         //move to the FL
                         raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
                         winnerIndex = activeCarIndex;
-                        //todo penalty
                     }
+
+                    //todo penalty
                 }
             }
 
             //move to the wished destination if not crashed
-            if (!raceTrack.isCarCrashed(activeCarIndex)) {
+            if (raceTrack.isCarCrashed(activeCarIndex) && oneCarRemaining()) {
+                switchToNextActiveCar();
+                winnerIndex = getCurrentCarIndex();
+            } else if (raceTrack.isCarCrashed(activeCarIndex)) {
+                switchToNextActiveCar();
+            } else {
                 raceTrack.moveCar(activeCarIndex);
+                switchToNextActiveCar();
             }
-
-            switchToNextActiveCar();
         }
     }
 
@@ -165,10 +170,9 @@ public class Game {
             penaltyPoints.put(activeCarId, INITIAL_NUMBER_OF_PENALTY_POINTS);
         }
         //todo check if finish position is finish position
-        if (isValidDirection(raceTrack.getCarVelocity(activeCarIndex),getFinishDirectionUnitVector(finishPosition))) {
+        if (isValidDirection(raceTrack.getCarVelocity(activeCarIndex), getFinishDirectionUnitVector(finishPosition))) {
             penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) + 1);
-        }
-        else{
+        } else {
             penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) - 1);
         }
 
