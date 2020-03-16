@@ -76,6 +76,14 @@ public class IO {
     }
 
     /**
+     * This function sets a bookmark in the terminal window
+     *
+     */
+    public void setBookmark(String bookmark) {
+        textTerminal.setBookmark(bookmark);
+    }
+
+    /**
      * This function allows the terminal window to jump to a bookmark that has been set before
      *
      * @param bookmark Name of the bookmark that the window will be reset to
