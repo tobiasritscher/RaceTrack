@@ -26,4 +26,8 @@ public class IO {
         return textIO.newBooleanInputReader().read(output);
     }
 
+    public PositionVector.Direction positionVectorInputReader(String output){
+        return textIO.newEnumInputReader(PositionVector.Direction.class).read(output);
+    }
+
 }
