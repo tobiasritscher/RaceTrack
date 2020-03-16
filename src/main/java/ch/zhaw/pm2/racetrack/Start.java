@@ -79,4 +79,14 @@ public class Start {
             }
         }
     }
+
+    public void gamingTime(){
+        boolean won = true;
+        do{
+            for(Car car : track.getCars()){
+                car.getCarMoveStrategy().nextMove();
+            }
+        } while(won);
+
+    }
 }
