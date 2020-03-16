@@ -3,6 +3,7 @@ package ch.zhaw.pm2.racetrack;
 import java.io.File;
 
 public class Config {
+    public static final int MIN_CARS = 2;
     public static final int MAX_CARS = 9;
 
     // Directory containing the track files
@@ -11,7 +12,7 @@ public class Config {
     public enum StrategyType {
         DO_NOT_MOVE(1, "Do not move"),
         USER(2, "User input"),
-        MOVE_LIST(3, "Move liste");
+        MOVE_LIST(3, "Move list");
 
         private final int StrategyTypeCode;
         private final String textForUser;
