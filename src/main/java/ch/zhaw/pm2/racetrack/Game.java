@@ -131,7 +131,7 @@ public class Game {
                     }
                 } else if (raceTrack.isFinishLine(pathTransitionPoint)) {
                     //get the previous point get the next point?
-                    adjustPenaltyPointsForActiveCar();
+                    adjustPenaltyPointsForActiveCar(pathTransitionPoint);
                     //TODO
                     final int ZERO_PENALTY_POINTS = 0;
                     if (penaltyPoints.get(raceTrack.getCarId(activeCarIndex)) == ZERO_PENALTY_POINTS) {
@@ -159,16 +159,19 @@ public class Game {
      * The function first check if there is an penalty entry in the map. If not new entry with INITIAL_NUMBER_OF_PENALTY_POINTS penalty points will be created.
      * A penalty point will be added or subtracted if and only if, car crossed the finish line meaning
      */
-    private void adjustPenaltyPointsForActiveCar() {
+    private void adjustPenaltyPointsForActiveCar(PositionVector finishPosition) {
         char activeCarId = getCarId(activeCarIndex);
         if (!penaltyPoints.containsKey(activeCarId)) {
             penaltyPoints.put(activeCarId, INITIAL_NUMBER_OF_PENALTY_POINTS);
         }
-        /*
-        if (isValidDirection()) {
+        //todo check if finish position is finish position
+        if (isValidDirection(raceTrack.getCarVelocity(activeCarIndex),getFinishDirectionUnitVector(finishPosition))) {
             penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) + 1);
         }
-         */
+        else{
+            penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) - 1);
+        }
+
     }
 
     /**
