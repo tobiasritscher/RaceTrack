@@ -1,7 +1,9 @@
 package ch.zhaw.pm2.racetrack;
 
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
+import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
+import ch.zhaw.pm2.racetrack.Config.StrategyType;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,30 +49,44 @@ public class Start {
      * lets the players decide on their strategies for the game
      */
     public static void strategies() {
+        var strategies = StrategyType.values();
         for (Car car: track.getCars()) {
             int i = 1;
             io.print("\n" + car.getName() + " what do you want your strategy to be?\n");
 
-            for (Config.StrategyType strategies: Config.StrategyType.values()) {
-                io.print(i++ + ": " + strategies.toString());
+            for (StrategyType strategy: strategies) {
+                io.print(i++ + ": " + strategy.toString());
                 io.print("\n");
             }
 
-            int choice = io.intInputReader(1,2,"\nPlease choose [1,2]: ");
-            boolean invalidChoice = false;
-            do {
-                switch (choice) {
-                    case 1:
-                        car.setCarMoveStrategy(new DoNotMoveStrategy());
-                        break;
-                    case 2:
-                        car.setCarMoveStrategy(new UserStrategy());
-                        break;
-                    default:
-                        io.print("This isnt a valid choice, please choose again");
-                        invalidChoice = true;
-                }
-            } while (invalidChoice);
+            int choice = io.intInputReader(1, strategies.length,
+                    "\nPlease choose [1, " + strategies.length + "]: ");
+            StrategyType strategy = StrategyType.codeOfOption(choice);
+            assert strategy != null;
+
+            switch (strategy) {
+                case DO_NOT_MOVE:
+                    car.setCarMoveStrategy(new DoNotMoveStrategy());
+                    break;
+                case USER:
+                    car.setCarMoveStrategy(new UserStrategy());
+                    break;
+                case MOVE_LIST:
+                    car.setCarMoveStrategy(new MoveListeStrategy());
+                    break;
+                default:
+                    io.print("ups, something went wrong");
+            }
         }
+    }
+
+    public void gamingTime(){
+        boolean won = true;
+        do{
+            for(Car car : track.getCars()){
+                car.getCarMoveStrategy().nextMove();
+            }
+        } while(won);
+
     }
 }
