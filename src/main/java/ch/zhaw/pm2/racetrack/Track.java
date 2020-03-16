@@ -57,7 +57,6 @@ import java.util.Map;
  */
 public class Track {
     private List<Car> cars = new ArrayList<>();
-    private TrackBuilder builder = new TrackBuilder();
     private Config.SpaceType[][] grid;
 
     /**
@@ -69,6 +68,7 @@ public class Track {
      */
     public Track(File trackFile) throws IOException, InvalidTrackFormatException
     {
+        TrackBuilder builder = new TrackBuilder();
         grid = builder.buildTrack(trackFile);
         for(Map.Entry<Character, PositionVector> entry: builder.getCarMap().entrySet()){
             cars.add(new Car(entry.getValue(), entry.getKey()));
@@ -121,8 +121,9 @@ public class Track {
         //todo test
         boolean isCarHere = false;
         for(Car car: cars){
-            if(car.getCarPosition().equals(position)){
+            if (car.getCarPosition().equals(position)) {
                 isCarHere = true;
+                break;
             }
         }
         return isCarHere;

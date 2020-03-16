@@ -1,7 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.DO_NOT_MOVE_STRATEGY;
-import ch.zhaw.pm2.racetrack.strategy.USER_STRATEGY;
+import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
+import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,7 @@ public class Start {
     public static void main(String[] args) {
 
         setUpGame();
+        strategies(); //set strategies for each player
     }
 
     private static void setUpGame() {
@@ -47,18 +48,18 @@ public class Start {
      */
     public static void strategies() {
         for (Car car: track.getCars()) {
-            io.print(car.getName() + " what do you want your strategy to be?");
-            io.print("1: DO_NOT_MOVE");
-            io.print("2: USER");
-            int choice = io.intInputReader(1,2,"Please choose [1,2]: ");
+            io.print(" " + car.getName() + " what do you want your strategy to be?");
+            io.print("\n1: DO_NOT_MOVE");
+            io.print("\n2: USER");
+            int choice = io.intInputReader(1,2,"\nPlease choose [1,2]: ");
             boolean invalidChoice = false;
             do {
                 switch (choice) {
                     case 1:
-                        car.getCarList().put(car.getName(),DO_NOT_MOVE_STRATEGY.class);
+                        car.setCarMoveStrategy(new DoNotMoveStrategy());
                         break;
                     case 2:
-                        car.getCarList().put(car.getName(), USER_STRATEGY.class);
+                        car.setCarMoveStrategy(new UserStrategy());
                         break;
                     default:
                         io.print("This isnt a valid choice, please choose again");
