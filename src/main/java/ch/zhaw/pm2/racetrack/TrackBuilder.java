@@ -31,7 +31,7 @@ public class TrackBuilder {
      */
 
     public Config.SpaceType[][] buildTrack(File file) throws IOException, InvalidTrackFormatException {
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(file,"UTF-8");
 
         // Creating test track ArrayList for width & height tests
         ArrayList<String> trackCheckArray = new ArrayList<>();
