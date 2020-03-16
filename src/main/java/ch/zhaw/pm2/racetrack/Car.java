@@ -19,11 +19,11 @@ public class Car {
     private PositionVector velocity = new PositionVector(0, 0);
     private char name;
     private boolean isCrashed = false;
-    DoNotMoveStrategy do_not_move_strategy = new DoNotMoveStrategy();
-    UserStrategy user_strategy = new UserStrategy();
-    HashMap<Character, Object> carList = new HashMap<>();
-
     private MoveStrategy carMoveStrategy;
+
+    public Car(){
+
+    }
 
     public void setCarMoveStrategy(MoveStrategy carMoveStrategy) {
         this.carMoveStrategy = carMoveStrategy;
@@ -36,12 +36,6 @@ public class Car {
     public Car(PositionVector position, char name) {
         this.position = position;
         this.name = name;
-    }
-
-    public Car(){};
-
-    public HashMap <Character,Object> getCarList(){
-        return carList;
     }
 
     public void setName(char name) {
