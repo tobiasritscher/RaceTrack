@@ -13,6 +13,7 @@ import java.util.Objects;
 public class Start {
     static IO io = new IO();
     static Track track;
+    static Game game;
     static final int INDEX_OFFSET = 1;
     Car car = new Car();
 
@@ -85,6 +86,9 @@ public class Start {
         do{
             for(Car car : track.getCars()){
                 car.getCarMoveStrategy().nextMove();
+                if(game.getWinner() == 1){
+                    won = false;
+                }
             }
         } while(won);
 
