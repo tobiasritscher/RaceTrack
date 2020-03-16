@@ -69,7 +69,9 @@ public final class PositionVector implements Cloneable {
     }
 
     /**
-     * @return
+     * Calculates the length of given vector using pythagoras formula.
+     * @param vector A vector.
+     * @return The length of vector.
      */
     public static double vectorLength(PositionVector vector){
         //todo Test
