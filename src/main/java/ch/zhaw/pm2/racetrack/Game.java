@@ -189,7 +189,7 @@ public class Game {
      *
      * @return True, if crossed FL in the valid direction. False, if crossed FL in a false direction, or the given position is not a finish line.
      */
-    private boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {
+    boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {
         //todo test
         boolean isValidDirection = false;
         double carVelocityVectorLength = PositionVector.vectorLength(carVelocity);
