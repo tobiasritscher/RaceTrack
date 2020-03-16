@@ -1,4 +1,7 @@
-package ch.zhaw.pm2.racetrack;
+package ch.zhaw.pm2.racetrack.exceptions;
+
+import ch.zhaw.pm2.racetrack.Config;
+import ch.zhaw.pm2.racetrack.ErrorType;
 
 import java.io.File;
 

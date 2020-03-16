@@ -1,5 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;

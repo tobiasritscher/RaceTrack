@@ -1,5 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

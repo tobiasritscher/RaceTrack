@@ -1,8 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
-import org.junit.jupiter.api.Assertions;
+import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;

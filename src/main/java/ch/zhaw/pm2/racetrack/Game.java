@@ -107,6 +107,7 @@ public class Game {
      *                     for this turn
      */
     public void doCarTurn(Direction acceleration) {
+        //todo track may be no cylic! meaning finish !=start
         if (!raceTrack.isCarCrashed(activeCarIndex) && !(winnerIndex == NO_WINNER)) {
             //TODO any parameter checks?
 
