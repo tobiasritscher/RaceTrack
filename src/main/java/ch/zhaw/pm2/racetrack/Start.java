@@ -48,9 +48,14 @@ public class Start {
      */
     public static void strategies() {
         for (Car car: track.getCars()) {
-            io.print(" " + car.getName() + " what do you want your strategy to be?");
-            io.print("\n1: DO_NOT_MOVE");
-            io.print("\n2: USER");
+            int i = 1;
+            io.print("\n" + car.getName() + " what do you want your strategy to be?\n");
+
+            for (Config.StrategyType strategies: Config.StrategyType.values()) {
+                io.print(i++ + ": " + strategies.toString());
+                io.print("\n");
+            }
+
             int choice = io.intInputReader(1,2,"\nPlease choose [1,2]: ");
             boolean invalidChoice = false;
             do {
