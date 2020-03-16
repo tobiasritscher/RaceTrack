@@ -78,7 +78,7 @@ public class Track {
         }
     }
 
-    public Config.SpaceType[][] getTrackArray() {
+    public Config.SpaceType[][] getGrid() {
         return grid;
     }
 
