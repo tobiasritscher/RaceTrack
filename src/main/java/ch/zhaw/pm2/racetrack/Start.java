@@ -15,7 +15,6 @@ public class Start {
     static Track track;
     static Game game;
     static final int INDEX_OFFSET = 1;
-    Car car = new Car();
     static File file;
 
     public Start() {
@@ -23,10 +22,10 @@ public class Start {
     }
 
     public static void main(String[] args) {
-
+        io.setBookmarkBlankScreen();
         setUpGame();
         strategies(); //set strategies for each player
-        io.printGrid(file);
+        io.refresh(file);
     }
 
     private static void setUpGame() {
