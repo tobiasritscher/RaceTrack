@@ -53,20 +53,9 @@ public class Start {
      * lets the players decide on their strategies for the game
      */
     public static void strategies() {
-        var strategies = StrategyType.values();
         for (Car car: track.getCars()) {
-            int i = 1;
-            io.print("\n" + car.getName() + " what do you want your strategy to be?\n");
-
-            for (StrategyType strategy: strategies) {
-                io.print(i++ + ": " + strategy.getTextForUser());
-                io.print("\n");
-            }
-
-            int choice = io.intInputReader(1, strategies.length,
-                    "\nPlease choose [1, " + strategies.length + "]: ");
-            StrategyType strategy = StrategyType.codeOfOption(choice);
-            assert strategy != null;
+            StrategyType strategy = io.strategiesInputReader(
+                    "\n" + car.getName() + " what do you want your strategy to be?");
 
             switch (strategy) {
                 case DO_NOT_MOVE:

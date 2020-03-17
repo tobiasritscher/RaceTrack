@@ -37,6 +37,10 @@ public class IO {
         return textIO.newEnumInputReader(PositionVector.Direction.class).read(output);
     }
 
+    public Config.StrategyType strategiesInputReader(String output){
+        return textIO.newEnumInputReader(Config.StrategyType.class).read(output);
+    }
+
     public void printGrid(File file){
        // try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"))) {
