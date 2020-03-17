@@ -52,10 +52,8 @@ public class IO {
             for (int j = 0; j < grid[i].length; ++j) {
                 if (grid[i][j].equals(Config.SpaceType.ANY_CAR)){
                     for (Car car: track.getCars()){
-                        if (car.getCarPosition().getX() == i && car.getCarPosition().getY() == j) {
+                        if (car.getCarPosition().getX() == j && car.getCarPosition().getY() == i) {
                             print(String.valueOf(car.getName()));
-                        } else {
-                            print("Error");
                         }
                     }
                 } else {
