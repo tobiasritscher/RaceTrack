@@ -81,5 +81,5 @@ public class Start {
             io.refresh(track);
         } while (Game.NO_WINNER == game.getWinner());
 
-}
+    }
 }
