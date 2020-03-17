@@ -5,11 +5,6 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.beryx.textio.swing.SwingTextTerminal;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 public class IO {
     private static TextIO textIO = TextIoFactory.getTextIO();
     private static TextTerminal<SwingTextTerminal> textTerminal = (SwingTextTerminal) textIO.getTextTerminal();
@@ -28,14 +23,6 @@ public class IO {
 
     public int intInputReader(int min, int max, String output) {
         return textIO.newIntInputReader().withMinVal(min).withMaxVal(max).read(output);
-    }
-
-    public char charInputReader(String output) {
-        return textIO.newCharInputReader().read(output);
-    }
-
-    public boolean booleanInputReader(String output) {
-        return textIO.newBooleanInputReader().read(output);
     }
 
     public PositionVector.Direction positionVectorInputReader(String output){
