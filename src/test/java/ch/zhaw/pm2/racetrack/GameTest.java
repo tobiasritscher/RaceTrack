@@ -307,11 +307,16 @@ public class GameTest {
 
     //do carTurn()
     @Test
-    public void doCarTurn_InvalidAcceleration() {
-        final int NUMBER_CARS = 2;
+    public void doCarTurn_AccelerateCar() {
+        //todo stubs??
+        final int NUMBER_CARS = Config.MIN_CARS;
         initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
+       // Car sampleCar = new Car();
         Game sampleGame = new Game(mockedTrack);
-        // sampleGame.doCarTurn());
 
+        sampleGame.doCarTurn(PositionVector.Direction.UP);
+        // sampleGame.doCarTurn());
     }
+    //@Test
+
 }

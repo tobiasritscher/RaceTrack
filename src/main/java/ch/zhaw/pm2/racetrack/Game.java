@@ -58,7 +58,7 @@ public class Game {
      * @return A PositionVector containing the car's current position
      */
     public PositionVector getCarPosition(int carIndex) {
-        return raceTrack.getCarPos(activeCarIndex);
+        return raceTrack.getCarPosition(activeCarIndex);
     }
 
     /**
@@ -111,7 +111,7 @@ public class Game {
         if (!Arrays.asList(Direction.values()).contains(acceleration)) {
             throw new IllegalArgumentException("Invalid acceleration direction. Please use: " + Arrays.toString(Direction.values()));
         }
-        //todo track may be no cylic! meaning finish !=start
+
         if (!raceTrack.isCarCrashed(activeCarIndex) && (winnerIndex == NO_WINNER)) {
             //TODO any parameter checks?
 
@@ -119,7 +119,7 @@ public class Game {
             raceTrack.accelerateCar(activeCarIndex, acceleration);
 
             //calculate path between actual and end positions
-            List<PositionVector> path = calculatePath(raceTrack.getCarPos(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
+            List<PositionVector> path = calculatePath(raceTrack.getCarPosition(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
 
             //crashes or passes??
             Iterator<PositionVector> iterator = path.iterator();
@@ -134,7 +134,7 @@ public class Game {
                         switchToNextActiveCar();
                         winnerIndex = activeCarIndex;
                     }
-                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(raceTrack.getCarPos(activeCarIndex))) || (!raceTrack.isOnFinishLine(raceTrack.getCarPos(activeCarIndex)) && raceTrack.isOnFinishLine(raceTrack.getCarPos(activeCarIndex)))) {
+                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex))) || (!raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)))) {
                     //get the previous point get the next point?
                     adjustPenaltyPointsForActiveCar(pathTransitionPoint);
                     //TODO
@@ -170,6 +170,7 @@ public class Game {
      * A penalty point will be added or subtracted if and only if, car crossed the finish line meaning
      */
     private void adjustPenaltyPointsForActiveCar(PositionVector finishPosition) {
+        //todo test
         char activeCarId = getCarId(activeCarIndex);
         if (!penaltyPoints.containsKey(activeCarId)) {
             penaltyPoints.put(activeCarId, INITIAL_NUMBER_OF_PENALTY_POINTS);

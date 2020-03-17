@@ -90,7 +90,7 @@ public class Track {
         return cars.get(index).getName();
     }
 
-    public PositionVector getCarPos(int index) {
+    public PositionVector getCarPosition(int index) {
         return cars.get(index).getCarPosition();
     }
 
