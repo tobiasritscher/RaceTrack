@@ -202,11 +202,7 @@ public class Game {
     boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {
         //todo test
         boolean isValidDirection = false;
-        double carVelocityVectorLength = PositionVector.vectorLength(carVelocity);
-        double finishDirectionVectorLength = PositionVector.vectorLength(finishDirection);
-        int scalarProduct = scalarProduct(carVelocity, finishDirection);
-
-        int angle = (int) Math.acos((double) scalarProduct / (carVelocityVectorLength * finishDirectionVectorLength));
+        int angle = (int)PositionVector.calculateAngle(carVelocity,finishDirection);
         if (angle < Math.PI / 2 && angle >= 0) {
             isValidDirection = true;
         }
