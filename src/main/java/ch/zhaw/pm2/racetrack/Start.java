@@ -53,7 +53,7 @@ public class Start {
      * lets the players decide on their strategies for the game
      */
     public static void strategies() {
-        for (Car car: track.getCars()) {
+        for (Car car : track.getCars()) {
             StrategyType strategy = io.strategiesInputReader(
                     "\n" + car.getName() + " what do you want your strategy to be?");
 
@@ -73,16 +73,14 @@ public class Start {
         }
     }
 
-    public static void gamingTime(){
+    public static void gamingTime() {
         boolean won = true;
-        do{
-            for(Car car : track.getCars()){
-                game.doCarTurn(car.getCarMoveStrategy().nextMove());
-                if(game.getWinner() != Game.NO_WINNER){
-                    won = false;
-                }
+        do {
+            track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove();
+            if (game.getWinner() != -1) {
+                won = false;
             }
-        } while(won);
+        } while (won);
 
-    }
+}
 }
