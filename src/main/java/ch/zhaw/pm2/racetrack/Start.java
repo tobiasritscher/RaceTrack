@@ -27,6 +27,7 @@ public class Start {
         setUpGame();
         strategies(); //set strategies for each player
         io.refresh(file);
+        gamingTime();
     }
 
     private static void setUpGame() {
@@ -83,7 +84,7 @@ public class Start {
         }
     }
 
-    public void gamingTime(){
+    public static void gamingTime(){
         boolean won = true;
         do{
             for(Car car : track.getCars()){
