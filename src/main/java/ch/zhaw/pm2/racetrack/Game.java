@@ -105,8 +105,12 @@ public class Game {
      *
      * @param acceleration A Direction containing the current cars acceleration vector (-1,0,1) in x and y direction
      *                     for this turn
+     * @throws IllegalArgumentException No such direction possible.
      */
     public void doCarTurn(Direction acceleration) {
+        if (!Arrays.asList(Direction.values()).contains(acceleration)) {
+            throw new IllegalArgumentException("Invalid acceleration direction. Please use: " + Direction.values());
+        }
         //todo track may be no cylic! meaning finish !=start
         if (!raceTrack.isCarCrashed(activeCarIndex) && !(winnerIndex == NO_WINNER)) {
             //TODO any parameter checks?
