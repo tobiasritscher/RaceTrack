@@ -70,13 +70,13 @@ public class Start {
 
             switch (strategy) {
                 case DO_NOT_MOVE:
-                    track.setStrategy(new DoNotMoveStrategy());
+                    track.setStrategy(new DoNotMoveStrategy(), car);
                     break;
                 case USER:
-                    track.setStrategy(new UserStrategy());
+                    track.setStrategy(new UserStrategy(), car);
                     break;
                 case MOVE_LIST:
-                    track.setStrategy(new MoveListeStrategy());
+                    track.setStrategy(new MoveListeStrategy(), car);
                     break;
                 default:
                     io.print("ups, something went wrong");

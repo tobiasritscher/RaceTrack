@@ -61,7 +61,6 @@ import java.util.Map;
 public class Track {
     private List<Car> cars = new ArrayList<>();
     private Config.SpaceType[][] grid;
-    Car car = new Car();
 
     /**
      * Initialize a Track from the given track file.
@@ -225,7 +224,8 @@ public class Track {
         //todo test if position is valid??
         return getSpaceType(position).equals(Config.SpaceType.WALL);
     }
-    public void setStrategy(MoveStrategy moveStrategy){
+
+    public void setStrategy(MoveStrategy moveStrategy, Car car){
         car.setCarMoveStrategy(moveStrategy);
     }
 }
