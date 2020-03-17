@@ -112,7 +112,7 @@ public class Game {
             throw new IllegalArgumentException("Invalid acceleration direction. Please use: " + Arrays.toString(Direction.values()));
         }
         //todo track may be no cylic! meaning finish !=start
-        if (!raceTrack.isCarCrashed(activeCarIndex) && !(winnerIndex == NO_WINNER)) {
+        if (!raceTrack.isCarCrashed(activeCarIndex) && (winnerIndex == NO_WINNER)) {
             //TODO any parameter checks?
 
             //Accelerate the current car
