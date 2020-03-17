@@ -76,7 +76,7 @@ public class Start {
     public static void gamingTime() {
         do {
             game.doCarTurn(track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove());
-        } while (game.NO_WINNER == game.getWinner());
+        } while (Game.NO_WINNER == game.getWinner());
 
 }
 }
