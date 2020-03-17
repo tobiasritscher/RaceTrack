@@ -19,13 +19,13 @@ public class Start {
     static File file;
 
     public Start() {
-
     }
 
     public static void main(String[] args) {
         io.setBookmarkBlankScreen();
         setUpGame();
         strategies(); //set strategies for each player
+        game = new Game(track);
         io.refresh(file);
         gamingTime();
     }
@@ -78,7 +78,7 @@ public class Start {
         do{
             for(Car car : track.getCars()){
                 game.doCarTurn(car.getCarMoveStrategy().nextMove());
-                if(game.getWinner() == 1){
+                if(game.getWinner() != -1){
                     won = false;
                 }
             }
