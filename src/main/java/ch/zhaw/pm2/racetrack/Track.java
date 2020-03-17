@@ -261,6 +261,7 @@ public class Track {
                 charGrid[y][x] = grid[y][x].getValue();
             }
         }
+        //todo if a car is crashed how to know if it is? new symbol?? if (car.isCrashed){use other symbol}
         //map cars
         for (Car car : cars) {
             int x = car.getCarPosition().getX();
@@ -272,6 +273,7 @@ public class Track {
             String charGridString = new String(charGrid[y]);
             gridString += charGridString + "\n";
         }
+        //todo if "wall" > therefore "crashed", do we need new symbol??? or
         return gridString;
     }
 }
