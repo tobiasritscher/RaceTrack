@@ -17,8 +17,12 @@ public class IO {
         textTerminal.print(output);
     }
 
+    public void printChar(char output) {
+        textTerminal.print(String.valueOf(output));
+    }
+
     public void println(){
-        print("\n");
+        printChar('\n');
     }
 
     public int intInputReader(int min, int max, String output) {
@@ -40,7 +44,7 @@ public class IO {
                 if (grid[i][j].equals(Config.SpaceType.ANY_CAR)){
                     for (Car car: track.getCars()){
                         if (car.getCarPosition().getX() == j && car.getCarPosition().getY() == i) {
-                            print(String.valueOf(car.getName()));
+                            printChar(car.getName());
                         }
                     }
                 } else {
