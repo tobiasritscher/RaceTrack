@@ -227,16 +227,16 @@ public class Game {
         try {
             switch (raceTrack.getSpaceType(positionOnFinishLine)) {
                 case FINISH_UP:
-                    finishDirectionUnitVector = new PositionVector(0, -1);
+                    finishDirectionUnitVector = Direction.UP.vector;
                     break;
                 case FINISH_RIGHT:
-                    finishDirectionUnitVector = new PositionVector(1, 0);
+                    finishDirectionUnitVector = Direction.RIGHT.vector;
                     break;
                 case FINISH_DOWN:
-                    finishDirectionUnitVector = new PositionVector(0, 1);
+                    finishDirectionUnitVector = Direction.DOWN.vector;
                     break;
                 case FINISH_LEFT:
-                    finishDirectionUnitVector = new PositionVector(-1, 0);
+                    finishDirectionUnitVector = Direction.LEFT.vector;
                     break;
                 default:
                     finishDirectionUnitVector = new PositionVector(0, 0);
@@ -294,7 +294,7 @@ public class Game {
      * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
      */
     public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
-        // todo
+        // todo test
         List<PositionVector> path = new ArrayList<>();
         int diffX = endPosition.getX() - startPosition.getX();
         int diffY = endPosition.getY() - startPosition.getY();
