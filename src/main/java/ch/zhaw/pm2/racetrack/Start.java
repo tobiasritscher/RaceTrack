@@ -1,10 +1,10 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
-import ch.zhaw.pm2.racetrack.Config.StrategyType;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,10 +12,10 @@ import java.util.Objects;
 
 
 public class Start {
+    static final int INDEX_OFFSET = 1;
     static IO io = new IO();
     static Track track;
     static Game game;
-    static final int INDEX_OFFSET = 1;
     static File file;
 
     public Start() {
@@ -76,7 +76,8 @@ public class Start {
     public static void gamingTime() {
         do {
             game.doCarTurn(track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove());
+            io.refresh(track);
         } while (Game.NO_WINNER == game.getWinner());
 
-}
+    }
 }
