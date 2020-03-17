@@ -238,4 +238,69 @@ public class GameTest {
             Assertions.assertEquals(NO_ACTIVE_CARS, sampleGame.getCurrentCarIndex());
         }
     }
+
+    @Test
+    public void calculatePath_SamePoint() {
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        final PositionVector END_POINT = ZERO_POSITION_VECTOR;
+        mockedTrack = mock(Track.class);
+        Game sampleGame = new Game(mockedTrack);
+        List<PositionVector> expectedPath = new ArrayList<>();
+        expectedPath.add(ZERO_POSITION_VECTOR);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    @Test
+    public void calculatePath_inX_LengthOne() {
+        final int PATH_LENGTH = 1;
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        final PositionVector END_POINT = new PositionVector(PATH_LENGTH, 0);
+        mockedTrack = mock(Track.class);
+        Game sampleGame = new Game(mockedTrack);
+        List<PositionVector> expectedPath = new ArrayList<>();
+        expectedPath.add(START_POINT);
+        expectedPath.add(END_POINT);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    @Test
+    public void calculatePath_inX_StraightLine() {
+        final int PATH_LENGTH = 20;
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        final PositionVector END_POINT = new PositionVector(PATH_LENGTH, 0);
+        mockedTrack = mock(Track.class);
+        Game sampleGame = new Game(mockedTrack);
+        List<PositionVector> expectedPath = new ArrayList<>();
+        for (int x = 0; x <= PATH_LENGTH; x++) {
+            expectedPath.add(new PositionVector(x, 0));
+        }
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    @Test
+    public void calculatePath_inY_LengthOne() {
+        final int PATH_LENGTH = 1;
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        final PositionVector END_POINT = new PositionVector(0, PATH_LENGTH);
+        mockedTrack = mock(Track.class);
+        Game sampleGame = new Game(mockedTrack);
+        List<PositionVector> expectedPath = new ArrayList<>();
+        expectedPath.add(START_POINT);
+        expectedPath.add(END_POINT);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    @Test
+    public void calculatePath_inY_StraightLine() {
+        final int PATH_LENGTH = 20;
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        final PositionVector END_POINT = new PositionVector(0, PATH_LENGTH);
+        mockedTrack = mock(Track.class);
+        Game sampleGame = new Game(mockedTrack);
+        List<PositionVector> expectedPath = new ArrayList<>();
+        for (int y = 0; y <= PATH_LENGTH; y++) {
+            expectedPath.add(new PositionVector(0, y));
+        }
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
 }

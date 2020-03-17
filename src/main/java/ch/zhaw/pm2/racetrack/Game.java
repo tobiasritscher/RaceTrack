@@ -222,6 +222,7 @@ public class Game {
      * @return (x, y)=(0,0) if the point is not on finish line, otherwise returns finish direction unit vector.
      */
     PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
+        //todo make track do this for you
         PositionVector finishDirectionUnitVector;
         try {
             switch (raceTrack.getSpaceType(positionOnFinishLine)) {
