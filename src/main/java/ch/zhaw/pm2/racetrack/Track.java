@@ -119,11 +119,11 @@ public class Track {
      * @param position Position to be tested.
      * @return True, if some car at given position.
      */
-    public boolean someCarIsHere(PositionVector position, int currecntCar){
+    public boolean someCarIsHere(int currentCarIndex, PositionVector position){
         //todo test
         boolean isCarHere = false;
         for(Car car: cars){
-            if (!car.equals(cars.get(currecntCar))) {
+            if (!car.equals(cars.get(currentCarIndex))) {
                 if (car.getCarPosition().equals(position)) {
                     isCarHere = true;
                     break;

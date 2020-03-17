@@ -127,7 +127,7 @@ public class Game {
             while (iterator.hasNext() && !isCrashed) {
                 //todo my current location is it a element of path??? >> car crash with itself
                 PositionVector pathTransitionPoint = iterator.next();
-                if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
+               if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
                     isCrashed = true;
                     raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
                     if (oneCarRemaining()) {
@@ -361,7 +361,7 @@ public class Game {
      * @return A boolean indicator if the car would crash with a WALL or another car.
      */
     public boolean willCarCrash(int carIndex, PositionVector position) {
-        return raceTrack.isTrackBound(position) || raceTrack.someCarIsHere(position, carIndex);
+        return raceTrack.isTrackBound(position) || raceTrack.someCarIsHere(carIndex, position);
     }
 
 }
