@@ -78,7 +78,7 @@ public class Start {
         do{
             for(Car car : track.getCars()){
                 game.doCarTurn(car.getCarMoveStrategy().nextMove());
-                if(game.getWinner() != -1){
+                if(game.getWinner() != Game.NO_WINNER){
                     won = false;
                 }
             }

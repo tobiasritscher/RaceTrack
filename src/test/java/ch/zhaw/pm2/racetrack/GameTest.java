@@ -20,6 +20,7 @@ public class GameTest {
     public static final PositionVector ARBITRARY_INVALID_FINISH_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
     public static final PositionVector ZERO_POSITION_VECTOR = new PositionVector(0, 0);
     public static final PositionVector ARBITRARY_VALID_CAR_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    public static final PositionVector ARBITRARY_INVALID_CAR_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
     Random random = new Random();
 
@@ -302,5 +303,15 @@ public class GameTest {
             expectedPath.add(new PositionVector(0, y));
         }
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    //do carTurn()
+    @Test
+    public void doCarTurn_InvalidAcceleration(){
+        final int NUMBER_CARS = 2;
+        initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
+        Game sampleGame = new Game(mockedTrack);
+       // sampleGame.doCarTurn());
+
     }
 }
