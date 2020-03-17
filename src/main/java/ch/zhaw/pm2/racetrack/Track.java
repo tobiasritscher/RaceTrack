@@ -242,10 +242,10 @@ public class Track {
 
     public void checkPosition(PositionVector position) {
         // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
-        if (position.getX() > grid.length - 1 || position.getX() < 0) {
+        if (position.getX() > grid[0].length - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();
         }
-        if (position.getY() > grid[0].length - 1 || position.getY() < 0) {
+        if (position.getY() > grid.length - 1 || position.getY() < 0) {
             throw new IllegalArgumentException();
         }
     }
