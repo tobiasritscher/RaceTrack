@@ -17,10 +17,6 @@ public class Car {
     private boolean isCrashed = false;
     private MoveStrategy carMoveStrategy;
 
-    public Car() {
-
-    }
-
     public Car(PositionVector position, char name) {
         this.position = position;
         this.name = name;
@@ -104,7 +100,6 @@ public class Car {
      * @param acceleration The acceleration at this turn.
      */
     public void accelerate(PositionVector.Direction acceleration) {
-        //todo decide if at this place arguments needs to be checked.
         velocity = PositionVector.add(velocity, acceleration.vector);
     }
 }
