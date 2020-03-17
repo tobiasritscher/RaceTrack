@@ -76,7 +76,7 @@ public class Start {
     public static void gamingTime() {
         boolean won = true;
         do {
-            track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove();
+            game.doCarTurn(track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove());
             if (game.NO_WINNER != -1) {
                 won = false;
             }
