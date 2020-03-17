@@ -38,21 +38,7 @@ public class IO {
     }
 
     public void printGrid(Track track){
-        var grid = track.getGrid();
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[i].length; ++j) {
-                if (grid[i][j].equals(Config.SpaceType.ANY_CAR)){
-                    for (Car car: track.getCars()){
-                        if (car.getCarPosition().getX() == j && car.getCarPosition().getY() == i) {
-                            printChar(car.getName());
-                        }
-                    }
-                } else {
-                    print(grid[i][j].toString());
-                }
-            }
-            println();
-        }
+        print(track.toString());
     }
 
     /**

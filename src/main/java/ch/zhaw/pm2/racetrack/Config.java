@@ -9,6 +9,14 @@ public class Config {
     // Directory containing the track files
     private File trackDirectory = new File("tracks");
 
+    public File getTrackDirectory() {
+        return trackDirectory;
+    }
+
+    public void setTrackDirectory(File trackDirectory) {
+        this.trackDirectory = trackDirectory;
+    }
+
     public enum StrategyType {
         DO_NOT_MOVE, USER, MOVE_LIST
     }
@@ -28,22 +36,19 @@ public class Config {
         ANY_CAR('n');
 
         private final char value;
+
         SpaceType(final char c) {
             value = c;
+        }
+
+        public char getValue() {
+            return value;
         }
 
         @Override
         public String toString() {
             return String.valueOf(value);
         }
-    }
-
-    public File getTrackDirectory() {
-        return trackDirectory;
-    }
-
-    public void setTrackDirectory(File trackDirectory) {
-        this.trackDirectory = trackDirectory;
     }
 
 }

@@ -249,4 +249,29 @@ public class Track {
             throw new IllegalArgumentException();
         }
     }
+
+    @Override
+    public String toString() {
+        String gridString = "";
+        //todo width and high
+        char[][] charGrid = new char[grid.length][grid[0].length];
+        //build track
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[y].length; x++) {
+                charGrid[y][x] = grid[y][x].getValue();
+            }
+        }
+        //map cars
+        for (Car car : cars) {
+            int x = car.getCarPosition().getX();
+            int y = car.getCarPosition().getY();
+            charGrid[y][x] = car.getName();
+        }
+        //build string
+        for (int y = 0; y < charGrid.length; y++) {
+            String charGridString = new String(charGrid[y]);
+            gridString += charGridString + "\n";
+        }
+        return gridString;
+    }
 }
