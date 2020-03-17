@@ -77,7 +77,7 @@ public class Start {
         boolean won = true;
         do{
             for(Car car : track.getCars()){
-                car.getCarMoveStrategy().nextMove();
+                game.doCarTurn(car.getCarMoveStrategy().nextMove());
                 if(game.getWinner() == 1){
                     won = false;
                 }
