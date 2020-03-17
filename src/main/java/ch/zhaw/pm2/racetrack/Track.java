@@ -114,23 +114,20 @@ public class Track {
     }
 
     /**
-     * Tells if some car at give position.
+     * Tells if some different from given car at the given position.
      *
-     * @param position Position to be tested.
-     * @return True, if some car at given position.
+     * @param position The position to be tested.
+     * @return True, if car with different index is at given position.
      */
-    public boolean someCarIsHere(int currentCarIndex, PositionVector position){
+    public boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) {
         //todo test
-        boolean isCarHere = false;
-        for(Car car: cars){
-            if (!car.equals(cars.get(currentCarIndex))) {
-                if (car.getCarPosition().equals(position)) {
-                    isCarHere = true;
-                    break;
-                }
+        boolean isOtherCarHere = false;
+        for (Car car : cars) {
+            if (!car.equals(cars.get(currentCarIndex)) && car.getCarPosition().equals(position)) {
+                isOtherCarHere = true;
             }
         }
-        return isCarHere;
+        return isOtherCarHere;
     }
 
     /**
@@ -237,17 +234,17 @@ public class Track {
 
     public void checkCarIndex(int carIndex) {
         // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
-        if (carIndex > cars.size()-1 || carIndex < 0) {
+        if (carIndex > cars.size() - 1 || carIndex < 0) {
             throw new IllegalArgumentException();
         }
     }
 
     public void checkPosition(PositionVector position) {
         // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
-        if(position.getX() > grid.length-1 || position.getX() < 0){
+        if (position.getX() > grid.length - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();
         }
-        if(position.getY() > grid[0].length-1 || position.getY() < 0) {
+        if (position.getY() > grid[0].length - 1 || position.getY() < 0) {
             throw new IllegalArgumentException();
         }
     }
