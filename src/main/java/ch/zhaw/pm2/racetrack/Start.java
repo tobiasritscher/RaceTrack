@@ -77,7 +77,7 @@ public class Start {
         boolean won = true;
         do {
             track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove();
-            if (game.getWinner() != -1) {
+            if (game.NO_WINNER != -1) {
                 won = false;
             }
         } while (won);
