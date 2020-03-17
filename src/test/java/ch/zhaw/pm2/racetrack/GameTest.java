@@ -307,11 +307,11 @@ public class GameTest {
 
     //do carTurn()
     @Test
-    public void doCarTurn_InvalidAcceleration(){
+    public void doCarTurn_InvalidAcceleration() {
         final int NUMBER_CARS = 2;
         initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
         Game sampleGame = new Game(mockedTrack);
-       // sampleGame.doCarTurn());
+        // sampleGame.doCarTurn());
 
     }
 }

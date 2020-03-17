@@ -134,7 +134,7 @@ public class Game {
                         switchToNextActiveCar();
                         winnerIndex = activeCarIndex;
                     }
-                } else if ((raceTrack.isFinishLine(pathTransitionPoint) && !raceTrack.isFinishLine(raceTrack.getCarPos(activeCarIndex))) || (!raceTrack.isFinishLine(raceTrack.getCarPos(activeCarIndex)) && raceTrack.isFinishLine(raceTrack.getCarPos(activeCarIndex)))) {
+                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(raceTrack.getCarPos(activeCarIndex))) || (!raceTrack.isOnFinishLine(raceTrack.getCarPos(activeCarIndex)) && raceTrack.isOnFinishLine(raceTrack.getCarPos(activeCarIndex)))) {
                     //get the previous point get the next point?
                     adjustPenaltyPointsForActiveCar(pathTransitionPoint);
                     //TODO

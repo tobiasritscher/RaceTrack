@@ -5,7 +5,10 @@ import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Reads files and converts the data into a Config.SpaceType array for use as track data.

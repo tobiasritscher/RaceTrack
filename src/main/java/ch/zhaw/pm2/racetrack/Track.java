@@ -60,6 +60,7 @@ import java.util.Map;
  */
 public class Track {
     private List<Car> cars = new ArrayList<>();
+    //(Y,X)
     private Config.SpaceType[][] grid;
 
     /**
@@ -208,7 +209,7 @@ public class Track {
      * @param position
      * @return True, if the position finish line.
      */
-    public boolean isFinishLine(PositionVector position) {
+    public boolean isOnFinishLine(PositionVector position) {
         checkPosition(position);
         Config.SpaceType spaceType = getSpaceType(position);
         return spaceType == Config.SpaceType.FINISH_DOWN
