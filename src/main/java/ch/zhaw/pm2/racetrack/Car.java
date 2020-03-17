@@ -1,10 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
-
-import java.util.HashMap;
 
 /**
  * Class representing a car on the racetrack.
@@ -21,16 +17,8 @@ public class Car {
     private boolean isCrashed = false;
     private MoveStrategy carMoveStrategy;
 
-    public Car(){
+    public Car() {
 
-    }
-
-    public void setCarMoveStrategy(MoveStrategy carMoveStrategy) {
-        this.carMoveStrategy = carMoveStrategy;
-    }
-
-    public MoveStrategy getCarMoveStrategy() {
-        return carMoveStrategy;
     }
 
     public Car(PositionVector position, char name) {
@@ -38,20 +26,28 @@ public class Car {
         this.name = name;
     }
 
-    public void setName(char name) {
-        this.name = name;
+    public MoveStrategy getCarMoveStrategy() {
+        return carMoveStrategy;
+    }
+
+    public void setCarMoveStrategy(MoveStrategy carMoveStrategy) {
+        this.carMoveStrategy = carMoveStrategy;
     }
 
     public char getName() {
         return name;
     }
 
-    private void setCarPosition(PositionVector position) {
-        this.position = position;
+    public void setName(char name) {
+        this.name = name;
     }
 
     public PositionVector getCarPosition() {
         return position;
+    }
+
+    private void setCarPosition(PositionVector position) {
+        this.position = position;
     }
 
     public PositionVector getVelocity() {
@@ -72,7 +68,7 @@ public class Car {
      *   <li>p<sub>n-1</sub> - position at the beginning of this turn.</li>
      * </ul>
      */
-    public PositionVector nextPosition(){
+    public PositionVector nextPosition() {
         return PositionVector.add(velocity, position);
     }
 
@@ -85,15 +81,15 @@ public class Car {
 
     /**
      * Crash the car.
-     *<p>Move the car to crash location and set the crash status.</p>
-     *<p>Note: Is used both for finish and crash. </p>
+     * <p>Move the car to crash location and set the crash status.</p>
+     * <p>Note: Is used both for finish and crash. </p>
      * <p>Note: Cannot be undone.</p>
      */
     public void crash(PositionVector crashLocation) {
         this.isCrashed = true;
         position = crashLocation;
     }
-    //TODO what about finish??? finish()
+
     /**
      * Accelerate the car.
      * <p>Set velocity for the current turn by changing the old car velocity by given acceleration.</p>
