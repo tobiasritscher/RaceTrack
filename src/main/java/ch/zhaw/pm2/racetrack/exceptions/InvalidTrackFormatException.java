@@ -21,11 +21,11 @@ import java.io.File;
 public class InvalidTrackFormatException extends Exception {
     private File trackFile;
     private ErrorType errorType;
-    //TODO: define error types via enum which are returned by this Exception class
 
-    public InvalidTrackFormatException(File trackFile, ErrorType errorType){ this.trackFile = trackFile; }
-
-    public File getTrackFile() { return trackFile; }
+    public InvalidTrackFormatException(File trackFile, ErrorType errorType){
+        this.trackFile = trackFile;
+        this.errorType = errorType;
+    }
 
     public String printErrorType() {
         String errorMessage;

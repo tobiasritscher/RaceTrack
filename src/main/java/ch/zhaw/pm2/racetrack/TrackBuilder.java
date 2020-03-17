@@ -42,7 +42,7 @@ public class TrackBuilder {
         while (scanner.hasNextLine() && !removeAllFollowing) {
             String nextLine = scanner.nextLine();
             String compareString = nextLine.replaceAll("\\s+","");
-            if (!compareString.equals("") || removeAllFollowing) {
+            if (!compareString.equals("")) {
                 trackCheckArray.add(nextLine);
             } else {
                 removeAllFollowing = true;

@@ -90,7 +90,7 @@ public class TrackBuilderTest {
     testMap[1][0] = Config.SpaceType.WALL;
     testMap[1][1] = Config.SpaceType.ANY_CAR;
     testMap[1][2] = Config.SpaceType.FINISH_RIGHT;
-    testMap[1][3] = Config.SpaceType.TRACK;
+    testMap[1][3] = Config.SpaceType.ANY_CAR;
     testMap[1][4] = Config.SpaceType.WALL;
 
     File testFile = new File("testtracks/track_fill_test.txt");
