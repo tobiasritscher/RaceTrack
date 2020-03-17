@@ -74,13 +74,9 @@ public class Start {
     }
 
     public static void gamingTime() {
-        boolean won = true;
         do {
             game.doCarTurn(track.getCar(game.getCurrentCarIndex()).getCarMoveStrategy().nextMove());
-            if (game.NO_WINNER != -1) {
-                won = false;
-            }
-        } while (won);
+        } while (game.NO_WINNER == game.getWinner());
 
 }
 }
