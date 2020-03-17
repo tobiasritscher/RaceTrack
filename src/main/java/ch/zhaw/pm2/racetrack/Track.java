@@ -65,15 +65,14 @@ public class Track {
     /**
      * Initialize a Track from the given track file.
      *
-     * @param  trackFile Reference to a file containing the track data
-     * @throws FileNotFoundException if the given track file could not be found
+     * @param trackFile Reference to a file containing the track data
+     * @throws FileNotFoundException       if the given track file could not be found
      * @throws InvalidTrackFormatException if the track file contains invalid data (no tracklines, no
      */
-    public Track(File trackFile) throws IOException, InvalidTrackFormatException
-    {
+    public Track(File trackFile) throws IOException, InvalidTrackFormatException {
         TrackBuilder builder = new TrackBuilder();
         grid = builder.buildTrack(trackFile);
-        for(Map.Entry<Character, PositionVector> entry: builder.getCarMap().entrySet()){
+        for (Map.Entry<Character, PositionVector> entry : builder.getCarMap().entrySet()) {
             cars.add(new Car(entry.getValue(), entry.getKey()));
         }
     }
@@ -82,24 +81,24 @@ public class Track {
         return grid;
     }
 
-    public int getCarCount(){
+    public int getCarCount() {
         return cars.size();
     }
 
-    public char getCarId(int index){
+    public char getCarId(int index) {
         return cars.get(index).getName();
     }
 
-    public PositionVector getCarPos(int index){
+    public PositionVector getCarPos(int index) {
         return cars.get(index).getCarPosition();
     }
 
-    public PositionVector getCarVelocity(int index){
+    public PositionVector getCarVelocity(int index) {
         return cars.get(index).getVelocity();
     }
 
-    public Config.SpaceType getSpaceType(PositionVector position){
-        //todo if x and y are not on the list??
+    public Config.SpaceType getSpaceType(PositionVector position) {
+        checkPosition(position);
         int x = position.getX();
         int y = position.getY();
         return grid[y][x];
@@ -109,9 +108,9 @@ public class Track {
         return cars;
     }
 
-    public Car getCar(int carIndex){
-        //Todo check if carIndex inbound
-       return cars.get(carIndex);
+    public Car getCar(int carIndex) {
+        checkCarIndex(carIndex);
+        return cars.get(carIndex);
     }
 
     /**
@@ -137,11 +136,11 @@ public class Track {
     /**
      * Accelerates a car with the given index.
      *
-     * @param carIndex The index of a car.
+     * @param carIndex     The index of a car.
      * @param acceleration Acceleration vector of the car.
      */
-    public void accelerateCar(int carIndex, PositionVector.Direction acceleration){
-        //todo m.b. check if index in bound.
+    public void accelerateCar(int carIndex, PositionVector.Direction acceleration) {
+        checkCarIndex(carIndex);
         cars.get(carIndex).accelerate(acceleration);
     }
 
@@ -151,20 +150,21 @@ public class Track {
      * @param carIndex The zero-based car index number.
      * @return Car next position.
      */
-    public PositionVector getCarNextPosition(int carIndex){
-        //todo check car index.
+    public PositionVector getCarNextPosition(int carIndex) {
+        checkCarIndex(carIndex);
         return cars.get(carIndex).nextPosition();
     }
 
     /**
      * Crashes car.
      * Moves car to crash location and makes it inactive.
-     * @param carIndex The zero-based car index number.
+     *
+     * @param carIndex      The zero-based car index number.
      * @param crashLocation A location of the crash.
      */
-    public void crashCar(int carIndex, PositionVector crashLocation){
-        //todo checks if car index is correct
-        //Todo check coordintates.
+    public void crashCar(int carIndex, PositionVector crashLocation) {
+        checkCarIndex(carIndex);
+        checkPosition(crashLocation);
         cars.get(carIndex).crash(crashLocation);
     }
 
@@ -173,8 +173,8 @@ public class Track {
      *
      * @param carIndex The zero-based car index number
      */
-    public void moveCar(int carIndex){
-        //todo check index
+    public void moveCar(int carIndex) {
+        checkCarIndex(carIndex);
         cars.get(carIndex).move();
     }
 
@@ -184,7 +184,8 @@ public class Track {
      * @param carIndex The zero-based car index number.
      * @return True, if the car is crashed
      */
-    public boolean isCarCrashed(int carIndex){
+    public boolean isCarCrashed(int carIndex) {
+        checkCarIndex(carIndex);
         return cars.get(carIndex).isCrashed();
     }
 
@@ -194,10 +195,10 @@ public class Track {
      *
      * @return integer number of active cars.
      */
-    public int getNumberActiveCarsRemaining(){
+    public int getNumberActiveCarsRemaining() {
         int counter = 0;
-        for(Car car: cars){
-            if(!car.isCrashed()){
+        for (Car car : cars) {
+            if (!car.isCrashed()) {
                 counter++;
             }
         }
@@ -211,9 +212,12 @@ public class Track {
      * @return True, if the position finish line.
      */
     public boolean isFinishLine(PositionVector position) {
-        //todo test if position is valid??
+        checkPosition(position);
         Config.SpaceType spaceType = getSpaceType(position);
-        return spaceType == Config.SpaceType.FINISH_DOWN || spaceType == Config.SpaceType.FINISH_LEFT || spaceType == Config.SpaceType.FINISH_UP || spaceType == Config.SpaceType.FINISH_RIGHT;
+        return spaceType == Config.SpaceType.FINISH_DOWN
+                || spaceType == Config.SpaceType.FINISH_LEFT
+                || spaceType == Config.SpaceType.FINISH_UP
+                || spaceType == Config.SpaceType.FINISH_RIGHT;
     }
 
     /**
@@ -222,12 +226,29 @@ public class Track {
      * @param position The position to be checked if there is a wall.
      * @return True if there is a wall at given position.
      */
-    public boolean isTrackBound(PositionVector position){
-        //todo test if position is valid??
+    public boolean isTrackBound(PositionVector position) {
+        checkPosition(position);
         return getSpaceType(position).equals(Config.SpaceType.WALL);
     }
 
-    public void setStrategy(MoveStrategy moveStrategy, Car car){
+    public void setStrategy(MoveStrategy moveStrategy, Car car) {
         car.setCarMoveStrategy(moveStrategy);
+    }
+
+    public void checkCarIndex(int carIndex) {
+        // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
+        if (carIndex > cars.size()-1 || carIndex < 0) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void checkPosition(PositionVector position) {
+        // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
+        if(position.getX() > grid.length-1 || position.getX() < 0){
+            throw new IllegalArgumentException();
+        }
+        if(position.getY() > grid[0].length-1 || position.getY() < 0) {
+            throw new IllegalArgumentException();
+        }
     }
 }
