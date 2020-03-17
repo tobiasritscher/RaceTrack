@@ -78,6 +78,7 @@ public class Start {
             Car currentCar = track.getCar(game.getCurrentCarIndex());
             io.print(currentCar.getName() + ": ");
             game.doCarTurn(currentCar.getCarMoveStrategy().nextMove());
+            io.refresh(track);
         } while (Game.NO_WINNER == game.getWinner());
 
 }
