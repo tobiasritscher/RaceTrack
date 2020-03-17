@@ -102,7 +102,7 @@ public class Track {
         //todo if x and y are not on the list??
         int x = position.getX();
         int y = position.getY();
-        return grid[x][y];
+        return grid[y][x];
     }
 
     public List<Car> getCars() {
@@ -120,13 +120,15 @@ public class Track {
      * @param position Position to be tested.
      * @return True, if some car at given position.
      */
-    public boolean someCarIsHere(PositionVector position){
+    public boolean someCarIsHere(PositionVector position, int currecntCar){
         //todo test
         boolean isCarHere = false;
         for(Car car: cars){
-            if (car.getCarPosition().equals(position)) {
-                isCarHere = true;
-                break;
+            if (!car.equals(cars.get(currecntCar))) {
+                if (car.getCarPosition().equals(position)) {
+                    isCarHere = true;
+                    break;
+                }
             }
         }
         return isCarHere;
