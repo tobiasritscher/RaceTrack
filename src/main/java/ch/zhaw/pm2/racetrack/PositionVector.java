@@ -3,80 +3,12 @@ package ch.zhaw.pm2.racetrack;
 /**
  * Holds a position (vector to x,y-position of the car on the track grid)
  * or a velocity vector (x,y-components of the velocity vector of a car).
- *
+ * <p>
  * Created by mach 21.01.2020
  */
 public final class PositionVector implements Cloneable {
     private int x; // horizontal component (position / velocity)
     private int y; // vertical component (position / velocity)
-
-    /**
-     * Enum representing a direction on the track grid.
-     * Also representing the possible acceleration values.
-     */
-    public enum Direction {
-        DOWN_LEFT(new PositionVector(-1, 1)),
-        DOWN(new PositionVector(0, 1)),
-        DOWN_RIGHT(new PositionVector(1, 1)),
-        LEFT(new PositionVector(-1, 0)),
-        NONE(new PositionVector(0, 0)),
-        RIGHT(new PositionVector(1, 0)),
-        UP_LEFT(new PositionVector(-1, -1)),
-        UP(new PositionVector(0, -1)),
-        UP_RIGHT(new PositionVector(1, -1));
-
-        public final PositionVector vector;
-        Direction(final PositionVector v) {
-            vector = v;
-        }
-    }
-
-    /**
-     * Adds two PositionVectors (e.g. car position and velocity vector or two velocity vectors).
-     * @param vectorA A position or velocity vector
-     * @param vectorB A position or velocity vector
-     * @return A new PositionVector holding the result of the addition. If both
-     * arguments are positions (not velocity), the result is mathematically
-     * correct but meaningless.
-     */
-    public static PositionVector add(final PositionVector vectorA, final PositionVector vectorB) {
-        return new PositionVector(vectorA.getX() + vectorB.getX(), vectorA.getY() + vectorB.getY());
-    }
-
-    /**
-     * Subtracts two PositionVectors (e.g. car position and velocity vector or two velocity vectors).
-     * @param vectorA A position or velocity vector
-     * @param vectorB A position or velocity vector
-     * @return A new PositionVector holding the result of the addition. If both
-     * arguments are positions (not velocity), the result is mathematically
-     * correct but meaningless.
-     */
-    public static PositionVector subtract(final PositionVector vectorA, final PositionVector vectorB) {
-        return new PositionVector(vectorA.getX() - vectorB.getX(), vectorA.getY() - vectorB.getY());
-    }
-
-    /**
-     * Calculates the scalar product (Skalarprodukt) of two 2D vectors. The scalar product
-     * multiplies the lengths of the parallel components of the vectors.
-     * @param vectorA A position or velocity vector
-     * @param vectorB A position or velocity vector
-     * @return The scalar product (vectorA * vectorB). Since vectorA and
-     * vectorB are PositionVectors, which hold only integer coordinates,
-     * the resulting scalar product is an integer.
-     */
-    public static int scalarProduct(final PositionVector vectorA, final PositionVector vectorB) {
-        return (vectorA.getY() * vectorB.getY()) + (vectorA.getX() * vectorB.getX());
-    }
-
-    /**
-     * Calculates the length of given vector using pythagoras formula.
-     * @param vector A vector.
-     * @return The length of vector.
-     */
-    public static double vectorLength(PositionVector vector){
-        final int TWO =2;
-        return Math.sqrt(Math.pow(vector.getX(),TWO) + Math.pow(vector.getY(),TWO));
-    }
 
     public PositionVector(final int x, final int y) {
         this.y = y;
@@ -91,6 +23,75 @@ public final class PositionVector implements Cloneable {
     public PositionVector() {
         x = 0;
         y = 0;
+    }
+
+    /**
+     * Adds two PositionVectors (e.g. car position and velocity vector or two velocity vectors).
+     *
+     * @param vectorA A position or velocity vector
+     * @param vectorB A position or velocity vector
+     * @return A new PositionVector holding the result of the addition. If both
+     * arguments are positions (not velocity), the result is mathematically
+     * correct but meaningless.
+     */
+    public static PositionVector add(final PositionVector vectorA, final PositionVector vectorB) {
+        return new PositionVector(vectorA.getX() + vectorB.getX(), vectorA.getY() + vectorB.getY());
+    }
+
+    /**
+     * Subtracts two PositionVectors (e.g. car position and velocity vector or two velocity vectors).
+     *
+     * @param vectorA A position or velocity vector
+     * @param vectorB A position or velocity vector
+     * @return A new PositionVector holding the result of the addition. If both
+     * arguments are positions (not velocity), the result is mathematically
+     * correct but meaningless.
+     */
+    public static PositionVector subtract(final PositionVector vectorA, final PositionVector vectorB) {
+        return new PositionVector(vectorA.getX() - vectorB.getX(), vectorA.getY() - vectorB.getY());
+    }
+
+    /**
+     * Calculates the scalar product (Skalarprodukt) of two 2D vectors. The scalar product
+     * multiplies the lengths of the parallel components of the vectors.
+     *
+     * @param vectorA A position or velocity vector
+     * @param vectorB A position or velocity vector
+     * @return The scalar product (vectorA * vectorB). Since vectorA and
+     * vectorB are PositionVectors, which hold only integer coordinates,
+     * the resulting scalar product is an integer.
+     */
+    public static int scalarProduct(final PositionVector vectorA, final PositionVector vectorB) {
+        return (vectorA.getY() * vectorB.getY()) + (vectorA.getX() * vectorB.getX());
+    }
+
+    /**
+     * Calculates the length of given vector using pythagoras formula.
+     *
+     * @param vector A position or velocity vector.
+     * @return The length of vector.
+     */
+    public static double vectorLength(final PositionVector vector) {
+        final int TWO = 2;
+        return Math.sqrt(Math.pow(vector.getX(), TWO) + Math.pow(vector.getY(), TWO));
+    }
+
+    /**
+     * Calculates the angel between given vectors.
+     * Look for reference: https://en.wikipedia.org/wiki/Dot_product
+     *
+     * @param vectorA A position or velocity vector, different from zero.
+     * @param vectorB A position or velocity vector, different from zero.
+     * @return a angle in radians between ....
+     * @throws IllegalArgumentException if either vector has length zero.
+     */
+    public static double calculateAngle(final PositionVector vectorA, final PositionVector vectorB) {
+        double lengthVectorA = vectorLength(vectorA);
+        double lengthVectorB = vectorLength(vectorB);
+        if (lengthVectorA == 0 || lengthVectorB == 0) {
+            throw new IllegalArgumentException("Either vector must be non-zero vector.");
+        }
+        return Math.acos((double) scalarProduct(vectorA, vectorB) / (lengthVectorA * lengthVectorB));
     }
 
     public int getX() {
@@ -109,7 +110,6 @@ public final class PositionVector implements Cloneable {
         this.y = y;
     }
 
-
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof PositionVector)) throw new ClassCastException();
@@ -119,6 +119,28 @@ public final class PositionVector implements Cloneable {
 
     @Override
     public String toString() {
-        return  "(X:" + x + ", Y:" + y + ")";
+        return "(X:" + x + ", Y:" + y + ")";
+    }
+
+    /**
+     * Enum representing a direction on the track grid.
+     * Also representing the possible acceleration values.
+     */
+    public enum Direction {
+        DOWN_LEFT(new PositionVector(-1, 1)),
+        DOWN(new PositionVector(0, 1)),
+        DOWN_RIGHT(new PositionVector(1, 1)),
+        LEFT(new PositionVector(-1, 0)),
+        NONE(new PositionVector(0, 0)),
+        RIGHT(new PositionVector(1, 0)),
+        UP_LEFT(new PositionVector(-1, -1)),
+        UP(new PositionVector(0, -1)),
+        UP_RIGHT(new PositionVector(1, -1));
+
+        public final PositionVector vector;
+
+        Direction(final PositionVector v) {
+            vector = v;
+        }
     }
 }

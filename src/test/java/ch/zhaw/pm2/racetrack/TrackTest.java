@@ -45,8 +45,9 @@ public class TrackTest {
         testTrack = initializeTrack("testtracks/track_fill_test.txt");
         PositionVector testPositionPositive = new PositionVector(1,1);
         PositionVector testPositionNegative = new PositionVector(0,0);
-        Assertions.assertTrue(testTrack.isSomeOtherCarHere(testPositionPositive));
-        Assertions.assertFalse(testTrack.isSomeOtherCarHere(testPositionNegative));
+        //todo fix
+        Assertions.assertTrue(testTrack.isSomeOtherCarHere(0,testPositionPositive));
+        Assertions.assertFalse(testTrack.isSomeOtherCarHere(0,testPositionNegative));
     }
 
     @Test
