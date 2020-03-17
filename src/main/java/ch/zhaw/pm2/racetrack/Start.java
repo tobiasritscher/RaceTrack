@@ -26,7 +26,7 @@ public class Start {
         setUpGame();
         strategies(); //set strategies for each player
         game = new Game(track);
-        io.refresh(file);
+        io.refresh(track);
         gamingTime();
     }
 

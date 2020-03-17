@@ -6,6 +6,7 @@ import org.beryx.textio.TextTerminal;
 import org.beryx.textio.swing.SwingTextTerminal;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class IO {
 
     public void print(String output){
         textTerminal.print(output);
+    }
+
+    public void println(){
+        print("\n");
     }
 
     public int intInputReader(int min, int max, String output) {
@@ -41,15 +46,23 @@ public class IO {
         return textIO.newEnumInputReader(Config.StrategyType.class).read(output);
     }
 
-    public void printGrid(File file){
-       // try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                print(line + "\n");
+    public void printGrid(Track track){
+        var grid = track.getGrid();
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[i].length; ++j) {
+                if (grid[i][j].equals(Config.SpaceType.ANY_CAR)){
+                    for (Car car: track.getCars()){
+                        if (car.getCarPosition().getX() == i && car.getCarPosition().getY() == j) {
+                            print(String.valueOf(car.getName()));
+                        } else {
+                            print("Error");
+                        }
+                    }
+                } else {
+                    print(grid[i][j].toString());
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            println();
         }
     }
 
@@ -99,9 +112,9 @@ public class IO {
      * It does so by jumping back to a "blank screen" that has been set in the beginning
      * of the game and prints an instance of the gameboard.
      */
-    public void refresh(File file) {
+    public void refresh(Track track) {
         resetBookmark("BLANK_SCREEN");
-        printGrid(file);
+        printGrid(track);
     }
 
 }

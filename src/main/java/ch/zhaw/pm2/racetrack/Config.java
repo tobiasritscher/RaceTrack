@@ -31,6 +31,11 @@ public class Config {
         SpaceType(final char c) {
             value = c;
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 
     public File getTrackDirectory() {

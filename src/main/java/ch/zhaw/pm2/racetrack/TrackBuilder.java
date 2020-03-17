@@ -4,6 +4,7 @@ import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -33,7 +34,7 @@ public class TrackBuilder {
      */
 
     public Config.SpaceType[][] buildTrack(File file) throws IOException, InvalidTrackFormatException {
-        Scanner scanner = new Scanner(file,"UTF-8");
+        Scanner scanner = new Scanner(file, StandardCharsets.UTF_8);
 
         // Creating test track ArrayList for width & height tests
         ArrayList<String> trackCheckArray = new ArrayList<>();
