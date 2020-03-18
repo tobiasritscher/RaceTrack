@@ -235,14 +235,12 @@ public class Track {
     }
 
     public void checkCarIndex(int carIndex) {
-        // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
         if (carIndex > cars.size() - 1 || carIndex < 0) {
             throw new IllegalArgumentException();
         }
     }
 
     public void checkPosition(PositionVector position) {
-        // TODO IF SOMETHING GOES WRONG, COMMENT OUT THIS METHOD BODY
         if (position.getX() > grid[0].length - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();
         }
@@ -262,7 +260,6 @@ public class Track {
                 charGrid[y][x] = grid[y][x].getValue();
             }
         }
-        //todo if a car is crashed how to know if it is? new symbol?? if (car.isCrashed){use other symbol}
         //map cars
         for (Car car : cars) {
             int x = car.getCarPosition().getX();
@@ -278,7 +275,6 @@ public class Track {
             String charGridString = new String(chars);
             gridString.append(charGridString).append("\n");
         }
-        //todo if "wall" > therefore "crashed", do we need new symbol??? or
         return gridString.toString();
     }
 }
