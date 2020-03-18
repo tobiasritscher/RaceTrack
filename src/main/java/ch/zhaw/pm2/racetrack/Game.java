@@ -124,7 +124,7 @@ public class Game {
             raceTrack.accelerateCar(activeCarIndex, acceleration);
 
             //calculate path between actual and end positions
-            List<PositionVector> path = calculatePath(raceTrack.getCarPosition(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
+            List<PositionVector> path = calculatePath(getCarPosition(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
 
             //crashes or passes??
             Iterator<PositionVector> iterator = path.iterator();
@@ -139,8 +139,8 @@ public class Game {
                         switchToNextActiveCar();
                         winnerIndex = activeCarIndex;
                     }
-                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)))
-                        || (!raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)))) {
+                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)))
+                        || (!raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)))) {
                     //get the previous point get the next point?
                     adjustPenaltyPointsForActiveCar(pathTransitionPoint);
                     //TODO
