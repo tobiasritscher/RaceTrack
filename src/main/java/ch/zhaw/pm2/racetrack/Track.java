@@ -58,7 +58,7 @@ import java.util.Map;
  *
  * <p>The Track can return a String representing the current state of the race (including car positons)</p>
  */
-public class Track {
+public class Track implements TrackInterface {
     private List<Car> cars = new ArrayList<>();
     //(Y,X)
     private Config.SpaceType[][] grid;
@@ -83,26 +83,32 @@ public class Track {
         yDimension = builder.getTrackHeight();
     }
 
+    @Override
     public Config.SpaceType[][] getGrid() {
         return grid;
     }
 
+    @Override
     public int getCarCount() {
         return cars.size();
     }
 
+    @Override
     public char getCarId(int index) {
         return cars.get(index).getName();
     }
 
+    @Override
     public PositionVector getCarPosition(int index) {
         return cars.get(index).getCarPosition();
     }
 
+    @Override
     public PositionVector getCarVelocity(int index) {
         return cars.get(index).getVelocity();
     }
 
+    @Override
     public Config.SpaceType getSpaceType(PositionVector position) {
         checkPosition(position);
         int x = position.getX();
@@ -110,10 +116,12 @@ public class Track {
         return grid[y][x];
     }
 
+    @Override
     public List<Car> getCars() {
         return cars;
     }
 
+    @Override
     public Car getCar(int carIndex) {
         checkCarIndex(carIndex);
         return cars.get(carIndex);
@@ -125,6 +133,7 @@ public class Track {
      * @param position The position to be tested.
      * @return True, if car with different index is at given position.
      */
+    @Override
     public boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) {
         //todo test
         boolean isOtherCarHere = false;
@@ -143,6 +152,7 @@ public class Track {
      * @param carIndex     The index of a car.
      * @param acceleration Acceleration vector of the car.
      */
+    @Override
     public void accelerateCar(int carIndex, PositionVector.Direction acceleration) {
         checkCarIndex(carIndex);
         cars.get(carIndex).accelerate(acceleration);
@@ -154,6 +164,7 @@ public class Track {
      * @param carIndex The zero-based car index number.
      * @return Car next position.
      */
+    @Override
     public PositionVector getCarNextPosition(int carIndex) {
         checkCarIndex(carIndex);
         return cars.get(carIndex).nextPosition();
@@ -166,6 +177,7 @@ public class Track {
      * @param carIndex      The zero-based car index number.
      * @param crashLocation A location of the crash.
      */
+    @Override
     public void crashCar(int carIndex, PositionVector crashLocation) {
         checkCarIndex(carIndex);
         checkPosition(crashLocation);
@@ -177,6 +189,7 @@ public class Track {
      *
      * @param carIndex The zero-based car index number
      */
+    @Override
     public void moveCar(int carIndex) {
         checkCarIndex(carIndex);
         cars.get(carIndex).move();
@@ -188,6 +201,7 @@ public class Track {
      * @param carIndex The zero-based car index number.
      * @return True, if the car is crashed
      */
+    @Override
     public boolean isCarCrashed(int carIndex) {
         checkCarIndex(carIndex);
         return cars.get(carIndex).isCrashed();
@@ -199,6 +213,7 @@ public class Track {
      *
      * @return integer number of active cars.
      */
+    @Override
     public int getNumberActiveCarsRemaining() {
         int counter = 0;
         for (Car car : cars) {
@@ -215,6 +230,7 @@ public class Track {
      * @param position
      * @return True, if the position finish line.
      */
+    @Override
     public boolean isOnFinishLine(PositionVector position) {
         checkPosition(position);
         Config.SpaceType spaceType = getSpaceType(position);
@@ -230,21 +246,25 @@ public class Track {
      * @param position The position to be checked if there is a wall.
      * @return True if there is a wall at given position.
      */
+    @Override
     public boolean isTrackBound(PositionVector position) {
         checkPosition(position);
         return getSpaceType(position).equals(Config.SpaceType.WALL);
     }
 
+    @Override
     public void setStrategy(MoveStrategy moveStrategy, Car car) {
         car.setCarMoveStrategy(moveStrategy);
     }
 
+    @Override
     public void checkCarIndex(int carIndex) {
         if (carIndex > cars.size() - 1 || carIndex < 0) {
             throw new IllegalArgumentException();
         }
     }
 
+    @Override
     public void checkPosition(PositionVector position) {
         if (position.getX() > grid[0].length - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();
@@ -254,10 +274,12 @@ public class Track {
         }
     }
 
+    @Override
     public int getyDimension() {
         return yDimension;
     }
 
+    @Override
     public int getxDimension() {
         return xDimension;
     }
