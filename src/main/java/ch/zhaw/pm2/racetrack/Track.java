@@ -287,11 +287,10 @@ public class Track implements TrackInterface {
     @Override
     public String toString() {
         StringBuilder gridString = new StringBuilder();
-        //todo width and high
         char[][] charGrid = new char[yDimension][xDimension];
         //build track
         for (int y = 0; y < yDimension; y++) {
-            for (int x = 0; x < grid[y].length; x++) {
+            for (int x = 0; x < xDimension; x++) {
                 charGrid[y][x] = grid[y][x].getValue();
             }
         }
