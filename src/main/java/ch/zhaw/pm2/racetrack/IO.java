@@ -51,10 +51,10 @@ public class IO {
     /**
      * This function prints a prompt in the terminal window that asks the user to press enter
      */
-    public void promptEnter() {
+    public void promptEnter(String output) {
         textIO.newStringInputReader()
                 .withMinLength(0)
-                .read("\nPress enter to continue");
+                .read("\n" + output);
     }
 
     /**
