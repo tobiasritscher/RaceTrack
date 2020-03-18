@@ -184,7 +184,7 @@ public class Game {
             penaltyPoints.put(activeCarId, INITIAL_NUMBER_OF_PENALTY_POINTS);
         }
         //todo check if finish position is finish position
-        if (isValidDirection(raceTrack.getCarVelocity(activeCarIndex), getFinishDirectionUnitVector(finishPosition))) {
+        if (isValidDirection(getCarVelocity(activeCarIndex), getFinishDirectionUnitVector(finishPosition))) {
             penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) + 1);
         } else {
             penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) - 1);
