@@ -17,14 +17,6 @@ public class IO {
         textTerminal.print(output);
     }
 
-    public void printChar(char output) {
-        textTerminal.print(String.valueOf(output));
-    }
-
-    public void println(){
-        printChar('\n');
-    }
-
     public int intInputReader(int min, int max, String output) {
         return textIO.newIntInputReader().withMinVal(min).withMaxVal(max).read(output);
     }
