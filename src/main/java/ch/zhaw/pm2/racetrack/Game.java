@@ -63,7 +63,7 @@ public class Game {
      * @return A PositionVector containing the car's current position
      */
     public PositionVector getCarPosition(int carIndex) {
-        return raceTrack.getCarPosition(activeCarIndex);
+        return raceTrack.getCarPosition(carIndex);
     }
 
     /**
@@ -73,7 +73,7 @@ public class Game {
      * @return A PositionVector containing the car's current velocity
      */
     public PositionVector getCarVelocity(int carIndex) {
-        return raceTrack.getCarVelocity(activeCarIndex);
+        return raceTrack.getCarVelocity(carIndex);
     }
 
     /**
