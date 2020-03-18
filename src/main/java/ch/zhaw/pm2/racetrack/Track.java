@@ -252,7 +252,7 @@ public class Track {
 
     @Override
     public String toString() {
-        String gridString = "";
+        StringBuilder gridString = new StringBuilder();
         //todo width and high
         char[][] charGrid = new char[grid.length][grid[0].length];
         //build track
@@ -269,11 +269,11 @@ public class Track {
             charGrid[y][x] = car.getName();
         }
         //build string
-        for (int y = 0; y < charGrid.length; y++) {
-            String charGridString = new String(charGrid[y]);
-            gridString += charGridString + "\n";
+        for (char[] chars : charGrid) {
+            String charGridString = new String(chars);
+            gridString.append(charGridString).append("\n");
         }
         //todo if "wall" > therefore "crashed", do we need new symbol??? or
-        return gridString;
+        return gridString.toString();
     }
 }
