@@ -57,6 +57,14 @@ public class TrackBuilderTest {
     }
 
     @Test
+    public void notEnoughCarsTest() throws InvalidTrackFormatException {
+        File testFile = new File("testtracks/not_enough_cars.txt");
+        Assertions.assertThrows(InvalidTrackFormatException.class, () -> {
+            trackBuilder.buildTrack(testFile);
+        });
+    }
+
+    @Test
     public void amountOfCarsTest() throws InvalidTrackFormatException, IOException {
         File testFile = new File("testtracks/height_and_width_test.txt");
         trackBuilder.buildTrack(testFile);

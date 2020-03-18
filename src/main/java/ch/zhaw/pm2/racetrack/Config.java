@@ -7,16 +7,16 @@ public class Config {
     public static final int MAX_CARS = 9;
 
     // Directory containing the track files
-    private File trackDirectory = new File("tracks");
+    private static File trackDirectory = new File("tracks");
     // Directory containing the strategy files
-    private File strategyDirectory = new File("strategies");
+    private static File strategyDirectory = new File("strategies");
 
-    public File getTrackDirectory() {
+    public static File getTrackDirectory() {
         return trackDirectory;
     }
 
-    public void setTrackDirectory(File trackDirectory) {
-        this.trackDirectory = trackDirectory;
+    public static void setTrackDirectory(File trackDirectory) {
+        Config.trackDirectory = trackDirectory;
     }
 
     public File getStrategyDirectory() {
