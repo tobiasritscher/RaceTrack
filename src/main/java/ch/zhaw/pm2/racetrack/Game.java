@@ -151,14 +151,16 @@ public class Game {
             }
 
             //move to the wished destination if not crashed
-            if (raceTrack.isCarCrashed(activeCarIndex) && oneCarRemaining()) {
-                switchToNextActiveCar();
-                winnerIndex = getCurrentCarIndex();
-            } else if (raceTrack.isCarCrashed(activeCarIndex)) {
-                switchToNextActiveCar();
-            } else {
-                raceTrack.moveCar(activeCarIndex);
-                switchToNextActiveCar();
+            if (getWinner() == NO_WINNER) {
+                if (raceTrack.isCarCrashed(activeCarIndex) && oneCarRemaining()) {
+                    switchToNextActiveCar();
+                    winnerIndex = getCurrentCarIndex();
+                } else if (raceTrack.isCarCrashed(activeCarIndex)) {
+                    switchToNextActiveCar();
+                } else {
+                    raceTrack.moveCar(activeCarIndex);
+                    switchToNextActiveCar();
+                }
             }
         }
     }
