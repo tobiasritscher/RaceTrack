@@ -8,6 +8,8 @@ public class Config {
 
     // Directory containing the track files
     private File trackDirectory = new File("tracks");
+    // Directory containing the strategy files
+    private File strategyDirectory = new File("strategies");
 
     public File getTrackDirectory() {
         return trackDirectory;
@@ -15,6 +17,14 @@ public class Config {
 
     public void setTrackDirectory(File trackDirectory) {
         this.trackDirectory = trackDirectory;
+    }
+
+    public File getStrategyDirectory() {
+        return strategyDirectory;
+    }
+
+    public void setStrategyDirectory(File strategyDirectoryDirectory) {
+        this.strategyDirectory = strategyDirectory;
     }
 
     public enum StrategyType {
