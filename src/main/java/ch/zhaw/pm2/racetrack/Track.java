@@ -95,7 +95,7 @@ public class Track implements TrackInterface {
 
     @Override
     public char getCarId(int index) {
-        return cars.get(index).getName();
+        return cars.get(index).getId();
     }
 
     @Override
@@ -301,7 +301,7 @@ public class Track implements TrackInterface {
             if (car.isCrashed()) {
                 charGrid[y][x] = 'x';
             } else {
-                charGrid[y][x] = car.getName();
+                charGrid[y][x] = car.getId();
             }
         }
         //build string

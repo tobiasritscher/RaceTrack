@@ -37,7 +37,7 @@ public class TrackTest {
     @Test
     public void getCarTest() throws IOException, InvalidTrackFormatException {
         testTrack = initializeTrack("testtracks/track_fill_test.txt");
-        Assertions.assertEquals('a', testTrack.getCar(0).getName());
+        Assertions.assertEquals('a', testTrack.getCar(0).getId());
     }
 
     @Test

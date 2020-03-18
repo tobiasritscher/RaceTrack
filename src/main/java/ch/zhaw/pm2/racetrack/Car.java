@@ -13,18 +13,18 @@ import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
 public class Car {
     private PositionVector position;
     private PositionVector velocity = new PositionVector(0, 0);
-    private char name;
+    private char id;
     private boolean isCrashed = false;
     private MoveStrategy carMoveStrategy;
 
     /**
      * creates a car object with the needed parameters
      * @param position takes the initial position from the map
-     * @param name takes its name (char) from the map
+     * @param id takes its name (char) from the map
      */
-    public Car(PositionVector position, char name) {
+    public Car(PositionVector position, char id) {
         this.position = position;
-        this.name = name;
+        this.id = id;
     }
 
     public MoveStrategy getCarMoveStrategy() {
@@ -35,12 +35,12 @@ public class Car {
         this.carMoveStrategy = carMoveStrategy;
     }
 
-    public char getName() {
-        return name;
+    public char getId() {
+        return id;
     }
 
-    public void setName(char name) {
-        this.name = name;
+    public void setId(char id) {
+        this.id = id;
     }
 
     public PositionVector getCarPosition() {

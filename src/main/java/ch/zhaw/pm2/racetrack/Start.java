@@ -62,7 +62,7 @@ public class Start {
     public static void strategies() {
         for (Car car : track.getCars()) {
             StrategyType strategy = io.strategiesInputReader(
-                    "\n" + car.getName() + " what do you want your strategy to be?");
+                    "\n" + car.getId() + " what do you want your strategy to be?");
 
             switch (strategy) {
                 case DO_NOT_MOVE:
@@ -86,7 +86,7 @@ public class Start {
     public static void gamingTime() {
         do {
             Car currentCar = track.getCar(game.getCurrentCarIndex());
-            io.print(currentCar.getName() + ": ");
+            io.print(currentCar.getId() + ": ");
             game.doCarTurn(currentCar.getCarMoveStrategy().nextMove());
             io.refresh(track);
         } while (Game.NO_WINNER == game.getWinner());
