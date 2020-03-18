@@ -22,16 +22,16 @@ public class TrackTest {
         testTrack = initializeTrack("testtracks/track_fill_test.txt");
 
         Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(0,0)));
-        Assertions.assertEquals(Config.SpaceType.FINISH_UP, testTrack.getSpaceType(new PositionVector(0,1)));
-        Assertions.assertEquals(Config.SpaceType.FINISH_LEFT, testTrack.getSpaceType(new PositionVector(0,2)));
-        Assertions.assertEquals(Config.SpaceType.FINISH_DOWN, testTrack.getSpaceType(new PositionVector(0,3)));
-        Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(0,4)));
+        Assertions.assertEquals(Config.SpaceType.FINISH_UP, testTrack.getSpaceType(new PositionVector(1,0)));
+        Assertions.assertEquals(Config.SpaceType.FINISH_LEFT, testTrack.getSpaceType(new PositionVector(2,0)));
+        Assertions.assertEquals(Config.SpaceType.FINISH_DOWN, testTrack.getSpaceType(new PositionVector(3,0)));
+        Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(4,0)));
 
-        Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(1,0)));
+        Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(0,1)));
         Assertions.assertEquals(Config.SpaceType.ANY_CAR, testTrack.getSpaceType(new PositionVector(1,1)));
-        Assertions.assertEquals(Config.SpaceType.FINISH_RIGHT, testTrack.getSpaceType(new PositionVector(1,2)));
-        Assertions.assertEquals(Config.SpaceType.ANY_CAR, testTrack.getSpaceType(new PositionVector(1,3)));
-        Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(1,4)));
+        Assertions.assertEquals(Config.SpaceType.FINISH_RIGHT, testTrack.getSpaceType(new PositionVector(2,1)));
+        Assertions.assertEquals(Config.SpaceType.ANY_CAR, testTrack.getSpaceType(new PositionVector(3,1)));
+        Assertions.assertEquals(Config.SpaceType.WALL, testTrack.getSpaceType(new PositionVector(4,1)));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TrackTest {
 
     @Test
     public void getCarNextPositionTest(){
-
+        // TODO implement
     }
 
     @Test
@@ -90,8 +90,8 @@ public class TrackTest {
     public void checkPositionTest() throws IOException, InvalidTrackFormatException {
         testTrack = initializeTrack("testtracks/track_fill_test.txt");
         PositionVector validPosition = new PositionVector(0,0);
-        PositionVector invalidXPosition = new PositionVector(2,0);
-        PositionVector invalidYPosition = new PositionVector(0,6);
+        PositionVector invalidXPosition = new PositionVector(0,2);
+        PositionVector invalidYPosition = new PositionVector(6,0);
         testTrack.checkPosition(validPosition);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             testTrack.checkPosition(invalidXPosition);

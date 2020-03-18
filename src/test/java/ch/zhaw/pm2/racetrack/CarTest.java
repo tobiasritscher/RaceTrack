@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class CarTest {
     private Track testTrack;
+    private MoveStrategy testStrategy = new MoveListStrategy();
 
     public Track initializeTrack(String trackSource) throws IOException, InvalidTrackFormatException {
         Track testTrack = new Track(new File(trackSource));
@@ -25,7 +26,6 @@ public class CarTest {
 
         testTrack = initializeTrack("tracks/quarter-mile.txt");
 
-        MoveStrategy testStrategy = new MoveListStrategy();
         testTrack.getCar(0).setCarMoveStrategy(testStrategy);
         testTrack.getCar(0).accelerate(PositionVector.Direction.LEFT);
         testTrack.getCar(0).move();
@@ -40,6 +40,19 @@ public class CarTest {
 
     @Test
     public void crashTest() throws IOException, InvalidTrackFormatException {
-        // TODO implement
+        // TODO doesnt work yet :C
+
+        testTrack = initializeTrack("tracks/quarter-mile.txt");
+
+        testTrack.getCar(0).setCarMoveStrategy(testStrategy);
+        testTrack.getCar(0).accelerate(PositionVector.Direction.DOWN);
+        testTrack.getCar(0).move();
+
+        testTrack.getCar(1).setCarMoveStrategy(testStrategy);
+        testTrack.getCar(1).accelerate(PositionVector.Direction.UP);
+        testTrack.getCar(1).move();
+
+        Assertions.assertTrue(testTrack.getCar(0).isCrashed());
+        Assertions.assertFalse(testTrack.getCar(1).isCrashed());
     }
 }
