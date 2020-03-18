@@ -62,6 +62,9 @@ public class Track {
     private List<Car> cars = new ArrayList<>();
     //(Y,X)
     private Config.SpaceType[][] grid;
+    private final int xDimension;
+    private final int yDimension;
+
 
     /**
      * Initialize a Track from the given track file.
@@ -76,6 +79,8 @@ public class Track {
         for (Map.Entry<Character, PositionVector> entry : builder.getCarMap().entrySet()) {
             cars.add(new Car(entry.getValue(), entry.getKey()));
         }
+        xDimension = builder.getTrackWidth();
+        yDimension = builder.getTrackHeight();
     }
 
     public Config.SpaceType[][] getGrid() {
@@ -247,6 +252,14 @@ public class Track {
         if (position.getY() > grid.length - 1 || position.getY() < 0) {
             throw new IllegalArgumentException();
         }
+    }
+
+    public int getyDimension() {
+        return yDimension;
+    }
+
+    public int getxDimension() {
+        return xDimension;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class TrackBuilder {
         boolean removeAllFollowing = false;
         while (scanner.hasNextLine() && !removeAllFollowing) {
             String nextLine = scanner.nextLine();
-            String compareString = nextLine.replaceAll("\\s+","");
+            String compareString = nextLine.replaceAll("\\s+", "");
             if (!compareString.equals("")) {
                 trackCheckArray.add(nextLine);
             } else {
@@ -115,9 +115,15 @@ public class TrackBuilder {
         return trackArray;
     }
 
-    public int getTrackWidth() { return trackWidth; }
+    public int getTrackWidth() {
+        return trackWidth;
+    }
 
-    public int getTrackHeight() { return trackHeight; }
+    public int getTrackHeight() {
+        return trackHeight;
+    }
 
-    public Map<Character, PositionVector> getCarMap() { return carMap; }
+    public Map<Character, PositionVector> getCarMap() {
+        return carMap;
+    }
 }
