@@ -80,7 +80,7 @@ public class Start {
             game.doCarTurn(currentCar.getCarMoveStrategy().nextMove());
             io.refresh(track);
         } while (Game.NO_WINNER == game.getWinner());
-        io.print(game.getCarId(game.getCurrentCarIndex()) + " is the winner");
+        io.print(game.getWinner() + " is the winner");
         io.print("\nHit 'Enter' to quit the game");
         io.promptEnter();
         io.closeTerminal();
