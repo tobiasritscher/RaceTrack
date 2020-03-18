@@ -126,6 +126,7 @@ public class Track {
         for (Car car : cars) {
             if (!car.equals(cars.get(currentCarIndex)) && car.getCarPosition().equals(position)) {
                 isOtherCarHere = true;
+                break;
             }
         }
         return isOtherCarHere;
@@ -266,7 +267,11 @@ public class Track {
         for (Car car : cars) {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
-            charGrid[y][x] = car.getName();
+            if (car.isCrashed()) {
+                charGrid[y][x] = 'x';
+            } else {
+                charGrid[y][x] = car.getName();
+            }
         }
         //build string
         for (char[] chars : charGrid) {
