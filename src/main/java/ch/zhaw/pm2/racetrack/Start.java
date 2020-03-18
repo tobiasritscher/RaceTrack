@@ -24,7 +24,7 @@ public class Start {
     public Start() {
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         io.setBookmarkBlankScreen();
         setUpGame();
         strategies(); //set strategies for each player
@@ -37,7 +37,7 @@ public class Start {
      * loads the chosen track from the players
      */
         private static void setUpGame() {
-        file = new File("tracks");
+        file = Config.getTrackDirectory();
         String[] tracks = Objects.requireNonNull(file.list());
         Config.setTrackDirectory(file);
 
@@ -59,7 +59,7 @@ public class Start {
     /**
      * lets the players decide on their strategies for the game
      */
-    public static void strategies() {
+    public static void strategies() throws IOException {
         for (Car car : track.getCars()) {
             StrategyType strategy = io.strategiesInputReader(
                     "\n" + car.getId() + " what do you want your strategy to be?");
@@ -72,7 +72,7 @@ public class Start {
                     track.setStrategy(new UserStrategy(), car);
                     break;
                 case MOVE_LIST:
-                    track.setStrategy(new MoveListStrategy(), car);
+                    track.setStrategy(new MoveListStrategy(Config.getStrategyDirectory()), car);
                     break;
                 default:
                     io.print("ups, something went wrong");
