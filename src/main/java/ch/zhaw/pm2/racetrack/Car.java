@@ -17,6 +17,11 @@ public class Car {
     private boolean isCrashed = false;
     private MoveStrategy carMoveStrategy;
 
+    /**
+     * creates a car object with the needed parameters
+     * @param position takes the initial position from the map
+     * @param name takes its name (char) from the map
+     */
     public Car(PositionVector position, char name) {
         this.position = position;
         this.name = name;

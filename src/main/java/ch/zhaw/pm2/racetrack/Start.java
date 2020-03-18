@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Class starts the game with the needed setup and strategy initialization
+ */
 
 public class Start {
     static IO io = new IO();
@@ -30,7 +33,10 @@ public class Start {
         gamingTime();
     }
 
-    private static void setUpGame() {
+    /**
+     * loads the chosen track from the players
+     */
+        private static void setUpGame() {
         file = new File("tracks");
         String[] tracks = Objects.requireNonNull(file.list());
         Config.setTrackDirectory(file);
@@ -74,6 +80,9 @@ public class Start {
         }
     }
 
+    /**
+     * lets the players play the actual game until a winner gets chosen
+     */
     public static void gamingTime() {
         do {
             Car currentCar = track.getCar(game.getCurrentCarIndex());
