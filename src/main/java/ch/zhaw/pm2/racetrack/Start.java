@@ -81,7 +81,7 @@ public class Start {
             io.refresh(track);
         } while (Game.NO_WINNER == game.getWinner());
         io.print(game.getCarId(game.getCurrentCarIndex()) + " is the winner");
-        io.print("Hit 'Enter' to quit the game");
+        io.print("\nHit 'Enter' to quit the game");
         io.promptEnter();
         io.closeTerminal();
     }
