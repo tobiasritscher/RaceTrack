@@ -2,7 +2,7 @@ package ch.zhaw.pm2.racetrack;
 
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
-import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
+import ch.zhaw.pm2.racetrack.strategy.MoveListStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
 import ch.zhaw.pm2.racetrack.Config.StrategyType;
 
@@ -65,7 +65,7 @@ public class Start {
                     track.setStrategy(new UserStrategy(), car);
                     break;
                 case MOVE_LIST:
-                    track.setStrategy(new MoveListeStrategy(), car);
+                    track.setStrategy(new MoveListStrategy(), car);
                     break;
                 default:
                     io.print("ups, something went wrong");

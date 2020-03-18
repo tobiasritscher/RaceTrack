@@ -1,7 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
-import ch.zhaw.pm2.racetrack.strategy.MoveListeStrategy;
+import ch.zhaw.pm2.racetrack.strategy.MoveListStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ public class TrackTest {
 
         testTrack = initializeTrack("tracks/quarter-mile.txt");
 
-        MoveStrategy testStrategy = new MoveListeStrategy();
+        MoveStrategy testStrategy = new MoveListStrategy();
         testTrack.getCar(0).setCarMoveStrategy(testStrategy);
         testTrack.accelerateCar(0,PositionVector.Direction.LEFT);
         testTrack.getCar(0).move();

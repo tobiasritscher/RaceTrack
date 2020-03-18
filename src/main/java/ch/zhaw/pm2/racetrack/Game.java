@@ -3,7 +3,6 @@ package ch.zhaw.pm2.racetrack;
 import java.util.*;
 
 import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
-import static ch.zhaw.pm2.racetrack.PositionVector.scalarProduct;
 
 /**
  * Game controller class, performing all actions to modify the game state.
@@ -127,14 +126,15 @@ public class Game {
             while (iterator.hasNext() && !isCrashed) {
                 //todo my current location is it a element of path??? >> car crash with itself
                 PositionVector pathTransitionPoint = iterator.next();
-               if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
+                if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
                     isCrashed = true;
                     raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
                     if (oneCarRemaining()) {
                         switchToNextActiveCar();
                         winnerIndex = activeCarIndex;
                     }
-                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex))) || (!raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)))) {
+                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)))
+                        || (!raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(raceTrack.getCarPosition(activeCarIndex)))) {
                     //get the previous point get the next point?
                     adjustPenaltyPointsForActiveCar(pathTransitionPoint);
                     //TODO
@@ -202,7 +202,7 @@ public class Game {
     boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {
         //todo test
         boolean isValidDirection = false;
-        int angle = (int)PositionVector.calculateAngle(carVelocity,finishDirection);
+        int angle = (int) PositionVector.calculateAngle(carVelocity, finishDirection);
         if (angle < Math.PI / 2 && angle >= 0) {
             isValidDirection = true;
         }
