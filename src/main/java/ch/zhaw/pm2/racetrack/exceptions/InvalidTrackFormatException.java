@@ -1,7 +1,6 @@
 package ch.zhaw.pm2.racetrack.exceptions;
 
 import ch.zhaw.pm2.racetrack.Config;
-import ch.zhaw.pm2.racetrack.ErrorType;
 
 import java.io.File;
 
@@ -38,6 +37,12 @@ public class InvalidTrackFormatException extends Exception {
                 break;
             case TOO_MANY_CARS:
                 errorMessage = "Too many cars on track file. Maximum amount allowed is " +Config.MAX_CARS;
+                break;
+            case NOT_ENOUGH_CARS:
+                errorMessage = "Not enough cars on track file. Minimum amount allowed is " +Config.MIN_CARS;
+                break;
+            case DUPLICATE_CARS:
+                errorMessage = "There are duplicate cars";
                 break;
             default:
                 errorMessage = "Error not specified.";

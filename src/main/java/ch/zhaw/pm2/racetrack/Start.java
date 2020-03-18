@@ -33,6 +33,7 @@ public class Start {
     private static void setUpGame() {
         file = new File("tracks");
         String[] tracks = Objects.requireNonNull(file.list());
+        Config.setTrackDirectory(file);
 
         io.print("Welcome to Racetrack!\nSelect Track file:\n");
         for (int i = 0; i < tracks.length; ++i) {

@@ -246,10 +246,10 @@ public class Track {
     }
 
     public void checkPosition(PositionVector position) {
-        if (position.getX() > grid[0].length - 1 || position.getX() < 0) {
+        if (position.getX() > xDimension - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();
         }
-        if (position.getY() > grid.length - 1 || position.getY() < 0) {
+        if (position.getY() > yDimension - 1 || position.getY() < 0) {
             throw new IllegalArgumentException();
         }
     }
@@ -266,9 +266,9 @@ public class Track {
     public String toString() {
         StringBuilder gridString = new StringBuilder();
         //todo width and high
-        char[][] charGrid = new char[grid.length][grid[0].length];
+        char[][] charGrid = new char[yDimension][xDimension];
         //build track
-        for (int y = 0; y < grid.length; y++) {
+        for (int y = 0; y < yDimension; y++) {
             for (int x = 0; x < grid[y].length; x++) {
                 charGrid[y][x] = grid[y][x].getValue();
             }

@@ -1,5 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.exceptions.ErrorType;
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 
 import java.io.File;
@@ -100,17 +101,18 @@ public class TrackBuilder {
                         // checking if number of cars exceed the allowed amount
                         if (carMap.size() + 1 > Config.MAX_CARS) {
                             throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                        } else {
-                            // check if car character is already taken
-                            if (carMap.containsKey(fillArray[indexX].charAt(0))) {
-                                throw new InvalidTrackFormatException(file, ErrorType.TOO_MANY_CARS);
-                            } else {
-                                carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
-                            }
                         }
+                        if (carMap.containsKey(fillArray[indexX].charAt(0))) {
+                            throw new InvalidTrackFormatException(file, ErrorType.DUPLICATE_CARS);
+                        }
+                        carMap.put(fillArray[indexX].charAt(0), new PositionVector(indexX, indexY));
+
                         trackArray[indexY][indexX] = Config.SpaceType.ANY_CAR;
                 }
             }
+        }
+        if (carMap.size() < Config.MIN_CARS) {
+            throw new InvalidTrackFormatException(file, ErrorType.NOT_ENOUGH_CARS);
         }
         return trackArray;
     }
