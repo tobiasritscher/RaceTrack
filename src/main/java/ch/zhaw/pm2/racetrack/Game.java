@@ -22,7 +22,8 @@ public class Game {
     public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS;
     Map<Character, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
-    private Track raceTrack;
+    private TrackInterface raceTrack;
+    //private TrackInterface raceTrack;
     private int activeCarIndex = FIRST_TURN_CAR_INDEX;
 
     /**
@@ -31,8 +32,8 @@ public class Game {
      *
      * @param track race track
      */
-    public Game(Track track) {
-        raceTrack = track;
+    public Game(TrackInterface track) {
+        this.raceTrack = track;
     }
 
     /**

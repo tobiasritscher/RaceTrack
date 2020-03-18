@@ -309,12 +309,14 @@ public class GameTest {
     @Test
     public void doCarTurn_AccelerateCar() {
         //todo stubs??
+        TrackStub trackStub = new TrackStub();
         final int NUMBER_CARS = Config.MIN_CARS;
-        initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
-       // Car sampleCar = new Car();
-        Game sampleGame = new Game(mockedTrack);
+
+        Game sampleGame = new Game(trackStub);
 
         sampleGame.doCarTurn(PositionVector.Direction.UP);
+
+        Assertions.assertEquals(PositionVector.Direction.UP, trackStub.getAcceleration());
         // sampleGame.doCarTurn());
     }
     //@Test

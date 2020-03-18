@@ -5,6 +5,16 @@ import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
 import java.util.List;
 
 public class TrackStub implements TrackInterface {
+    private PositionVector.Direction acceleration;
+
+    public TrackStub(){
+
+    }
+
+    public PositionVector.Direction getAcceleration() {
+        return acceleration;
+    }
+
     @Override
     public Config.SpaceType[][] getGrid() {
         return new Config.SpaceType[0][];
@@ -12,7 +22,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public int getCarCount() {
-        return 0;
+        return Config.MIN_CARS;
     }
 
     @Override
@@ -22,7 +32,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public PositionVector getCarPosition(int index) {
-        return null;
+        return new PositionVector(0,0);
     }
 
     @Override
@@ -52,12 +62,12 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public void accelerateCar(int carIndex, PositionVector.Direction acceleration) {
-
+        this.acceleration = acceleration;
     }
 
     @Override
     public PositionVector getCarNextPosition(int carIndex) {
-        return null;
+        return new PositionVector(0,0);
     }
 
     @Override
