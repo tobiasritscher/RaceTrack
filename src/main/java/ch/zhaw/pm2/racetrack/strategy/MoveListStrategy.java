@@ -18,7 +18,6 @@ public class MoveListStrategy implements MoveStrategy {
     public MoveListStrategy(File file) throws IOException {
         currentLine = -1; //offset
         lines = new ArrayList<>();
-        Config.setMoveListDirectory(file);
 
         scanner = new Scanner(file, StandardCharsets.UTF_8);
         while (scanner.hasNextLine()) {
