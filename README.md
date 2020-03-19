@@ -6,7 +6,7 @@ Racetrack
 
 # Getting Started
 
-Das Projekt wurde ine Eclipse und IntelliJ getestet und funktioniert über den Terminal.
+Das Projekt wurde ine Eclipse und IntelliJ mit Gradle getestet und funktioniert über den Terminal.
 
 # Team
 
