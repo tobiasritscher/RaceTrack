@@ -29,9 +29,9 @@ This project is licensed under the ZHAW License - see [ZHAW](http://www.zhaw.ch)
 
 # Screenshot
 
-![Screenshot]()
+![Screenshot](StartScreenShot.png)
 
-![Screenshot]()
+![Screenshot](FinishScreenShot.png)
 
 # Class Diagram
 
