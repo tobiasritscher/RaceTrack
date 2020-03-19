@@ -36,7 +36,7 @@ public class Start {
     /**
      * loads the chosen track from the players
      */
-        private static void setUpGame() {
+    private static void setUpGame() {
         file = Config.getTrackDirectory();
         String[] tracks = Objects.requireNonNull(file.list());
         Config.setTrackDirectory(file);
@@ -47,7 +47,7 @@ public class Start {
         }
         //choose Track from files
         int trackChosen = io.intInputReader(1, tracks.length, "Choose your map [1-" + tracks.length + "]:") - INDEX_OFFSET;
-        file = new File("tracks/" + tracks[trackChosen]);
+        file = new File(Config.getTrackDirectory() + "/" + tracks[trackChosen]);
         try {
             track = new Track(file);
         } catch (IOException | InvalidTrackFormatException e) {
@@ -72,12 +72,27 @@ public class Start {
                     track.setStrategy(new UserStrategy(), car);
                     break;
                 case MOVE_LIST:
-                    track.setStrategy(new MoveListStrategy(new File("strategies/quarter_mile_moves.txt" )), car);
+                    track.setStrategy(new MoveListStrategy(chooseMoveList()), car);
                     break;
                 default:
                     io.print("ups, something went wrong");
             }
         }
+    }
+
+    public static File chooseMoveList() {
+        file = Config.getMoveListDirectory();
+        String[] moveLists = Objects.requireNonNull(file.list());
+        Config.setTrackDirectory(file);
+
+        io.print("All files:\n");
+        for (int i = 0; i < moveLists.length; ++i) {
+            io.print("  " + (i + INDEX_OFFSET) + ": " + moveLists[i] + "\n");
+        }
+        //choose moveList from files
+        int moveListChosen = io.intInputReader(1, moveLists.length, "Choose your file [1-" + moveLists.length + "]:") - INDEX_OFFSET;
+
+        return new File(Config.getMoveListDirectory() + "/" + moveLists[moveListChosen]);
     }
 
     /**

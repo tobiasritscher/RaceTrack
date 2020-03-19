@@ -1,7 +1,6 @@
 package ch.zhaw.pm2.racetrack.strategy;
 
 import ch.zhaw.pm2.racetrack.Config;
-import ch.zhaw.pm2.racetrack.Game;
 import ch.zhaw.pm2.racetrack.PositionVector;
 
 import java.io.File;
@@ -17,9 +16,9 @@ public class MoveListStrategy implements MoveStrategy {
     List<PositionVector> lines;
 
     public MoveListStrategy(File file) throws IOException {
-        currentLine = -1;
+        currentLine = -1; //offset
         lines = new ArrayList<>();
-        Config.setStrategyDirectory(file);
+        Config.setMoveListDirectory(file);
 
         scanner = new Scanner(file, StandardCharsets.UTF_8);
         while (scanner.hasNextLine()) {

@@ -9,7 +9,7 @@ public class Config {
     // Directory containing the track files
     private static File trackDirectory = new File("tracks");
     // Directory containing the strategy files
-    private static File strategyDirectory  = new File("strategies");
+    private static File moveListDirectory = new File("moveLists");
 
     public static File getTrackDirectory() {
         return trackDirectory;
@@ -19,12 +19,12 @@ public class Config {
         Config.trackDirectory = trackDirectory;
     }
 
-    public static File getStrategyDirectory() {
-        return strategyDirectory;
+    public static File getMoveListDirectory() {
+        return moveListDirectory;
     }
 
-    public static void setStrategyDirectory(File strategyDirectory) {
-        Config.strategyDirectory = strategyDirectory;
+    public static void setMoveListDirectory(File moveListDirectory) {
+        Config.moveListDirectory = moveListDirectory;
     }
 
     public enum StrategyType {
