@@ -15,7 +15,6 @@ public class MoveListStrategy implements MoveStrategy {
     int currentLine;
     Scanner scanner;
     List<PositionVector> lines;
-    static Game game;
 
     public MoveListStrategy(File file) throws IOException {
         currentLine = 0;
@@ -26,17 +25,19 @@ public class MoveListStrategy implements MoveStrategy {
         while (scanner.hasNextLine()) {
             String[] line;
             line = scanner.nextLine().trim().split(" ");
-            PositionVector vektor = new PositionVector(Integer.parseInt(line[0]), Integer.parseInt(line[1]));
-            for(PositionVector.Direction direction : PositionVector.Direction.values()){
-                if(direction.vector.equals(vektor)){
-                    game.doCarTurn(direction);
-                }
-            }
+            PositionVector vector = new PositionVector(Integer.parseInt(line[0]), Integer.parseInt(line[1]));
+            lines.add(vector);
         }
     }
 
     @Override
     public PositionVector.Direction nextMove() {
+        for(PositionVector.Direction direction: PositionVector.Direction.values()){
+            if(direction.vector.equals(lines.get(currentLine++))){
+                return direction;
+            }
+        }
+
         return PositionVector.Direction.NONE;
     }
 
