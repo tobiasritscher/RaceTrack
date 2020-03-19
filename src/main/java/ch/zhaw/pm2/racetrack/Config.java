@@ -15,16 +15,8 @@ public class Config {
         return trackDirectory;
     }
 
-    public static void setTrackDirectory(File trackDirectory) {
-        Config.trackDirectory = trackDirectory;
-    }
-
     public static File getMoveListDirectory() {
         return moveListDirectory;
-    }
-
-    public static void setMoveListDirectory(File moveListDirectory) {
-        Config.moveListDirectory = moveListDirectory;
     }
 
     public enum StrategyType {
