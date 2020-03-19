@@ -299,7 +299,16 @@ public class Track implements TrackInterface {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
             if (car.isCrashed()) {
-                charGrid[y][x] = 'x';
+                //if two carsh crash, remaining car is shown on grid
+                //if car crashes into wall, an x is shown at it's position
+                for (Car car2 : cars) {
+                    if (car.getCarPosition().equals(car2.getCarPosition())) {
+                        break;
+                    } else {
+                        charGrid[y][x] = 'x';
+                    }
+                }
+
             } else {
                 charGrid[y][x] = car.getId();
             }

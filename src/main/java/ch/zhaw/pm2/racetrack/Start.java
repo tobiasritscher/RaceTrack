@@ -23,26 +23,22 @@ public class Start {
     static String[] moveLists;
 
     /**
-     * initalises the start and the game, saves the predifend directories (Config.java) and the files in there
-     */
-    public Start() {
-        trackFile = Config.getTrackDirectory();
-        tracks = trackFile.list();
-
-        moveFile = Config.getMoveListDirectory();
-        moveLists = moveFile.list();
-    }
-
-    /**
      * main function of the game
      *
      * @param args from the terminal (not used in this program)
      * @throws IOException if scanner from strategies() can't be initalised
      */
     public static void main(String[] args) throws IOException {
+        trackFile = Config.getTrackDirectory();
+        tracks = trackFile.list();
+
+        moveFile = Config.getMoveListDirectory();
+        moveLists = moveFile.list();
+
         io.setBookmarkBlankScreen();
         setUpGame();
         strategies();
+        io.promptEnter("Hit 'Enter' to start the game: ");
 
         game = new Game(track);
         io.refresh(track);
@@ -120,6 +116,9 @@ public class Start {
             io.print(currentCar.getId() + ": ");
             game.doCarTurn(currentCar.getCarMoveStrategy().nextMove());
             io.refresh(track);
+            if (currentCar.isCrashed()) {
+                io.print(currentCar.getId() + " is crashed!\n");
+            }
         } while (Game.NO_WINNER == game.getWinner());
         io.print(game.getCarId(game.getWinner()) + " is the winner");
         io.promptEnter("Hit 'Enter' to quit the game");
