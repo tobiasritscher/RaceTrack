@@ -231,7 +231,7 @@ public class Track implements TrackInterface {
     /**
      * Tell if the given position is the finish line.
      *
-     * @param position
+     * @param position of the field you want to be checked
      * @return True, if the position finish line.
      */
     @Override
@@ -307,7 +307,16 @@ public class Track implements TrackInterface {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
             if (car.isCrashed()) {
-                charGrid[y][x] = 'x';
+                //if two carsh crash, remaining car is shown on grid
+                //if car crashes into wall, an x is shown at it's position
+                for (Car car2 : cars) {
+                    if (car.getCarPosition().equals(car2.getCarPosition()) && !isOnFinishLine(new PositionVector(x,y))) {
+                        break;
+                    } else {
+                        charGrid[y][x] = 'x';
+                    }
+                }
+
             } else {
                 charGrid[y][x] = car.getId();
             }
