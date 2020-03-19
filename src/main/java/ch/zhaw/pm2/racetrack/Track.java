@@ -59,11 +59,11 @@ import java.util.Map;
  * <p>The Track can return a String representing the current state of the race (including car positons)</p>
  */
 public class Track implements TrackInterface {
+    private final int xDimension;
+    private final int yDimension;
     private List<Car> cars = new ArrayList<>();
     //(Y,X)
     private Config.SpaceType[][] grid;
-    private final int xDimension;
-    private final int yDimension;
 
 
     /**
@@ -151,6 +151,7 @@ public class Track implements TrackInterface {
      *
      * @param carIndex     The index of a car.
      * @param acceleration Acceleration vector of the car.
+     * @throws IllegalArgumentException
      */
     @Override
     public void accelerateCar(int carIndex, PositionVector.Direction acceleration) {
@@ -163,6 +164,7 @@ public class Track implements TrackInterface {
      *
      * @param carIndex The zero-based car index number.
      * @return Car next position.
+     * @throws IllegalArgumentException
      */
     @Override
     public PositionVector getCarNextPosition(int carIndex) {
@@ -176,6 +178,7 @@ public class Track implements TrackInterface {
      *
      * @param carIndex      The zero-based car index number.
      * @param crashLocation A location of the crash.
+     * @throws IllegalArgumentException
      */
     @Override
     public void crashCar(int carIndex, PositionVector crashLocation) {
@@ -200,6 +203,7 @@ public class Track implements TrackInterface {
      *
      * @param carIndex The zero-based car index number.
      * @return True, if the car is crashed
+     * @throws IllegalArgumentException
      */
     @Override
     public boolean isCarCrashed(int carIndex) {
@@ -257,6 +261,10 @@ public class Track implements TrackInterface {
         car.setCarMoveStrategy(moveStrategy);
     }
 
+    /**
+     * @param carIndex
+     * @throws IllegalArgumentException
+     */
     @Override
     public void checkCarIndex(int carIndex) {
         if (carIndex > cars.size() - 1 || carIndex < 0) {
