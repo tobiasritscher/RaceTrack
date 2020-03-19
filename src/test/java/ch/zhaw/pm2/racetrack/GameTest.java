@@ -312,6 +312,12 @@ public class GameTest {
         TrackStub trackStub = new TrackStub(NUMBER_CARS);
 
         Game sampleGame = new Game(trackStub);
+        for (int i = 0; i < NUMBER_CARS; i++) {
+            trackStub.setWishedIsCarCrashed(i, false);
+        }
+
+        trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
+        trackStub.setWishedNextCarPosition(ZERO_POSITION_VECTOR);
 
         sampleGame.doCarTurn(PositionVector.Direction.UP);
         Assertions.assertEquals(PositionVector.Direction.UP, trackStub.getGivenAcceleration());
@@ -381,7 +387,7 @@ public class GameTest {
         sampleGame.switchToNextActiveCar();
 
         int expectedIndex = trackStub.getActiveCarsList().get(0);
-        if(expectedIndex == sampleGame.getCurrentCarIndex()){
+        if (expectedIndex == sampleGame.getCurrentCarIndex()) {
             expectedIndex = trackStub.getActiveCarsList().get(1);
         }
 
@@ -392,7 +398,7 @@ public class GameTest {
         trackStub.setWishedIsTrackBound(true);
         sampleGame.doCarTurn(PositionVector.Direction.UP);
 
-        Assertions.assertEquals(expectedIndex,sampleGame.getWinner());
+        Assertions.assertEquals(expectedIndex, sampleGame.getWinner());
     }
 
 }
