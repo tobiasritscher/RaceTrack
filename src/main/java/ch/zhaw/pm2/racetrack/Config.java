@@ -5,11 +5,13 @@ import java.io.File;
 public class Config {
     public static final int MIN_CARS = 2;
     public static final int MAX_CARS = 9;
+    private static final String TRACK_DIRECTORY = "tracks";
+    private static final String MOVE_LIST_DIRECTORY = "moveLists";
 
     // Directory containing the track files
-    private static File trackDirectory = new File("tracks");
+    private static File trackDirectory = new File(TRACK_DIRECTORY);
     // Directory containing the strategy files
-    private static File moveListDirectory = new File("moveLists");
+    private static File moveListDirectory = new File(MOVE_LIST_DIRECTORY);
 
     public static File getTrackDirectory() {
         return trackDirectory;
