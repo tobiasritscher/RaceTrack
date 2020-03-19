@@ -113,12 +113,12 @@ public class Game {
      * @throws IllegalArgumentException No such direction possible.
      */
     public void doCarTurn(Direction acceleration) {
+        //todo test
         if (!Arrays.asList(Direction.values()).contains(acceleration)) {
             throw new IllegalArgumentException("Invalid acceleration direction. Please use: " + Arrays.toString(Direction.values()));
         }
 
         if (!raceTrack.isCarCrashed(activeCarIndex) && (winnerIndex == NO_WINNER)) {
-            //TODO any parameter checks?
 
             //Accelerate the current car
             raceTrack.accelerateCar(activeCarIndex, acceleration);
@@ -130,7 +130,6 @@ public class Game {
             Iterator<PositionVector> iterator = path.iterator();
             boolean isCrashed = false;
             while (iterator.hasNext() && !isCrashed) {
-                //todo my current location is it a element of path??? >> car crash with itself
                 PositionVector pathTransitionPoint = iterator.next();
                 if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
                     isCrashed = true;
@@ -143,7 +142,6 @@ public class Game {
                         || (!raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)))) {
                     //get the previous point get the next point?
                     adjustPenaltyPointsForActiveCar(pathTransitionPoint);
-                    //TODO
                     final int ZERO_PENALTY_POINTS = 0;
                     if (penaltyPoints.get(raceTrack.getCarId(activeCarIndex)) == ZERO_PENALTY_POINTS) {
                         isCrashed = true;
@@ -151,8 +149,6 @@ public class Game {
                         raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
                         winnerIndex = activeCarIndex;
                     }
-
-                    //todo penalty
                 }
             }
 
@@ -269,6 +265,8 @@ public class Game {
     /**
      * Switches to the next car who is still in the game. Skips
      * crashed cars.
+     *
+     * Not: If there are no active cars left activeCarIndex = NO_WINNER will be set.
      */
     public void switchToNextActiveCar() {
         //TODO what if all cars are crashed? >> set NO_WINNER?
@@ -327,7 +325,6 @@ public class Game {
             diagonalStepX = dirX;
             diagonalStepY = dirY;
             distanceFastAxis = distX;
-            distanceSlowAxis = distY;
         } else {
             // y axis is the 'fast' direction
             parallelStepX = 0;
@@ -335,8 +332,8 @@ public class Game {
             diagonalStepX = dirX;
             diagonalStepY = dirY;
             distanceFastAxis = distY;
-            distanceSlowAxis = distY;
         }
+        distanceSlowAxis = distY;
         int x = startPosition.getX();
         int y = startPosition.getY();
         path.add(new PositionVector(x, y));
