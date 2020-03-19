@@ -57,7 +57,7 @@ public class TrackTest {
 
         testTrack = initializeTrack("tracks/quarter-mile.txt");
 
-        MoveStrategy testStrategy = new MoveListStrategy();
+        MoveStrategy testStrategy = new MoveListStrategy(new File("moveLists/quarter_mile_moves.txt"));
         testTrack.getCar(0).setCarMoveStrategy(testStrategy);
         testTrack.accelerateCar(0,PositionVector.Direction.LEFT);
         testTrack.getCar(0).move();

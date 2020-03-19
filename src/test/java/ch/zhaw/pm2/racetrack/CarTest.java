@@ -12,11 +12,13 @@ import java.io.IOException;
 
 public class CarTest {
     private Track testTrack;
-    private MoveStrategy testStrategy = new MoveListStrategy();
+    private MoveStrategy testStrategy = new MoveListStrategy(new File("moveLists/quarter_mile_moves.txt"));
+
+    public CarTest() throws IOException {
+    }
 
     public Track initializeTrack(String trackSource) throws IOException, InvalidTrackFormatException {
-        Track testTrack = new Track(new File(trackSource));
-        return testTrack;
+        return new Track(new File(trackSource));
     }
 
     @Test
