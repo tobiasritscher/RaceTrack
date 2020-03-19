@@ -1,6 +1,7 @@
 package ch.zhaw.pm2.racetrack.strategy;
 
 import ch.zhaw.pm2.racetrack.Config;
+import ch.zhaw.pm2.racetrack.Game;
 import ch.zhaw.pm2.racetrack.PositionVector;
 
 import java.io.File;
@@ -14,6 +15,7 @@ public class MoveListStrategy implements MoveStrategy {
     int currentLine;
     Scanner scanner;
     List<PositionVector> lines;
+    static Game game;
 
     public MoveListStrategy(File file) throws IOException {
         currentLine = 0;
@@ -25,8 +27,11 @@ public class MoveListStrategy implements MoveStrategy {
             String[] line;
             line = scanner.nextLine().trim().split(" ");
             PositionVector vektor = new PositionVector(Integer.parseInt(line[0]), Integer.parseInt(line[1]));
-
-            lines.add(new PositionVector.Direction(vektor));
+            for(PositionVector.Direction direction : PositionVector.Direction.values()){
+                if(direction.vector.equals(vektor)){
+                    game.doCarTurn(direction);
+                }
+            }
         }
     }
 
