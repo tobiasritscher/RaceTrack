@@ -19,12 +19,21 @@ public class Start {
     static Track track;
     static Game game;
     static final int INDEX_OFFSET = 1;
-    static File file;
+    static File trackFile;
+    static String[] tracks;
+    static File moveFile;
+    static String[] moveLists;
 
     public Start() {
     }
 
     public static void main(String[] args) throws IOException {
+        trackFile = Config.getTrackDirectory();
+        tracks = Objects.requireNonNull(trackFile.list());
+
+        moveFile = Config.getMoveListDirectory();
+        moveLists = moveFile.list();
+
         io.setBookmarkBlankScreen();
         setUpGame();
         strategies(); //set strategies for each player
@@ -37,19 +46,15 @@ public class Start {
      * loads the chosen track from the players
      */
     private static void setUpGame() {
-        file = Config.getTrackDirectory();
-        String[] tracks = Objects.requireNonNull(file.list());
-        Config.setTrackDirectory(file);
-
         io.print("Welcome to Racetrack!\nSelect Track file:\n");
         for (int i = 0; i < tracks.length; ++i) {
             io.print("  " + (i + INDEX_OFFSET) + ": " + tracks[i] + "\n");
         }
         //choose Track from files
         int trackChosen = io.intInputReader(1, tracks.length, "Choose your map [1-" + tracks.length + "]:") - INDEX_OFFSET;
-        file = new File(Config.getTrackDirectory() + "/" + tracks[trackChosen]);
+        trackFile = new File(Config.getTrackDirectory() + "/" + tracks[trackChosen]);
         try {
-            track = new Track(file);
+            track = new Track(trackFile);
         } catch (IOException | InvalidTrackFormatException e) {
             e.printStackTrace();
         }
@@ -81,11 +86,8 @@ public class Start {
     }
 
     public static File chooseMoveList() {
-        file = Config.getMoveListDirectory();
-        String[] moveLists = Objects.requireNonNull(file.list());
-        Config.setTrackDirectory(file);
-
         io.print("\nAll files:\n");
+        assert moveLists != null;
         for (int i = 0; i < moveLists.length; ++i) {
             io.print("  " + (i + INDEX_OFFSET) + ": " + moveLists[i] + "\n");
         }
