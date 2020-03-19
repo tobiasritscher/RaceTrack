@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class MoveListStrategy implements MoveStrategy {
     int currentLine;
     Scanner scanner;
-    List<Integer> lines;
+    List<PositionVector> lines;
 
     public MoveListStrategy(File file) throws IOException {
         currentLine = 0;
@@ -22,9 +22,12 @@ public class MoveListStrategy implements MoveStrategy {
 
         scanner = new Scanner(file, StandardCharsets.UTF_8);
         while (scanner.hasNextLine()) {
-            lines.add(scanner.nextInt());
-        }
+            String[] line;
+            line = scanner.nextLine().trim().split(" ");
+            PositionVector vektor = new PositionVector(Integer.parseInt(line[0]), Integer.parseInt(line[1]));
 
+            lines.add(new PositionVector.Direction(vektor));
+        }
     }
 
     @Override
