@@ -43,7 +43,7 @@ public class Config {
         FINISH_DOWN('v'),
         FINISH_LEFT('<'),
         FINISH_RIGHT('>'),
-        ANY_CAR('n');
+        ANY_CAR(' ');
 
         private final char value;
 
