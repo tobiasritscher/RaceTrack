@@ -12,11 +12,11 @@ Das Projekt wurde ine Eclipse und IntelliJ getestet und funktioniert über den T
 
 * **Nikita Smailov** - Head of Development aka Assistant Caffeine Addict
 
-* **Oliver Corrodi** - Director of Testing classes and Cars aka Chief Caffeine and Nicotine Addict
+* **Oliver Corrodi** - Director of Testing classes and tracks aka Chief Caffeine and Nicotine Addict
 
-* **Erman Zankov** - First Executive Programmer specialized in second phase operations aka Longboi
+* **Erman Zankov** - First Executive Programmer specialized in logic operations aka Longboi
 
-* **Tobias Ritscher** - Senior Software Engineer in Gamelogic Departement aka Diseased Penguin
+* **Tobias Ritscher** - Senior Software Engineer in the Interface Departement aka Diseased Penguin
 
 # License
 
