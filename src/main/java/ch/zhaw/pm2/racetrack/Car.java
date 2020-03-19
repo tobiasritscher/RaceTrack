@@ -19,8 +19,9 @@ public class Car {
 
     /**
      * creates a car object with the needed parameters
+     *
      * @param position takes the initial position from the map
-     * @param id takes its name (char) from the map
+     * @param id       takes its name (char) from the map
      */
     public Car(PositionVector position, char id) {
         this.position = position;

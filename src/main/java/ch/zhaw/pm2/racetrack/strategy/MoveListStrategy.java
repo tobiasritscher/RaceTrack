@@ -1,6 +1,5 @@
 package ch.zhaw.pm2.racetrack.strategy;
 
-import ch.zhaw.pm2.racetrack.Config;
 import ch.zhaw.pm2.racetrack.PositionVector;
 
 import java.io.File;
@@ -10,12 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * this class handels the nextMove method if the user has chosen the MoveList strategy
+ */
 public class MoveListStrategy implements MoveStrategy {
     int currentLine;
     Scanner scanner;
     List<PositionVector> lines;
 
+    /**
+     * Constructor of the class
+     *
+     * @param file the file chosen from the user for the moves
+     * @throws IOException if the scanner can't be initalised
+     */
     public MoveListStrategy(File file) throws IOException {
+        fileToPositionVectors(file);
+    }
+
+    private void fileToPositionVectors(File file) throws IOException {
         currentLine = -1; //offset
         lines = new ArrayList<>();
 
@@ -28,6 +40,11 @@ public class MoveListStrategy implements MoveStrategy {
         }
     }
 
+    /**
+     * gets the next move of the user from the given file
+     *
+     * @return the direction from the current line in the file
+     */
     @Override
     public PositionVector.Direction nextMove() {
         ++currentLine;
@@ -40,5 +57,4 @@ public class MoveListStrategy implements MoveStrategy {
         }
         return PositionVector.Direction.NONE;
     }
-
 }

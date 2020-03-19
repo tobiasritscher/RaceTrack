@@ -6,6 +6,11 @@ import ch.zhaw.pm2.racetrack.PositionVector;
 public class UserStrategy implements MoveStrategy {
     IO io = new IO();
 
+    /**
+     * askes the user what direction he wants to use for the next turn
+     *
+     * @return the chosen direction
+     */
     @Override
     public PositionVector.Direction nextMove() {
         return io.positionVectorInputReader("How would you like to accelerate: ");

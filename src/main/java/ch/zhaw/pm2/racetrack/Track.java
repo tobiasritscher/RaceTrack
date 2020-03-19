@@ -227,7 +227,7 @@ public class Track implements TrackInterface {
     /**
      * Tell if the given position is the finish line.
      *
-     * @param position
+     * @param position of the field you want to be checked
      * @return True, if the position finish line.
      */
     @Override

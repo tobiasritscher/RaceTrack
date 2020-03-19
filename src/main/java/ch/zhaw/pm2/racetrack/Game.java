@@ -368,5 +368,4 @@ public class Game {
     public boolean willCarCrash(int carIndex, PositionVector position) {
         return raceTrack.isTrackBound(position) || raceTrack.isSomeOtherCarHere(carIndex, position);
     }
-
 }

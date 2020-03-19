@@ -13,23 +13,54 @@ public class IO {
 
     }
 
-    public void print(String output){
+    /**
+     * prints the output on the terminal
+     *
+     * @param output the output as a String
+     */
+    public void print(String output) {
         textTerminal.print(output);
     }
 
+    /**
+     * prints the output on the terminal and asks the user to choose an option by tiping the
+     * according number. Checks fro the right number and asks again if the number is out of bounds
+     *
+     * @param min    lowest possible option
+     * @param max    highst possible option
+     * @param output the ouput as a String
+     * @return the chosen int
+     */
     public int intInputReader(int min, int max, String output) {
         return textIO.newIntInputReader().withMinVal(min).withMaxVal(max).read(output);
     }
 
-    public PositionVector.Direction positionVectorInputReader(String output){
+    /**
+     * prints the ouput and asks wich Vektor the user wants to choose
+     *
+     * @param output the output as a String
+     * @return the chosen PositionVektor
+     */
+    public PositionVector.Direction positionVectorInputReader(String output) {
         return textIO.newEnumInputReader(PositionVector.Direction.class).read(output);
     }
 
-    public Config.StrategyType strategiesInputReader(String output){
+    /**
+     * prints the output and asks wich strategy the player wants to use
+     *
+     * @param output the output as a String
+     * @return the chosen Trategy
+     */
+    public Config.StrategyType strategiesInputReader(String output) {
         return textIO.newEnumInputReader(Config.StrategyType.class).read(output);
     }
 
-    public void printGrid(Track track){
+    /**
+     * prints the current grid on the terminal
+     *
+     * @param track the track to print
+     */
+    public void printGrid(Track track) {
         print(track.toString());
     }
 
@@ -41,7 +72,9 @@ public class IO {
     }
 
     /**
-     * This function prints a prompt in the terminal window that asks the user to press enter
+     * This function prints a output in the terminal window and continiue if the user presses enter
+     *
+     * @param output the ouput to print
      */
     public void promptEnter(String output) {
         textIO.newStringInputReader()
@@ -50,19 +83,10 @@ public class IO {
     }
 
     /**
-     * This function sets a bookmark in the terminal window
-     *
+     * This function sets a bookmark in the terminal window for a blank terminal screen
      */
     public void setBookmarkBlankScreen() {
         textTerminal.setBookmark("BLANK_SCREEN");
-    }
-
-    /**
-     * This function sets a bookmark in the terminal window
-     *
-     */
-    public void setBookmark(String bookmark) {
-        textTerminal.setBookmark(bookmark);
     }
 
     /**
@@ -75,13 +99,12 @@ public class IO {
     }
 
     /**
-     * This function refreshes the gameboard, when e.g. a new settlement has been built.
-     * It does so by jumping back to a "blank screen" that has been set in the beginning
-     * of the game and prints an instance of the gameboard.
+     * This function cleans up the terminal and prints the current state of the grid
+     *
+     * @param track the track to print
      */
     public void refresh(Track track) {
         resetBookmark("BLANK_SCREEN");
         printGrid(track);
     }
-
 }
