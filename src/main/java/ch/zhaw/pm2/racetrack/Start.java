@@ -72,7 +72,7 @@ public class Start {
                     track.setStrategy(new UserStrategy(), car);
                     break;
                 case MOVE_LIST:
-                    track.setStrategy(new MoveListStrategy(Config.getStrategyDirectory()), car);
+                    track.setStrategy(new MoveListStrategy(new File("strategies/sample_strategy.txt" )), car);
                     break;
                 default:
                     io.print("ups, something went wrong");

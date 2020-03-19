@@ -9,7 +9,7 @@ public class Config {
     // Directory containing the track files
     private static File trackDirectory = new File("tracks");
     // Directory containing the strategy files
-    private static File strategyDirectory;
+    private static File strategyDirectory  = new File("strategies");
 
     public static File getTrackDirectory() {
         return trackDirectory;

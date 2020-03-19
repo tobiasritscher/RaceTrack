@@ -17,7 +17,7 @@ public class MoveListStrategy implements MoveStrategy {
     List<PositionVector> lines;
 
     public MoveListStrategy(File file) throws IOException {
-        currentLine = 0;
+        currentLine = -1;
         lines = new ArrayList<>();
         Config.setStrategyDirectory(file);
 
@@ -32,12 +32,14 @@ public class MoveListStrategy implements MoveStrategy {
 
     @Override
     public PositionVector.Direction nextMove() {
-        for(PositionVector.Direction direction: PositionVector.Direction.values()){
-            if(direction.vector.equals(lines.get(currentLine++))){
-                return direction;
+        ++currentLine;
+        if (currentLine < lines.size()) {
+            for (PositionVector.Direction direction : PositionVector.Direction.values()) {
+                if (direction.vector.equals(lines.get(currentLine))) {
+                    return direction;
+                }
             }
         }
-
         return PositionVector.Direction.NONE;
     }
 
