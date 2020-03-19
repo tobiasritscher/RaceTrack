@@ -85,7 +85,7 @@ public class Start {
         String[] moveLists = Objects.requireNonNull(file.list());
         Config.setTrackDirectory(file);
 
-        io.print("All files:\n");
+        io.print("\nAll files:\n");
         for (int i = 0; i < moveLists.length; ++i) {
             io.print("  " + (i + INDEX_OFFSET) + ": " + moveLists[i] + "\n");
         }
