@@ -40,16 +40,8 @@ public class Car {
         return id;
     }
 
-    public void setId(char id) {
-        this.id = id;
-    }
-
     public PositionVector getCarPosition() {
         return position;
-    }
-
-    private void setCarPosition(PositionVector position) {
-        this.position = position;
     }
 
     public PositionVector getVelocity() {

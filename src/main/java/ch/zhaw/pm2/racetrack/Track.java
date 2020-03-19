@@ -302,7 +302,7 @@ public class Track implements TrackInterface {
                 //if two carsh crash, remaining car is shown on grid
                 //if car crashes into wall, an x is shown at it's position
                 for (Car car2 : cars) {
-                    if (car.getCarPosition().equals(car2.getCarPosition())) {
+                    if (car.getCarPosition().equals(car2.getCarPosition()) && !isOnFinishLine(new PositionVector(x,y))) {
                         break;
                     } else {
                         charGrid[y][x] = 'x';
