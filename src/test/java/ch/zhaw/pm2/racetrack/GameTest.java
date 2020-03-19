@@ -20,7 +20,6 @@ public class GameTest {
     public static final PositionVector ARBITRARY_INVALID_FINISH_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
     public static final PositionVector ZERO_POSITION_VECTOR = new PositionVector(0, 0);
     public static final PositionVector ARBITRARY_VALID_CAR_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
-    public static final PositionVector ARBITRARY_INVALID_CAR_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
     Random random = new Random();
 
@@ -243,7 +242,7 @@ public class GameTest {
     @Test
     public void calculatePath_SamePoint() {
         final PositionVector START_POINT = ZERO_POSITION_VECTOR;
-        final PositionVector END_POINT = ZERO_POSITION_VECTOR;
+        final PositionVector END_POINT = START_POINT;
         mockedTrack = mock(Track.class);
         Game sampleGame = new Game(mockedTrack);
         List<PositionVector> expectedPath = new ArrayList<>();
@@ -308,17 +307,92 @@ public class GameTest {
     //do carTurn()
     @Test
     public void doCarTurn_AccelerateCar() {
-        //todo stubs??
-        TrackStub trackStub = new TrackStub();
+
         final int NUMBER_CARS = Config.MIN_CARS;
+        TrackStub trackStub = new TrackStub(NUMBER_CARS);
 
         Game sampleGame = new Game(trackStub);
 
         sampleGame.doCarTurn(PositionVector.Direction.UP);
-
-        Assertions.assertEquals(PositionVector.Direction.UP, trackStub.getAcceleration());
-        // sampleGame.doCarTurn());
+        Assertions.assertEquals(PositionVector.Direction.UP, trackStub.getGivenAcceleration());
+        Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX, trackStub.getGivenCarIndex());
     }
-    //@Test
+
+    /**
+     * StabTrack with Config.MAX_CARS will be generated.
+     * At the begin a random car will be picked as a winner.
+     * Each turn will be randomly decided if current car will crash.
+     * In the end wll be evaluated if the winner car index was set correctly.
+     */
+    @Test
+    public void doCarTurn_LastRemainingCarIsTheWinner() {
+        final int NUMBER_CARS = Config.MAX_CARS;
+        final int WINNER_CAR_INDEX = random.nextInt(NUMBER_CARS);
+
+        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+
+        for (int i = 0; i < NUMBER_CARS; i++) {
+            trackStub.setWishedIsCarCrashed(i, false);
+        }
+
+        trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
+        trackStub.setWishedNextCarPosition(ZERO_POSITION_VECTOR);
+
+        Game sampleGame = new Game(trackStub);
+
+        //do some turns without crashes
+        final int NUMBER_TURNS_WITHOUT_CRASHES = 5;
+        for (int i = 0; i < NUMBER_TURNS_WITHOUT_CRASHES; i++) {
+            sampleGame.doCarTurn(PositionVector.Direction.UP);
+        }
+
+        while (sampleGame.getWinner() == Game.NO_WINNER) {
+            int currentCarIndex = sampleGame.getCurrentCarIndex();
+            //decide whether to crash the car
+            if (random.nextBoolean() && currentCarIndex != WINNER_CAR_INDEX) {
+                trackStub.setWishedIsTrackBound(true);
+            }
+            sampleGame.doCarTurn(PositionVector.Direction.UP);
+            trackStub.setWishedIsTrackBound(false);
+        }
+
+        Assertions.assertEquals(sampleGame.getWinner(), WINNER_CAR_INDEX);
+
+    }
+
+    @Test
+    public void doCarTurn_TwoCarsOneCrashesNextIsTheWinner() {
+        final int NUMBER_CARS = Config.MAX_CARS;
+        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+        Game sampleGame = new Game(trackStub);
+        for (int i = 0; i < NUMBER_CARS; i++) {
+            trackStub.setWishedIsCarCrashed(i, false);
+        }
+
+        //crash all cars except two
+        for (int i = 0; i < NUMBER_CARS - 2; i++) {
+            int carIndex = random.nextInt(NUMBER_CARS);
+            while (trackStub.isCarCrashed(carIndex)) {
+                carIndex = random.nextInt(NUMBER_CARS);
+            }
+            trackStub.setWishedIsCarCrashed(carIndex, true);
+        }
+
+        sampleGame.switchToNextActiveCar();
+
+        int expectedIndex = trackStub.getActiveCarsList().get(0);
+        if(expectedIndex == sampleGame.getCurrentCarIndex()){
+            expectedIndex = trackStub.getActiveCarsList().get(1);
+        }
+
+        trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
+        trackStub.setWishedNextCarPosition(ZERO_POSITION_VECTOR);
+
+        //crash car
+        trackStub.setWishedIsTrackBound(true);
+        sampleGame.doCarTurn(PositionVector.Direction.UP);
+
+        Assertions.assertEquals(expectedIndex,sampleGame.getWinner());
+    }
 
 }
