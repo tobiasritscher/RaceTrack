@@ -123,13 +123,9 @@ public class Game {
 
         if (!raceTrack.isCarCrashed(activeCarIndex)) {
 
-            //Accelerate the current car
             raceTrack.accelerateCar(activeCarIndex, acceleration);
-
-            //calculate path between actual and end positions
             List<PositionVector> path = calculatePath(getCarPosition(activeCarIndex), raceTrack.getCarNextPosition(activeCarIndex));
 
-            //crashes or passes??
             Iterator<PositionVector> iterator = path.iterator();
             PositionVector currentPathPosition = iterator.next();
 
@@ -146,7 +142,6 @@ public class Game {
                     }
                 } else if ((raceTrack.isOnFinishLine(currentPathPosition) && !raceTrack.isOnFinishLine(nextPathPosition))
                         || (!raceTrack.isOnFinishLine(currentPathPosition) && raceTrack.isOnFinishLine(nextPathPosition))) {
-                    //get the previous point get the next point?
                     if (raceTrack.isOnFinishLine(currentPathPosition)) {
                         adjustPenaltyPointsForActiveCar(currentPathPosition);
                     } else {
@@ -227,7 +222,6 @@ public class Game {
      * @return (x, y)=(0,0) if the point is not on finish line, otherwise returns finish direction unit vector.
      */
     PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
-        //todo make track do this for you
         PositionVector finishDirectionUnitVector;
         try {
             switch (raceTrack.getSpaceType(positionOnFinishLine)) {
