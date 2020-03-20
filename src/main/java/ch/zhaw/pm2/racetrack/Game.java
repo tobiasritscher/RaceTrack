@@ -1,5 +1,8 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.exceptions.ErrorType;
+import ch.zhaw.pm2.racetrack.exceptions.GameException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,9 +21,10 @@ public class Game {
 
     public static final int NO_WINNER = -1;
     public static final int FIRST_TURN_CAR_INDEX = 0;
+    //todo penalty points doesn't properly work
     public static final int NUMBER_OF_LAPS = 1;
     public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS;
-    Map<Character, Integer> penaltyPoints = new HashMap<>();
+    Map<Integer, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
     private TrackInterface raceTrack;
     //private TrackInterface raceTrack;
@@ -115,10 +119,10 @@ public class Game {
     public void doCarTurn(Direction acceleration) {
         //todo test
         if (!Arrays.asList(Direction.values()).contains(acceleration)) {
-            throw new IllegalArgumentException("Invalid acceleration direction. Please use: " + Arrays.toString(Direction.values()));
+            throw new GameException(ErrorType.INVALID_ACCELERATION);
         }
 
-        if (!raceTrack.isCarCrashed(activeCarIndex) && (winnerIndex == NO_WINNER)) {
+        if (!raceTrack.isCarCrashed(activeCarIndex)) {
 
             //Accelerate the current car
             raceTrack.accelerateCar(activeCarIndex, acceleration);
@@ -128,43 +132,42 @@ public class Game {
 
             //crashes or passes??
             Iterator<PositionVector> iterator = path.iterator();
-            boolean isCrashed = false;
-            while (iterator.hasNext() && !isCrashed) {
-                PositionVector pathTransitionPoint = iterator.next();
-                if (willCarCrash(activeCarIndex, pathTransitionPoint)) {
-                    isCrashed = true;
-                    raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
-                    if (oneCarRemaining()) {
-                        switchToNextActiveCar();
-                        winnerIndex = activeCarIndex;
-                    }
-                } else if ((raceTrack.isOnFinishLine(pathTransitionPoint) && !raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)))
-                        || (!raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)) && raceTrack.isOnFinishLine(getCarPosition(activeCarIndex)))) {
-                    //get the previous point get the next point?
-                    adjustPenaltyPointsForActiveCar(pathTransitionPoint);
-                    final int ZERO_PENALTY_POINTS = 0;
-                    if (penaltyPoints.get(raceTrack.getCarId(activeCarIndex)) == ZERO_PENALTY_POINTS) {
-                        isCrashed = true;
-                        //move to the FL
-                        raceTrack.crashCar(activeCarIndex, pathTransitionPoint);
-                        winnerIndex = activeCarIndex;
-                    }
-                }
-            }
+            PositionVector currentPathPosition = iterator.next();
 
-            //move to the wished destination if not crashed
-            if (getWinner() == NO_WINNER) {
-                if (raceTrack.isCarCrashed(activeCarIndex) && oneCarRemaining()) {
-                    switchToNextActiveCar();
-                    winnerIndex = getCurrentCarIndex();
-                } else if (raceTrack.isCarCrashed(activeCarIndex)) {
-                    switchToNextActiveCar();
-                } else {
-                    raceTrack.moveCar(activeCarIndex);
-                    switchToNextActiveCar();
+            boolean hasCrashedOrFinished = false;
+            while (iterator.hasNext() && !hasCrashedOrFinished) {
+                PositionVector nextPathPosition = iterator.next();
+                if (willCarCrash(activeCarIndex, nextPathPosition)) {
+                    hasCrashedOrFinished = true;
+                    raceTrack.crashCar(activeCarIndex, nextPathPosition);
+                    if (isOneCarRemaining()) {
+                        switchToNextActiveCar();
+                        raceTrack.crashCar(activeCarIndex, raceTrack.getCarPosition(activeCarIndex));
+                        winnerIndex = activeCarIndex;
+                    }
+                } else if ((raceTrack.isOnFinishLine(currentPathPosition) && !raceTrack.isOnFinishLine(nextPathPosition))
+                        || (!raceTrack.isOnFinishLine(currentPathPosition) && raceTrack.isOnFinishLine(nextPathPosition))) {
+                    //get the previous point get the next point?
+                    if (raceTrack.isOnFinishLine(currentPathPosition)) {
+                        adjustPenaltyPointsForActiveCar(currentPathPosition);
+                    } else {
+                        adjustPenaltyPointsForActiveCar(nextPathPosition);
+                    }
+                    if (penaltyPoints.get(activeCarIndex) == 0) {
+                        hasCrashedOrFinished = true;
+                        //move to the FL
+                        raceTrack.crashCar(activeCarIndex, nextPathPosition);
+                        winnerIndex = activeCarIndex;
+                    }
                 }
+                currentPathPosition = nextPathPosition;
+            }
+            if (!hasCrashedOrFinished) {
+                raceTrack.moveCar(activeCarIndex);
             }
         }
+        switchToNextActiveCar();
+
     }
 
     /**
@@ -175,15 +178,14 @@ public class Game {
      */
     private void adjustPenaltyPointsForActiveCar(PositionVector finishPosition) {
         //todo test
-        char activeCarId = getCarId(activeCarIndex);
-        if (!penaltyPoints.containsKey(activeCarId)) {
-            penaltyPoints.put(activeCarId, INITIAL_NUMBER_OF_PENALTY_POINTS);
+        if (!penaltyPoints.containsKey(activeCarIndex)) {
+            penaltyPoints.put(activeCarIndex, INITIAL_NUMBER_OF_PENALTY_POINTS);
         }
         //todo check if finish position is finish position
         if (isValidDirection(getCarVelocity(activeCarIndex), getFinishDirectionUnitVector(finishPosition))) {
-            penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) + 1);
+            penaltyPoints.put(activeCarIndex, penaltyPoints.get(activeCarIndex) + 1);
         } else {
-            penaltyPoints.put(activeCarId, penaltyPoints.get(activeCarId) - 1);
+            penaltyPoints.put(activeCarIndex, penaltyPoints.get(activeCarIndex) - 1);
         }
 
     }
@@ -257,7 +259,7 @@ public class Game {
      *
      * @return True, if only one car left.
      */
-    private boolean oneCarRemaining() {
+    private boolean isOneCarRemaining() {
         final int ONLY_ONE_CAR = 1;
         return raceTrack.getNumberActiveCarsRemaining() == ONLY_ONE_CAR;
     }
@@ -265,11 +267,10 @@ public class Game {
     /**
      * Switches to the next car who is still in the game. Skips
      * crashed cars.
-     *
+     * <p>
      * Not: If there are no active cars left activeCarIndex = NO_WINNER will be set.
      */
     public void switchToNextActiveCar() {
-        //TODO what if all cars are crashed? >> set NO_WINNER?
         //todo no active car left unchecked exception >> will be caught by game
         if (activeCarIndex != NO_WINNER) {
             int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();

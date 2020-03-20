@@ -140,7 +140,6 @@ public class Track implements TrackInterface {
         for (Car car : cars) {
             if (!car.equals(cars.get(currentCarIndex)) && car.getCarPosition().equals(position)) {
                 isOtherCarHere = true;
-                break;
             }
         }
         return isOtherCarHere;
@@ -302,13 +301,33 @@ public class Track implements TrackInterface {
                 charGrid[y][x] = grid[y][x].getValue();
             }
         }
+
+        //map crashed cars
+        for(Car car: cars){
+            int x = car.getCarPosition().getX();
+            int y = car.getCarPosition().getY();
+            if(car.isCrashed()){
+                charGrid[y][x] = 'x';
+            }
+        }
+
+        //map active cars
+        for(Car car: cars){
+            int x = car.getCarPosition().getX();
+            int y = car.getCarPosition().getY();
+            if(!car.isCrashed()){
+                charGrid[y][x] = car.getId();
+            }
+        }
+
+        /*
         //map cars
         for (Car car : cars) {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
             if (car.isCrashed()) {
-                //if two carsh crash, remaining car is shown on grid
-                //if car crashes into wall, an x is shown at it's position
+                //if two cars crash: remaining car is shown on grid
+                //if car crashes into wall: an x is shown at it's position
                 for (Car car2 : cars) {
                     if (car.getCarPosition().equals(car2.getCarPosition()) && !isOnFinishLine(new PositionVector(x,y))) {
                         break;
@@ -320,7 +339,8 @@ public class Track implements TrackInterface {
             } else {
                 charGrid[y][x] = car.getId();
             }
-        }
+        }*/
+
         //build string
         for (char[] chars : charGrid) {
             String charGridString = new String(chars);

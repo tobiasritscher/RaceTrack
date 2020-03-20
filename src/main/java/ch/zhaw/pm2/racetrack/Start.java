@@ -116,7 +116,7 @@ public class Start {
             io.print(currentCar.getId() + ": ");
             game.doCarTurn(currentCar.getCarMoveStrategy().nextMove());
             io.refresh(track);
-            if (currentCar.isCrashed() && game.getCarId(game.getWinner()) != currentCar.getId()) {
+            if (currentCar.isCrashed() && game.getWinner() == Game.NO_WINNER) {
                 io.print(currentCar.getId() + " is crashed!\n");
             }
         } while (Game.NO_WINNER == game.getWinner());
