@@ -41,10 +41,10 @@ public class CarTest {
     }
 
     @Test
-    public void crashTest()  {
+    public void crashTest() {
         PositionVector crashLocation = new PositionVector(53, 3);
-        PositionVector startLocationTestCarCrash = new PositionVector(0,0);
-        PositionVector startLocationTestCarNoCrash = new PositionVector(0,1);
+        PositionVector startLocationTestCarCrash = new PositionVector(0, 0);
+        PositionVector startLocationTestCarNoCrash = new PositionVector(0, 1);
 
         Car testCarCrash = new Car(startLocationTestCarCrash, 'a');
         Car testCarNoCrash = new Car(startLocationTestCarNoCrash, 'b');
