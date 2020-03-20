@@ -6,6 +6,7 @@ import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.text.Position;
 import java.io.File;
 import java.io.IOException;
 
@@ -42,19 +43,13 @@ public class CarTest {
 
     @Test
     public void crashTest() throws IOException, InvalidTrackFormatException {
-        // TODO doesnt work yet :C
+        PositionVector crashLocation = new PositionVector(53, 3);
+        Car testCarCrash = new Car(crashLocation, 'a');
+        Car testCarNoCrash = new Car(crashLocation, 'b');
 
-        testTrack = initializeTrack("tracks/quarter-mile.txt");
+        testCarCrash.crash(crashLocation);
 
-        testTrack.getCar(0).setCarMoveStrategy(testStrategy);
-        testTrack.getCar(0).accelerate(PositionVector.Direction.DOWN);
-        testTrack.getCar(0).move();
-
-        testTrack.getCar(1).setCarMoveStrategy(testStrategy);
-        testTrack.getCar(1).accelerate(PositionVector.Direction.UP);
-        testTrack.getCar(1).move();
-
-        Assertions.assertTrue(testTrack.getCar(0).isCrashed());
-        Assertions.assertFalse(testTrack.getCar(1).isCrashed());
+        Assertions.assertTrue(testCarCrash.isCrashed());
+        Assertions.assertFalse(testCarNoCrash.isCrashed());
     }
 }
