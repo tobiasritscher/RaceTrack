@@ -21,9 +21,8 @@ public class Game {
 
     public static final int NO_WINNER = -1;
     public static final int FIRST_TURN_CAR_INDEX = 0;
-    //todo penalty points doesn't properly work
-    public static final int NUMBER_OF_LAPS = 1;
-    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS;
+    public static final int NUMBER_OF_LAPS = 2;
+    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS*2 + 1;
     Map<Integer, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
     private TrackInterface raceTrack;
@@ -181,7 +180,6 @@ public class Game {
         if (!penaltyPoints.containsKey(activeCarIndex)) {
             penaltyPoints.put(activeCarIndex, INITIAL_NUMBER_OF_PENALTY_POINTS);
         }
-        //todo check if finish position is finish position
         if (isValidDirection(getCarVelocity(activeCarIndex), getFinishDirectionUnitVector(finishPosition))) {
             penaltyPoints.put(activeCarIndex, penaltyPoints.get(activeCarIndex) + 1);
         } else {
