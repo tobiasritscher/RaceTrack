@@ -41,20 +41,17 @@ public class CarTest {
     }
 
     @Test
-    public void crashTest() throws IOException, InvalidTrackFormatException {
-        // TODO doesnt work yet :C
+    public void crashTest()  {
+        PositionVector crashLocation = new PositionVector(53, 3);
+        PositionVector startLocationTestCarCrash = new PositionVector(0,0);
+        PositionVector startLocationTestCarNoCrash = new PositionVector(0,1);
 
-        testTrack = initializeTrack("tracks/quarter-mile.txt");
+        Car testCarCrash = new Car(startLocationTestCarCrash, 'a');
+        Car testCarNoCrash = new Car(startLocationTestCarNoCrash, 'b');
 
-        testTrack.getCar(0).setCarMoveStrategy(testStrategy);
-        testTrack.getCar(0).accelerate(PositionVector.Direction.DOWN);
-        testTrack.getCar(0).move();
+        testCarCrash.crash(crashLocation);
 
-        testTrack.getCar(1).setCarMoveStrategy(testStrategy);
-        testTrack.getCar(1).accelerate(PositionVector.Direction.UP);
-        testTrack.getCar(1).move();
-
-        Assertions.assertTrue(testTrack.getCar(0).isCrashed());
-        Assertions.assertFalse(testTrack.getCar(1).isCrashed());
+        Assertions.assertTrue(testCarCrash.isCrashed());
+        Assertions.assertFalse(testCarNoCrash.isCrashed());
     }
 }
