@@ -43,9 +43,9 @@ Choose wisely since the speed adds up.
 ![Screenshot](controls.png)
 
 # Screenshot
-If you are lucky enough and win it will look like this.
-
 ![Screenshot](StartScreenShot.png)
+
+If you are lucky enough and win it will look like this.
 
 ![Screenshot](FinishScreenShot.png)
 
