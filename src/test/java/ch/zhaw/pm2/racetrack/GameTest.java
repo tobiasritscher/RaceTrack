@@ -16,10 +16,10 @@ public class GameTest {
 
     public static final boolean THIS_CAR_IS_CRASHED = true;
     public static final boolean THIS_CAR_IS_NOT_CRASHED = false;
-    public static final PositionVector ARBITRARY_VALID_FINISH_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    public static final PositionVector ARBITRARY_VALID_FINISH_POSITION = new PositionVector(1, 0);
     public static final PositionVector ARBITRARY_INVALID_FINISH_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
     public static final PositionVector ZERO_POSITION_VECTOR = new PositionVector(0, 0);
-    public static final PositionVector ARBITRARY_VALID_CAR_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    public static final PositionVector ARBITRARY_VALID_CAR_POSITION = new PositionVector(1, 0);
 
     Random random = new Random();
 
@@ -342,7 +342,7 @@ public class GameTest {
         }
 
         trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
-        trackStub.setWishedNextCarPosition(ZERO_POSITION_VECTOR);
+        trackStub.setWishedNextCarPosition(ARBITRARY_VALID_CAR_POSITION);
 
         Game sampleGame = new Game(trackStub);
 
@@ -392,7 +392,7 @@ public class GameTest {
         }
 
         trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
-        trackStub.setWishedNextCarPosition(ZERO_POSITION_VECTOR);
+        trackStub.setWishedNextCarPosition(ARBITRARY_VALID_CAR_POSITION);
 
         //crash car
         trackStub.setWishedIsTrackBound(true);
@@ -401,4 +401,43 @@ public class GameTest {
         Assertions.assertEquals(expectedIndex, sampleGame.getWinner());
     }
 
+    @Test
+    public void doCarTurn_CrossLineInFalseDirectionGoReverseNoWinner() {
+        final int TEST_PATH_LENGTH = 3;
+        final PositionVector CAR_START_POSITION = new PositionVector(1, 0);
+        final PositionVector CAR_END_POSITION = new PositionVector(TEST_PATH_LENGTH, 0);
+
+        final int NUMBER_CARS = Config.MIN_CARS;
+        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+        Game sampleGame = new Game(trackStub);
+
+        final int FIRST_CAR = 0;
+        final int SECOND_CAR = 1;
+
+        trackStub.setWishedIsCarCrashed(FIRST_CAR, false);
+        trackStub.setWishedIsCarCrashed(SECOND_CAR, false);
+
+        List<PositionVector> testPath = sampleGame.calculatePath(CAR_START_POSITION, CAR_END_POSITION);
+        trackStub.setWishedPositionSpaceType(testPath.get(0), Config.SpaceType.TRACK);
+        trackStub.setWishedPositionSpaceType(testPath.get(1), Config.SpaceType.FINISH_LEFT);
+        trackStub.setWishedPositionSpaceType(testPath.get(2), Config.SpaceType.TRACK);
+
+        //first car
+        trackStub.setWishedCarVelocity(PositionVector.subtract(testPath.get(2), testPath.get(0)));
+        trackStub.setWishedCarPosition(CAR_START_POSITION);
+        trackStub.setWishedNextCarPosition(CAR_END_POSITION);
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
+
+        //second car
+        sampleGame.switchToNextActiveCar();
+
+        //fist car
+        trackStub.setWishedCarVelocity(PositionVector.subtract(testPath.get(0), testPath.get(2)));
+        trackStub.setWishedCarPosition(CAR_END_POSITION);
+        trackStub.setWishedNextCarPosition(CAR_START_POSITION);
+        sampleGame.doCarTurn(PositionVector.Direction.LEFT);
+        Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
+
+    }
 }

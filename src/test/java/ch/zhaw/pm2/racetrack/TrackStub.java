@@ -12,6 +12,7 @@ public class TrackStub implements TrackInterface {
 
     private PositionVector wishedCarPosition;
     private PositionVector wishedNextCarPosition;
+    private PositionVector wishedCarVelocity;
 
     private int givenCarIndex;
     private PositionVector.Direction givenAcceleration;
@@ -28,10 +29,10 @@ public class TrackStub implements TrackInterface {
 
     List<Integer> getActiveCarsList() {
         List<Integer> activeCarsList = new ArrayList<>();
-        for(Integer i : isTheCarCrashed.keySet())
-        if(!isTheCarCrashed.get(i)){
-            activeCarsList.add(i);
-        }
+        for (Integer i : isTheCarCrashed.keySet())
+            if (!isTheCarCrashed.get(i)) {
+                activeCarsList.add(i);
+            }
         return activeCarsList;
     }
 
@@ -81,14 +82,18 @@ public class TrackStub implements TrackInterface {
         return wishedNextCarPosition;
     }
 
+    public void setWishedCarVelocity(PositionVector velocity) {
+        wishedCarVelocity = velocity;
+    }
+
     @Override
     public PositionVector getCarVelocity(int index) {
-        return null;
+        return wishedCarVelocity;
     }
 
     @Override
     public Config.SpaceType getSpaceType(PositionVector position) {
-        return null;
+        return fakeGrid.get(position);
     }
 
     @Override
@@ -143,7 +148,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public boolean isOnFinishLine(PositionVector position) {
-        return false;
+        return fakeGrid.get(position) == Config.SpaceType.FINISH_LEFT || fakeGrid.get(position) == Config.SpaceType.FINISH_RIGHT;
     }
 
 
