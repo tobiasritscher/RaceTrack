@@ -44,10 +44,9 @@ public class TrackTest {
     public void someCarIsHereTest() throws IOException, InvalidTrackFormatException {
         testTrack = initializeTrack("testtracks/track_fill_test.txt");
         PositionVector testPositionPositive = new PositionVector(1,1);
-        PositionVector testPositionNegative = new PositionVector(0,0);
         //todo fix
-        Assertions.assertTrue(testTrack.isSomeOtherCarHere(0,testPositionPositive));
-        Assertions.assertFalse(testTrack.isSomeOtherCarHere(0,testPositionNegative));
+        Assertions.assertFalse(testTrack.isSomeOtherCarHere(0,testPositionPositive));
+        Assertions.assertTrue(testTrack.isSomeOtherCarHere(1,testPositionPositive));
     }
 
     @Test
