@@ -51,4 +51,4 @@ If you are lucky enough and win it will look like this.
 
 # Class Diagram
 
-![Flowchart]()
+![Screenshot](classdiagram.png)
