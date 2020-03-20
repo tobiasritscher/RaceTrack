@@ -3,10 +3,23 @@ package ch.zhaw.pm2.racetrack;
 import java.io.File;
 
 public class Config {
+    public static final int MIN_CARS = 2;
     public static final int MAX_CARS = 9;
+    private static final String TRACK_DIRECTORY = "tracks";
+    private static final String MOVE_LIST_DIRECTORY = "moveLists";
 
     // Directory containing the track files
-    private File trackDirectory = new File("tracks");
+    private static File trackDirectory = new File(TRACK_DIRECTORY);
+    // Directory containing the strategy files
+    private static File moveListDirectory = new File(MOVE_LIST_DIRECTORY);
+
+    public static File getTrackDirectory() {
+        return trackDirectory;
+    }
+
+    public static File getMoveListDirectory() {
+        return moveListDirectory;
+    }
 
     public enum StrategyType {
         DO_NOT_MOVE, USER, MOVE_LIST
@@ -23,20 +36,23 @@ public class Config {
         FINISH_UP('^'),
         FINISH_DOWN('v'),
         FINISH_LEFT('<'),
-        FINISH_RIGHT('>');
+        FINISH_RIGHT('>'),
+        ANY_CAR(' ');
 
         private final char value;
+
         SpaceType(final char c) {
             value = c;
         }
-    }
 
-    public File getTrackDirectory() {
-        return trackDirectory;
-    }
+        public char getValue() {
+            return value;
+        }
 
-    public void setTrackDirectory(File trackDirectory) {
-        this.trackDirectory = trackDirectory;
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
     }
 
 }
