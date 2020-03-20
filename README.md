@@ -51,4 +51,4 @@ If you are lucky enough and win it will look like this.
 
 # Class Diagram
 
-![Screenshot](classdiagram.png)
+![Screenshot](classdiagram.jpeg)
