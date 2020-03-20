@@ -14,7 +14,7 @@ Das Projekt wurde ine Eclipse und IntelliJ mit Gradle getestet und funktioniert 
 
 * **Oliver Corrodi** - Director of Testing classes and tracks aka Chief Caffeine and Nicotine Addict
 
-* **Erman Zankov** - First Executive Programmer specialized in logic operations aka Longboi
+* **Erman Zankov** - First Executive Programmer specialized in car mechanics aka Longboi
 
 * **Tobias Ritscher** - Senior Software Engineer in the Interface Departement aka Diseased Penguin
 
