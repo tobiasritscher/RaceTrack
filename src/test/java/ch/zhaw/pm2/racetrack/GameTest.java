@@ -514,4 +514,27 @@ public class GameTest {
         Assertions.assertTrue(sampleTrack.getCarPosition(5).equals(sampleTrack.getCarPosition(6)));
         Assertions.assertEquals(0, sampleGame.getWinner());
     }
+
+    @Test
+    /**
+     * Crashes with walls and other cars are properly handled;
+     */
+    public void doCarTurn_CollisionWithObstacles() throws IOException, InvalidTrackFormatException {
+        Track sampleTrack = new Track(new File("testtracks/game-testtracks/crashes_into_onstacles.txt"));
+        Game sampleGame = new Game(sampleTrack);
+        //crash a with car b
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertTrue(sampleTrack.isCarCrashed(0));
+
+        //car b stay still
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
+
+        //crash c with wall
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertTrue(sampleTrack.isCarCrashed(2));
+
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+
+        Assertions.assertTrue(sampleGame.getWinner() == 3);
+    }
 }
