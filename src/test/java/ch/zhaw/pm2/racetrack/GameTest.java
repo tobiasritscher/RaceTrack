@@ -466,4 +466,26 @@ public class GameTest {
             Assertions.assertEquals(staysCrashedCarCrashLocation, sampleTrack.getCarPosition(staysCrashedCarIndex));
         }
     }
+
+    /**
+     *Car "a" crashes in car "b".
+     *The test checks if car "b" can still move.
+     */
+    @Test
+    public void doCarTurn_CrashVictimIsAbleToMove() throws IOException, InvalidTrackFormatException {
+        Track sampleTrack = new Track(new File("testtracks/game-testtracks/stay_crashed.txt"));
+        Game sampleGame = new Game(sampleTrack);
+
+        final int criminalCarIndex = sampleGame.getCurrentCarIndex();
+        Assertions.assertFalse(sampleTrack.isCarCrashed(criminalCarIndex));
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertTrue(sampleTrack.isCarCrashed(criminalCarIndex));
+
+        final int victimCarIndex = sampleGame.getCurrentCarIndex();
+        Assertions.assertFalse(sampleTrack.isCarCrashed(victimCarIndex));
+        while (sampleGame.getWinner() == Game.NO_WINNER) {
+            sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        }
+        Assertions.assertTrue(sampleGame.getWinner() == victimCarIndex);
+    }
 }
