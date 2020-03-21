@@ -468,8 +468,8 @@ public class GameTest {
     }
 
     /**
-     *Car "a" crashes in car "b".
-     *The test checks if car "b" can still move.
+     * Car "a" crashes in car "b".
+     * The test checks if car "b" can still move.
      */
     @Test
     public void doCarTurn_CrashVictimIsAbleToMove() throws IOException, InvalidTrackFormatException {
@@ -487,5 +487,31 @@ public class GameTest {
             sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         }
         Assertions.assertTrue(sampleGame.getWinner() == victimCarIndex);
+    }
+
+    /**
+     * Cars "a" is able to cross the finish line, when cars "d" to "g" are crashed in on point.
+     */
+    @Test
+    public void doCarTurn_MultipleCarsCrashAtOneLocationCarAisAbleToFinish() throws IOException, InvalidTrackFormatException {
+        Track sampleTrack = new Track(new File("testtracks/game-testtracks/crash_line.txt"));
+        Game sampleGame = new Game(sampleTrack);
+        //move a,b
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        //c halt
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
+        //crash d,e,f,g
+        while (sampleGame.getWinner() == Game.NO_WINNER) {
+            sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        }
+        Assertions.assertTrue(sampleTrack.isCarCrashed(3));
+        Assertions.assertTrue(sampleTrack.isCarCrashed(4));
+        Assertions.assertTrue(sampleTrack.isCarCrashed(5));
+        Assertions.assertTrue(sampleTrack.isCarCrashed(6));
+        Assertions.assertTrue(sampleTrack.getCarPosition(3).equals(sampleTrack.getCarPosition(4)));
+        Assertions.assertTrue(sampleTrack.getCarPosition(4).equals(sampleTrack.getCarPosition(5)));
+        Assertions.assertTrue(sampleTrack.getCarPosition(5).equals(sampleTrack.getCarPosition(6)));
+        Assertions.assertEquals(0, sampleGame.getWinner());
     }
 }
