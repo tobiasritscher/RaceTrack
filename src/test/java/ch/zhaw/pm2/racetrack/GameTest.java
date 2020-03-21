@@ -1,9 +1,12 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -439,5 +442,28 @@ public class GameTest {
         sampleGame.doCarTurn(PositionVector.Direction.LEFT);
         Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
 
+    }
+
+
+    /**
+     * Car "a" crashes into car "b".
+     * After crash car "a" stays crashed und don't move.
+     */
+    @Test
+    public void doCarTurn_CrashedCarStaysCrashed() throws IOException, InvalidTrackFormatException {
+        Track sampleTrack = new Track(new File("testtracks/game-testtracks/stay_crashed.txt"));
+        Game sampleGame = new Game(sampleTrack);
+        //crash a
+        final int staysCrashedCarIndex = sampleGame.getCurrentCarIndex();
+        Assertions.assertFalse(sampleTrack.isCarCrashed(staysCrashedCarIndex));
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertTrue(sampleTrack.isCarCrashed(staysCrashedCarIndex));
+
+        final PositionVector staysCrashedCarCrashLocation = sampleGame.getCarPosition(staysCrashedCarIndex);
+        while (sampleGame.getWinner() == Game.NO_WINNER) {
+            sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+            Assertions.assertTrue(sampleTrack.isCarCrashed(staysCrashedCarIndex));
+            Assertions.assertEquals(staysCrashedCarCrashLocation, sampleTrack.getCarPosition(staysCrashedCarIndex));
+        }
     }
 }
