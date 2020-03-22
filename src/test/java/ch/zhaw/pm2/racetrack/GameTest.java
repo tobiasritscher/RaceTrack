@@ -417,44 +417,49 @@ public class GameTest {
         Assertions.assertEquals(expectedIndex, sampleGame.getWinner());
     }
 
+    /**
+     * <ol>
+     *     <li>TestStub with Config.MIN_CARS will be generated.</li>
+     *     <li>Test path the length 3 will be generated: (1,0),(2,0)(3,0)</li>
+     *     <li>For each path point SpaceType will be ordered: (1,0)->SpaceType.TRACK,(2,0)->SpaceType.FINISH_LEFT,(3,0)->SpaceType.TRACK</li>
+     *     <li>First car will cross the line in reversed direction an then in the right direction, going back to it start position.(Second car turn is just skipped.)</li>
+     *     <li>The winner should be Game.NO_WINNER</li>
+     * </ol>
+     */
     @Test
-    public void doCarTurn_CrossLineInFalseDirectionGoReverseNoWinner() {
-        final int TEST_PATH_LENGTH = 3;
-        final PositionVector CAR_START_POSITION = new PositionVector(1, 0);
-        final PositionVector CAR_END_POSITION = new PositionVector(TEST_PATH_LENGTH, 0);
+    public void doCarTurn_CrossLineInFalseDirectionGoReverseTheWinnerIsNoWinner() {
 
         final int NUMBER_CARS = Config.MIN_CARS;
         TrackStub trackStub = new TrackStub(NUMBER_CARS);
         Game sampleGame = new Game(trackStub);
+        trackStub.setWishedIsCarCrashed(0, false);
+        trackStub.setWishedIsCarCrashed(1, false);
 
-        final int FIRST_CAR = 0;
-        final int SECOND_CAR = 1;
-
-        trackStub.setWishedIsCarCrashed(FIRST_CAR, false);
-        trackStub.setWishedIsCarCrashed(SECOND_CAR, false);
-
+        //set up path
+        final int TEST_PATH_LENGTH = 3;
+        final PositionVector CAR_START_POSITION = new PositionVector(1, 0);
+        final PositionVector CAR_END_POSITION = new PositionVector(TEST_PATH_LENGTH, 0);
         List<PositionVector> testPath = sampleGame.calculatePath(CAR_START_POSITION, CAR_END_POSITION);
         trackStub.setWishedPositionSpaceType(testPath.get(0), Config.SpaceType.TRACK);
         trackStub.setWishedPositionSpaceType(testPath.get(1), Config.SpaceType.FINISH_LEFT);
         trackStub.setWishedPositionSpaceType(testPath.get(2), Config.SpaceType.TRACK);
 
-        //first car
+        //first car: cross fl in reversed direction.
         trackStub.setWishedCarVelocity(PositionVector.subtract(testPath.get(2), testPath.get(0)));
         trackStub.setWishedCarPosition(CAR_START_POSITION);
         trackStub.setWishedNextCarPosition(CAR_END_POSITION);
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
 
-        //second car
+        //skip second car
         sampleGame.switchToNextActiveCar();
 
-        //fist car
+        //fist car: cross fl in right direction
         trackStub.setWishedCarVelocity(PositionVector.subtract(testPath.get(0), testPath.get(2)));
         trackStub.setWishedCarPosition(CAR_END_POSITION);
         trackStub.setWishedNextCarPosition(CAR_START_POSITION);
         sampleGame.doCarTurn(PositionVector.Direction.LEFT);
         Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
-
     }
 
 
