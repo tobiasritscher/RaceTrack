@@ -307,6 +307,9 @@ public class GameTest {
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
     }
 
+    /**
+     * Check if an expected car was accelerated how it was intended.
+     */
     //do carTurn()
     @Test
     public void doCarTurn_AccelerateCar() {
@@ -328,9 +331,9 @@ public class GameTest {
     }
 
     /**
-     * StabTrack with Config.MAX_CARS will be generated.
-     * At the begin a random car will be picked as a winner.
-     * Each turn will be randomly decided if current car will crash.
+     * StubTrack with Config.MAX_CARS will be generated.
+     * At the begin a random car will be picked as an expected winner.
+     * Each turn will be randomly decided if current car(excluded the expected one) will crash or not.
      * In the end wll be evaluated if the winner car index was set correctly.
      */
     @Test
@@ -357,7 +360,7 @@ public class GameTest {
 
         while (sampleGame.getWinner() == Game.NO_WINNER) {
             int currentCarIndex = sampleGame.getCurrentCarIndex();
-            //decide whether to crash the car
+            //decide whether to crash the car or not
             if (random.nextBoolean() && currentCarIndex != WINNER_CAR_INDEX) {
                 trackStub.setWishedIsTrackBound(true);
             }
@@ -369,8 +372,17 @@ public class GameTest {
 
     }
 
+    /**
+     * <ol>
+     * <li>The trackStub with Config.MAX_CARS will be generated.</li>
+     * <li>Two random cars will be left active.</li>
+     * <li>The index of expected car to win will be saved(is not the current one).</li>
+     * <li>Current car will be crashed.</li>
+     * <li>The winner index should be set to the expected car index.</li>
+     * </ol>
+     */
     @Test
-    public void doCarTurn_TwoCarsOneCrashesNextIsTheWinner() {
+    public void doCarTurn_OneOfTwoRemainingActiveCarsCrashesTheRemainingCarIsTheWinner() {
         final int NUMBER_CARS = Config.MAX_CARS;
         TrackStub trackStub = new TrackStub(NUMBER_CARS);
         Game sampleGame = new Game(trackStub);
