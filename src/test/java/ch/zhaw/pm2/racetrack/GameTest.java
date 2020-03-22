@@ -508,10 +508,15 @@ public class GameTest {
     }
 
     /**
+     * Track with test track set up will be loaded, which expects,if cars are moved to the right and car "c" is not moved for one turn:
+     * <ol>
+     *     <li>Cars "a" will finish the line first.</li>
+     *     <li>Cars "d","e","f","g" will crash at the location where car "c" stood.</li>
+     * </ol>
      * Cars "a" is able to cross the finish line, when cars "d" to "g" are crashed at one point.
      */
     @Test
-    public void doCarTurn_MultipleCarsCrashAtOneLocationCarAisAbleToFinish() throws IOException, InvalidTrackFormatException {
+    public void doCarTurn_MultipleCarsCrashAtOneLocationCarAisTheWinner() throws IOException, InvalidTrackFormatException {
         Track sampleTrack = new Track(new File("testtracks/game-testtracks/crash_line.txt"));
         Game sampleGame = new Game(sampleTrack);
         //move a,b
@@ -519,7 +524,7 @@ public class GameTest {
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         //c halt
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
-        //crash d,e,f,g
+        //crash d,e,f,g and move a,b,c to finish direction.
         while (sampleGame.getWinner() == Game.NO_WINNER) {
             sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         }
@@ -534,7 +539,7 @@ public class GameTest {
     }
 
     /**
-     * Track with test set up will be loaded, which expects,if move to right and car "b" doesn't move:
+     * Track with test track set up will be loaded, which expects,if cars are moved to the right and car "b" is not moved:
      * <ol>
      *     <li>car a - crash with car be.</li>
      *     <li>car c- crash with wall.</li>
@@ -558,6 +563,6 @@ public class GameTest {
 
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
 
-        Assertions.assertTrue(sampleGame.getWinner() == 3);
+        Assertions.assertEquals(3, sampleGame.getWinner());
     }
 }
