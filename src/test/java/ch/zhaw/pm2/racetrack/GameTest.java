@@ -465,7 +465,7 @@ public class GameTest {
 
     /**
      * Car "a" crashes into car "b".
-     * After crash car "a" stays crashed und don't move.
+     * After the crash car "a" stays crashed und don't move.
      */
     @Test
     public void doCarTurn_CrashedCarStaysCrashed() throws IOException, InvalidTrackFormatException {
@@ -504,11 +504,11 @@ public class GameTest {
         while (sampleGame.getWinner() == Game.NO_WINNER) {
             sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         }
-        Assertions.assertTrue(sampleGame.getWinner() == victimCarIndex);
+        Assertions.assertEquals(sampleGame.getWinner(), victimCarIndex);
     }
 
     /**
-     * Cars "a" is able to cross the finish line, when cars "d" to "g" are crashed in on point.
+     * Cars "a" is able to cross the finish line, when cars "d" to "g" are crashed at one point.
      */
     @Test
     public void doCarTurn_MultipleCarsCrashAtOneLocationCarAisAbleToFinish() throws IOException, InvalidTrackFormatException {
@@ -527,16 +527,21 @@ public class GameTest {
         Assertions.assertTrue(sampleTrack.isCarCrashed(4));
         Assertions.assertTrue(sampleTrack.isCarCrashed(5));
         Assertions.assertTrue(sampleTrack.isCarCrashed(6));
-        Assertions.assertTrue(sampleTrack.getCarPosition(3).equals(sampleTrack.getCarPosition(4)));
-        Assertions.assertTrue(sampleTrack.getCarPosition(4).equals(sampleTrack.getCarPosition(5)));
-        Assertions.assertTrue(sampleTrack.getCarPosition(5).equals(sampleTrack.getCarPosition(6)));
+        Assertions.assertEquals(sampleTrack.getCarPosition(3), sampleTrack.getCarPosition(4));
+        Assertions.assertEquals(sampleTrack.getCarPosition(4), sampleTrack.getCarPosition(5));
+        Assertions.assertEquals(sampleTrack.getCarPosition(5), sampleTrack.getCarPosition(6));
         Assertions.assertEquals(0, sampleGame.getWinner());
     }
 
-    @Test
     /**
-     * Crashes with walls and other cars are properly handled;
+     * Track with test set up will be loaded, which expects,if move to right and car "b" doesn't move:
+     * <ol>
+     *     <li>car a - crash with car be.</li>
+     *     <li>car c- crash with wall.</li>
+     *     <li>car d- will cross the finish line.</li>
+     * </ol>
      */
+    @Test
     public void doCarTurn_CollisionWithObstacles() throws IOException, InvalidTrackFormatException {
         Track sampleTrack = new Track(new File("testtracks/game-testtracks/crashes_into_onstacles.txt"));
         Game sampleGame = new Game(sampleTrack);
@@ -544,7 +549,7 @@ public class GameTest {
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertTrue(sampleTrack.isCarCrashed(0));
 
-        //car b stay still
+        //car b stand still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
 
         //crash c with wall

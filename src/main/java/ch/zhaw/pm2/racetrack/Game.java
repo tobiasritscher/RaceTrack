@@ -261,7 +261,7 @@ public class Game {
      * Not: If there are no active cars left activeCarIndex = NO_WINNER will be set.
      */
     public void switchToNextActiveCar() {
-        //todo no active car left unchecked exception >> will be caught by game
+        //todo use exception
         if (activeCarIndex != NO_WINNER) {
             int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
             while (raceTrack.isCarCrashed(nextCarIndex) && activeCarIndex != nextCarIndex) {
