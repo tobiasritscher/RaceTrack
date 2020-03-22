@@ -22,6 +22,7 @@ public class TrackStub implements TrackInterface {
     private Map<Integer, Boolean> isTheCarCrashed = new HashMap<>();
     private int numberActiveCars;
     private boolean isTrackBound;
+    private boolean isSomeOtherCarHere = false;
 
     public TrackStub() {
 
@@ -110,9 +111,13 @@ public class TrackStub implements TrackInterface {
         return null;
     }
 
+    public void setWishedIsSomeOtherCarHere(boolean isSomeOtherCarHere) {
+        this.isSomeOtherCarHere = isSomeOtherCarHere;
+    }
+
     @Override
     public boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) {
-        return false;
+        return isSomeOtherCarHere;
     }
 
     @Override
@@ -145,7 +150,7 @@ public class TrackStub implements TrackInterface {
         return isTheCarCrashed.get(carIndex);
     }
 
-    public void setWisheActiveCarNumber(int carNumber) {
+    public void setWishedActiveCarNumber(int carNumber) {
         numberActiveCars = carNumber;
     }
 
