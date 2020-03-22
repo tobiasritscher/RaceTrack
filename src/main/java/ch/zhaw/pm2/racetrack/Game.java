@@ -245,11 +245,11 @@ public class Game {
     }
 
     /**
-     * Tell if there is only one active car left.
-     *
+     * Tells if there is only one active car left.
+     * Note: is package private for test purposes only.
      * @return True, if only one car left.
      */
-    private boolean isOneCarRemaining() {
+     boolean isOneCarRemaining() {
         final int ONLY_ONE_CAR = 1;
         return raceTrack.getNumberActiveCarsRemaining() == ONLY_ONE_CAR;
     }

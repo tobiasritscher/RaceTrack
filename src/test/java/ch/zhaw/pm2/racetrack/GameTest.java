@@ -571,4 +571,59 @@ public class GameTest {
 
         Assertions.assertEquals(3, sampleGame.getWinner());
     }
+
+    //isOneCarRemaining()
+
+    /**
+     * The test does following:
+     * <ol>
+     *     <li>TrackStub is generated.</li>
+     *     <li>TrackStub set up: number of active cars is set to be one.</li>
+     * </ol>
+     * True is expected.
+     */
+    @Test
+    public void isOneCarRemaining_OneCar_True() {
+        TrackStub trackStub = new TrackStub();
+        Game sampleGame = new Game(trackStub);
+        final int NUMBER_ACTIVE_CARS = 1;
+        trackStub.setWisheActiveCarNumber(NUMBER_ACTIVE_CARS);
+        Assertions.assertTrue(sampleGame.isOneCarRemaining());
+    }
+
+
+    /**
+     * The test does following:
+     * <ol>
+     *     <li>TrackStub is generated.</li>
+     *     <li>TrackStub set up: number of active cars is set to be two.</li>
+     * </ol>
+     * False is expected.
+     */
+    @Test
+    public void isOneCarRemaining_TwoCars_False() {
+        TrackStub trackStub = new TrackStub();
+        Game sampleGame = new Game(trackStub);
+        final int NUMBER_ACTIVE_CARS = 2;
+        trackStub.setWisheActiveCarNumber(NUMBER_ACTIVE_CARS);
+        Assertions.assertFalse(sampleGame.isOneCarRemaining());
+    }
+
+
+    /**
+     * The test does following:
+     * <ol>
+     *     <li>TrackStub is generated.</li>
+     *     <li>TrackStub set up: number of active cars is set to be -1.</li>
+     * </ol>
+     * False is expected.
+     */
+    @Test
+    public void isOneCarRemaining_ImpossibleNumberOfCars_False() {
+        TrackStub trackStub = new TrackStub();
+        Game sampleGame = new Game(trackStub);
+        final int NUMBER_ACTIVE_CARS = -1;
+        trackStub.setWisheActiveCarNumber(NUMBER_ACTIVE_CARS);
+        Assertions.assertFalse(sampleGame.isOneCarRemaining());
+    }
 }

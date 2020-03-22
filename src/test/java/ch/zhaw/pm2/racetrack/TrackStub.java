@@ -23,6 +23,10 @@ public class TrackStub implements TrackInterface {
     private int numberActiveCars;
     private boolean isTrackBound;
 
+    public TrackStub() {
+
+    }
+
     public TrackStub(int carCount) {
         this.wishedCarCount = carCount;
     }
@@ -139,6 +143,10 @@ public class TrackStub implements TrackInterface {
     @Override
     public boolean isCarCrashed(int carIndex) {
         return isTheCarCrashed.get(carIndex);
+    }
+
+    public void setWisheActiveCarNumber(int carNumber) {
+        numberActiveCars = carNumber;
     }
 
     @Override
