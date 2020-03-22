@@ -189,35 +189,21 @@ public class Game {
     }
 
     /**
-     * Evaluate if the active car is crossing the finish line(FL) in valid direction.
-     * <p>
-     * Calculation:
-     * <ol>
-     *  <li>Movement direction vector is calculated: vector which results from difference between next position and current position.</li>
-     *  <li>FL???</li>
-     *  <li>Scalar product between finish line direction unit vector and the calculated difference vector is taken.</li>
-     *  <li>Scalar product gives the sign of the penalty point</li>
-     * </ol>
-     * <p>
-     * Note: The caller function has to make sure the given position is actually the finish line.
-     *
-     * @return True, if crossed FL in the valid direction. False, if crossed FL in a false direction, or the given position is not a finish line.
+     * Decide whether carVelocity crosses finishDirection vector at the angle between [0,Math.PI/2]
+     * @return True, if the angle between given vectors is between zero and Math.PI/2.
      */
     boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {
-        //todo test
         boolean isValidDirection = false;
-        int angle = (int) PositionVector.calculateAngle(carVelocity, finishDirection);
-        if (angle < Math.PI / 2 && angle >= 0) {
+        double angle = PositionVector.calculateAngle(carVelocity, finishDirection);
+        if (angle >= 0 && angle < Math.PI / 2) {
             isValidDirection = true;
         }
         return isValidDirection;
     }
 
     /**
-     * Returns a direction unit vector which is in the valid finish direction and is orthogonal to finish line.
-     * The coordinate system is assumed to be directed as following: first coordinate to the right and second coordinate downwards.
-     * <p>
-     * Note:
+     * Returns a direction unit vector which is orthogonal to finish line and points into valid finish direction.
+     * <p>Note:</p>
      * <ol>
      *     <li>Any exception thrown by function call getSpaceType() will be ignored, a (0,0) PositionVector will be returned.</li>
      *     <li>Is package private only for test purposes.</li>
@@ -229,7 +215,6 @@ public class Game {
      * @throws IllegalArgumentException If the given position does not exist on race track.
      */
     PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
-        //todo test
         PositionVector finishDirectionUnitVector;
         switch (raceTrack.getSpaceType(positionOnFinishLine)) {
             case FINISH_UP:
@@ -254,7 +239,7 @@ public class Game {
      * Tells if there is only one active car left.
      * Note: is package private for test purposes only.
      *
-     * @return True, if only one car left.
+     * @return True, only if one car left.
      */
     boolean isOneCarRemaining() {
         final int ONLY_ONE_CAR = 1;

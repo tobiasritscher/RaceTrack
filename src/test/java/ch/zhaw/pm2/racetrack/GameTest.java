@@ -56,14 +56,45 @@ public class GameTest {
         trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.FINISH_RIGHT);
         Assertions.assertEquals(PositionVector.Direction.RIGHT.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
     }
-    
+
     @Test
     public void getFinishDirectionUnitVector_PositionIsInvalidFinishType() {
         setUpGameWithDefaultTrackStub();
         trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.TRACK);
-        Assertions.assertThrows(GameException.class, ()->sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+        Assertions.assertThrows(GameException.class, () -> sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
         trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.WALL);
-        Assertions.assertThrows(GameException.class, ()->sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+        Assertions.assertThrows(GameException.class, () -> sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+    }
+
+    //isValidDirection()
+    @Test
+    public void isValidDirection_Valid() {
+        setUpGameWithDefaultTrackStub();
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.UP_RIGHT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.DOWN_RIGHT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.UP.vector, PositionVector.Direction.UP_LEFT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.UP.vector, PositionVector.Direction.UP_RIGHT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.UP_LEFT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.DOWN_LEFT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.DOWN.vector, PositionVector.Direction.DOWN_RIGHT.vector));
+        Assertions.assertTrue(sampleGame.isValidDirection(PositionVector.Direction.DOWN.vector, PositionVector.Direction.DOWN_LEFT.vector));
+    }
+
+    @Test
+    public void isValidDirection_Invalid() {
+        setUpGameWithDefaultTrackStub();
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.UP.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.UP_LEFT.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.LEFT.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.DOWN_LEFT.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.DOWN.vector));
+
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.UP.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.UP_RIGHT.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.RIGHT.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.DOWN_RIGHT.vector));
+        Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.DOWN.vector));
+
     }
 
     /**
