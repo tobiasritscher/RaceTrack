@@ -32,6 +32,14 @@ public class GameTest {
     private Game sampleGame;
     private Track sampleTrack;
 
+    /**
+     * Game with default TackStub will be generated.
+     */
+    private void setUpGameWithDefaultTrackStub() {
+        trackStub = new TrackStub();
+        sampleGame = new Game(trackStub);
+    }
+
     @Test
     public void getFinishDirectionUnitVector_FinishUp() {
         mockedTrack = mock(Track.class);
@@ -321,8 +329,8 @@ public class GameTest {
      * @param numberCars wished return value for trackStub.getCarCount();
      */
     private void setUpDoCarTurn(int numberCars) {
-        trackStub = new TrackStub(numberCars);
-        sampleGame = new Game(trackStub);
+        setUpGameWithDefaultTrackStub();
+        trackStub.setWishedCarCount(numberCars);
         for (int i = 0; i < numberCars; i++) {
             trackStub.setWishedIsCarCrashed(i, false);
         }
@@ -479,7 +487,7 @@ public class GameTest {
      * </ol>
      *
      * @param filePath path to the test track.
-     * @throws IOException Invalid file path.
+     * @throws IOException                 Invalid file path.
      * @throws InvalidTrackFormatException Invalid track format.
      */
     private void setUpTrackAndGame(String filePath) throws IOException, InvalidTrackFormatException {
@@ -580,16 +588,13 @@ public class GameTest {
         //crash a with car b
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertTrue(sampleTrack.isCarCrashed(0));
-
         //car b stand still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
-
         //crash c with wall
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertTrue(sampleTrack.isCarCrashed(2));
 
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
-
         Assertions.assertEquals(3, sampleGame.getWinner());
     }
     //isOneCarRemaining
@@ -659,8 +664,7 @@ public class GameTest {
      * @param isSomeOtherCarHere wished return value for trackStub.isSomeOtherCarHere(PositionVector)
      */
     private void setUpWillCarCrash(boolean isTrackBound, boolean isSomeOtherCarHere) {
-        trackStub = new TrackStub();
-        sampleGame = new Game(trackStub);
+        setUpGameWithDefaultTrackStub();
         setUpWillCarCrashTrackStubResponse(isTrackBound, isSomeOtherCarHere);
     }
 

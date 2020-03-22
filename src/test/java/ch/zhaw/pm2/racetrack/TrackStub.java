@@ -28,10 +28,6 @@ public class TrackStub implements TrackInterface {
 
     }
 
-    public TrackStub(int carCount) {
-        this.wishedCarCount = carCount;
-    }
-
     List<Integer> getActiveCarsList() {
         List<Integer> activeCarsList = new ArrayList<>();
         for (Integer i : isTheCarCrashed.keySet())
@@ -39,6 +35,10 @@ public class TrackStub implements TrackInterface {
                 activeCarsList.add(i);
             }
         return activeCarsList;
+    }
+
+    public void setWishedCarCount(int carCount) {
+        wishedCarCount = carCount;
     }
 
     @Override
@@ -65,6 +65,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public char getCarId(int index) {
+        givenCarIndex = index;
         return 0;
     }
 
@@ -79,6 +80,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public PositionVector getCarPosition(int index) {
+        givenCarIndex = index;
         return wishedCarPosition;
     }
 
@@ -180,22 +182,8 @@ public class TrackStub implements TrackInterface {
     }
 
     @Override
-    public void checkCarIndex(int carIndex) {
-
-    }
-
-    @Override
     public void checkPosition(PositionVector position) {
 
     }
 
-    @Override
-    public int getyDimension() {
-        return 0;
-    }
-
-    @Override
-    public int getxDimension() {
-        return 0;
-    }
 }
