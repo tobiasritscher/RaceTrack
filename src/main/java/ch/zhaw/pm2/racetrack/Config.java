@@ -5,6 +5,7 @@ import java.io.File;
 public class Config {
     public static final int MIN_CARS = 2;
     public static final int MAX_CARS = 9;
+    public static final int NUMBER_OF_LAPS = 1;
     private static final String TRACK_DIRECTORY = "tracks";
     private static final String MOVE_LIST_DIRECTORY = "moveLists";
 

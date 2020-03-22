@@ -21,12 +21,10 @@ public class Game {
 
     public static final int NO_WINNER = -1;
     public static final int FIRST_TURN_CAR_INDEX = 0;
-    public static final int NUMBER_OF_LAPS = 1;
-    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -NUMBER_OF_LAPS * 2 + 1;
-    Map<Integer, Integer> penaltyPoints = new HashMap<>();
+    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -Config.NUMBER_OF_LAPS * 2 + 1;
+    private Map<Integer, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
     private TrackInterface raceTrack;
-    //private TrackInterface raceTrack;
     private int activeCarIndex = FIRST_TURN_CAR_INDEX;
 
     /**
@@ -358,4 +356,5 @@ public class Game {
     public boolean willCarCrash(int carIndex, PositionVector position) {
         return raceTrack.isTrackBound(position) || raceTrack.isSomeOtherCarHere(carIndex, position);
     }
+
 }
