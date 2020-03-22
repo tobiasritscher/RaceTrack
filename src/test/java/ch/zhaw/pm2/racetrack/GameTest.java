@@ -704,4 +704,12 @@ public class GameTest {
         final int ARBITRARY_CAR_INDEX = 0;
         Assertions.assertFalse(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
     }
+
+    @Test
+    public void getCarId_IndexPassedCorrectly() {
+        setUpGameWithDefaultTrackStub();
+        final int ARBITRARY_INDEX = 333;
+        sampleGame.getCarId(ARBITRARY_INDEX);
+        Assertions.assertEquals(ARBITRARY_INDEX, trackStub.getGivenCarIndex());
+    }
 }

@@ -114,7 +114,6 @@ public class Game {
      * @throws IllegalArgumentException No such direction possible.
      */
     public void doCarTurn(Direction acceleration) {
-        //todo test
         if (!Arrays.asList(Direction.values()).contains(acceleration)) {
             throw new GameException(ErrorType.INVALID_ACCELERATION);
         }
@@ -220,6 +219,7 @@ public class Game {
      * @return (x, y)=(0,0) if the point is not on finish line, otherwise returns finish direction unit vector.
      */
     PositionVector getFinishDirectionUnitVector(PositionVector positionOnFinishLine) {
+        //todo test
         PositionVector finishDirectionUnitVector;
         try {
             switch (raceTrack.getSpaceType(positionOnFinishLine)) {
