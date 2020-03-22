@@ -391,7 +391,8 @@ public class GameTest {
         }
 
         //crash all cars except two
-        for (int i = 0; i < NUMBER_CARS - 2; i++) {
+        final int NUMBER_CARS_LEFT_ACTIVE = 2;
+        for (int i = 0; i < NUMBER_CARS - NUMBER_CARS_LEFT_ACTIVE; i++) {
             int carIndex = random.nextInt(NUMBER_CARS);
             while (trackStub.isCarCrashed(carIndex)) {
                 carIndex = random.nextInt(NUMBER_CARS);
@@ -400,7 +401,7 @@ public class GameTest {
         }
 
         sampleGame.switchToNextActiveCar();
-
+        // the expected car to win is not the current one
         int expectedIndex = trackStub.getActiveCarsList().get(0);
         if (expectedIndex == sampleGame.getCurrentCarIndex()) {
             expectedIndex = trackStub.getActiveCarsList().get(1);
@@ -409,7 +410,7 @@ public class GameTest {
         trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
         trackStub.setWishedNextCarPosition(ARBITRARY_VALID_CAR_POSITION);
 
-        //crash car
+        //crash current car
         trackStub.setWishedIsTrackBound(true);
         sampleGame.doCarTurn(PositionVector.Direction.UP);
 
