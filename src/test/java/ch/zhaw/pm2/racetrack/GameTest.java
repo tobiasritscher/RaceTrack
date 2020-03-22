@@ -30,6 +30,7 @@ public class GameTest {
     private Track mockedTrack;
     private TrackStub trackStub;
     private Game sampleGame;
+    private Track sampleTrack;
 
     @Test
     public void getFinishDirectionUnitVector_FinishUp() {
@@ -307,23 +308,46 @@ public class GameTest {
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
     }
 
+    //do carTurn()
+
+    /**
+     * Set up doCarTurn():
+     * <ol>
+     *     <li>Generate trackStub with "numberCars" cars.</li>
+     *     <li>Generate sampleGame</li>
+     *     <li>Set up trackStub.isCarCrashed(int) response for each car index to "false".</li></l>
+     * </ol>
+     *
+     * @param numberCars wished return value for trackStub.getCarCount();
+     */
+    private void setUpDoCarTurn(int numberCars) {
+        trackStub = new TrackStub(numberCars);
+        sampleGame = new Game(trackStub);
+        for (int i = 0; i < numberCars; i++) {
+            trackStub.setWishedIsCarCrashed(i, false);
+        }
+    }
+
+    /**
+     * Set up wished behavior of trackStub with respect to car position.
+     *
+     * @param carCurrentPosition wished return value for trackStub.getCarPosition(int)
+     * @param carNextPosition    wished return value for trackStub.getCarNextPosition(int)
+     */
+    private void setUpTrackStubCarPositionResponse(PositionVector carCurrentPosition, PositionVector carNextPosition) {
+        trackStub.setWishedCarPosition(carCurrentPosition);
+        trackStub.setWishedNextCarPosition(carNextPosition);
+    }
+
     /**
      * Check if an expected car was accelerated how it was intended.
      */
-    //do carTurn()
     @Test
     public void doCarTurn_AccelerateCar() {
-
         final int NUMBER_CARS = Config.MIN_CARS;
-        trackStub = new TrackStub(NUMBER_CARS);
+        setUpDoCarTurn(NUMBER_CARS);
 
-        sampleGame = new Game(trackStub);
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            trackStub.setWishedIsCarCrashed(i, false);
-        }
-
-        trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
-        trackStub.setWishedNextCarPosition(ZERO_POSITION_VECTOR);
+        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ZERO_POSITION_VECTOR);
 
         sampleGame.doCarTurn(PositionVector.Direction.UP);
         Assertions.assertEquals(PositionVector.Direction.UP, trackStub.getGivenAcceleration());
@@ -339,18 +363,11 @@ public class GameTest {
     @Test
     public void doCarTurn_LastRemainingCarIsTheWinner() {
         final int NUMBER_CARS = Config.MAX_CARS;
+        setUpDoCarTurn(NUMBER_CARS);
+
         final int WINNER_CAR_INDEX = random.nextInt(NUMBER_CARS);
 
-        trackStub = new TrackStub(NUMBER_CARS);
-
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            trackStub.setWishedIsCarCrashed(i, false);
-        }
-
-        trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
-        trackStub.setWishedNextCarPosition(ARBITRARY_VALID_CAR_POSITION);
-
-        sampleGame = new Game(trackStub);
+        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ARBITRARY_VALID_CAR_POSITION);
 
         //do some turns without crashes
         final int NUMBER_TURNS_WITHOUT_CRASHES = 5;
@@ -384,11 +401,7 @@ public class GameTest {
     @Test
     public void doCarTurn_OneOfTwoRemainingActiveCarsCrashesTheRemainingCarIsTheWinner() {
         final int NUMBER_CARS = Config.MAX_CARS;
-        trackStub = new TrackStub(NUMBER_CARS);
-        sampleGame = new Game(trackStub);
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            trackStub.setWishedIsCarCrashed(i, false);
-        }
+        setUpDoCarTurn(NUMBER_CARS);
 
         //crash all cars except two
         final int NUMBER_CARS_LEFT_ACTIVE = 2;
@@ -407,8 +420,7 @@ public class GameTest {
             expectedIndex = trackStub.getActiveCarsList().get(1);
         }
 
-        trackStub.setWishedCarPosition(ZERO_POSITION_VECTOR);
-        trackStub.setWishedNextCarPosition(ARBITRARY_VALID_CAR_POSITION);
+        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ARBITRARY_VALID_CAR_POSITION);
 
         //crash current car
         trackStub.setWishedIsTrackBound(true);
@@ -428,10 +440,9 @@ public class GameTest {
      */
     @Test
     public void doCarTurn_CrossLineInFalseDirectionGoReverseTheWinnerIsNoWinner() {
-
         final int NUMBER_CARS = Config.MIN_CARS;
-        trackStub = new TrackStub(NUMBER_CARS);
-        sampleGame = new Game(trackStub);
+        setUpDoCarTurn(NUMBER_CARS);
+
         trackStub.setWishedIsCarCrashed(0, false);
         trackStub.setWishedIsCarCrashed(1, false);
 
@@ -446,8 +457,7 @@ public class GameTest {
 
         //first car: cross fl in reversed direction.
         trackStub.setWishedCarVelocity(PositionVector.subtract(testPath.get(2), testPath.get(0)));
-        trackStub.setWishedCarPosition(CAR_START_POSITION);
-        trackStub.setWishedNextCarPosition(CAR_END_POSITION);
+        setUpTrackStubCarPositionResponse(CAR_START_POSITION, CAR_END_POSITION);
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
 
@@ -456,10 +466,25 @@ public class GameTest {
 
         //fist car: cross fl in right direction
         trackStub.setWishedCarVelocity(PositionVector.subtract(testPath.get(0), testPath.get(2)));
-        trackStub.setWishedCarPosition(CAR_END_POSITION);
-        trackStub.setWishedNextCarPosition(CAR_START_POSITION);
+        setUpTrackStubCarPositionResponse(CAR_END_POSITION, CAR_START_POSITION);
         sampleGame.doCarTurn(PositionVector.Direction.LEFT);
         Assertions.assertEquals(Game.NO_WINNER, sampleGame.getWinner());
+    }
+
+    /**
+     * Do set up as follow:
+     * <ol>
+     *     <li>Generate sampleTrack from the given file path.</li>
+     *     <li>Generate sampleGame with sampleTrack as parameter.</li>
+     * </ol>
+     *
+     * @param filePath path to the test track.
+     * @throws IOException Invalid file path.
+     * @throws InvalidTrackFormatException Invalid track format.
+     */
+    private void setUpTrackAndGame(String filePath) throws IOException, InvalidTrackFormatException {
+        sampleTrack = new Track(new File(filePath));
+        sampleGame = new Game(sampleTrack);
     }
 
     /**
@@ -471,8 +496,7 @@ public class GameTest {
      */
     @Test
     public void doCarTurn_CrashedCarStaysCrashed() throws IOException, InvalidTrackFormatException {
-        Track sampleTrack = new Track(new File("testtracks/game-testtracks/stay_crashed.txt"));
-        sampleGame = new Game(sampleTrack);
+        setUpTrackAndGame("testtracks/game-testtracks/stay_crashed.txt");
         //crash a
         final int staysCrashedCarIndex = sampleGame.getCurrentCarIndex();
         Assertions.assertFalse(sampleTrack.isCarCrashed(staysCrashedCarIndex));
@@ -487,6 +511,7 @@ public class GameTest {
         }
     }
 
+
     /**
      * Track with test track set up will be loaded, which expects,if cars are moved to the right and car "b" is not moved for one turn:
      * <ol>
@@ -496,8 +521,7 @@ public class GameTest {
      */
     @Test
     public void doCarTurn_CrashVictimIsAbleToMove() throws IOException, InvalidTrackFormatException {
-        Track sampleTrack = new Track(new File("testtracks/game-testtracks/stay_crashed.txt"));
-        sampleGame = new Game(sampleTrack);
+        setUpTrackAndGame("testtracks/game-testtracks/stay_crashed.txt");
 
         final int criminalCarIndex = sampleGame.getCurrentCarIndex();
         Assertions.assertFalse(sampleTrack.isCarCrashed(criminalCarIndex));
@@ -522,8 +546,7 @@ public class GameTest {
      */
     @Test
     public void doCarTurn_MultipleCarsCrashAtOneLocationCarAisTheWinner() throws IOException, InvalidTrackFormatException {
-        Track sampleTrack = new Track(new File("testtracks/game-testtracks/crash_line.txt"));
-        sampleGame = new Game(sampleTrack);
+        setUpTrackAndGame("testtracks/game-testtracks/crash_line.txt");
         //move a,b
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
@@ -553,8 +576,7 @@ public class GameTest {
      */
     @Test
     public void doCarTurn_CollisionWithObstacles() throws IOException, InvalidTrackFormatException {
-        Track sampleTrack = new Track(new File("testtracks/game-testtracks/crashes_into_onstacles.txt"));
-        sampleGame = new Game(sampleTrack);
+        setUpTrackAndGame("testtracks/game-testtracks/crashes_into_onstacles.txt");
         //crash a with car b
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertTrue(sampleTrack.isCarCrashed(0));
