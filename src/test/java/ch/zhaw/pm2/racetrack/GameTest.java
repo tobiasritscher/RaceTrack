@@ -646,7 +646,7 @@ public class GameTest {
     @Test
     public void isOneCarRemaining_ImpossibleNumberOfCars_False() {
         final int NUMBER_ACTIVE_CARS = -1;
-        trackStub.setWishedActiveCarNumber(NUMBER_ACTIVE_CARS);
+        setUpIsOneCarRemaining(NUMBER_ACTIVE_CARS);
         Assertions.assertFalse(sampleGame.isOneCarRemaining());
     }
 
