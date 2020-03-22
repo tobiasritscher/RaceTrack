@@ -315,7 +315,7 @@ public class GameTest {
     public void doCarTurn_AccelerateCar() {
 
         final int NUMBER_CARS = Config.MIN_CARS;
-        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+        trackStub = new TrackStub(NUMBER_CARS);
 
         sampleGame = new Game(trackStub);
         for (int i = 0; i < NUMBER_CARS; i++) {
@@ -341,7 +341,7 @@ public class GameTest {
         final int NUMBER_CARS = Config.MAX_CARS;
         final int WINNER_CAR_INDEX = random.nextInt(NUMBER_CARS);
 
-        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+        trackStub = new TrackStub(NUMBER_CARS);
 
         for (int i = 0; i < NUMBER_CARS; i++) {
             trackStub.setWishedIsCarCrashed(i, false);
@@ -384,7 +384,7 @@ public class GameTest {
     @Test
     public void doCarTurn_OneOfTwoRemainingActiveCarsCrashesTheRemainingCarIsTheWinner() {
         final int NUMBER_CARS = Config.MAX_CARS;
-        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+        trackStub = new TrackStub(NUMBER_CARS);
         sampleGame = new Game(trackStub);
         for (int i = 0; i < NUMBER_CARS; i++) {
             trackStub.setWishedIsCarCrashed(i, false);
@@ -430,7 +430,7 @@ public class GameTest {
     public void doCarTurn_CrossLineInFalseDirectionGoReverseTheWinnerIsNoWinner() {
 
         final int NUMBER_CARS = Config.MIN_CARS;
-        TrackStub trackStub = new TrackStub(NUMBER_CARS);
+        trackStub = new TrackStub(NUMBER_CARS);
         sampleGame = new Game(trackStub);
         trackStub.setWishedIsCarCrashed(0, false);
         trackStub.setWishedIsCarCrashed(1, false);
@@ -570,8 +570,18 @@ public class GameTest {
 
         Assertions.assertEquals(3, sampleGame.getWinner());
     }
+    //isOneCarRemaining
 
-    //isOneCarRemaining()
+    /**
+     * Set up trackStub and sampleGame.
+     *
+     * @param numberActiveCars wished return value for trackStub.getNumberActiveCarsRemaining()
+     */
+    private void setUpIsOneCarRemaining(int numberActiveCars) {
+        trackStub = new TrackStub();
+        sampleGame = new Game(trackStub);
+        trackStub.setWishedActiveCarNumber(numberActiveCars);
+    }
 
     /**
      * The test does following:
@@ -583,10 +593,8 @@ public class GameTest {
      */
     @Test
     public void isOneCarRemaining_OneCar_True() {
-        TrackStub trackStub = new TrackStub();
-        sampleGame = new Game(trackStub);
         final int NUMBER_ACTIVE_CARS = 1;
-        trackStub.setWishedActiveCarNumber(NUMBER_ACTIVE_CARS);
+        setUpIsOneCarRemaining(NUMBER_ACTIVE_CARS);
         Assertions.assertTrue(sampleGame.isOneCarRemaining());
     }
 
@@ -600,10 +608,8 @@ public class GameTest {
      */
     @Test
     public void isOneCarRemaining_TwoCars_False() {
-        TrackStub trackStub = new TrackStub();
-        sampleGame = new Game(trackStub);
         final int NUMBER_ACTIVE_CARS = 2;
-        trackStub.setWishedActiveCarNumber(NUMBER_ACTIVE_CARS);
+        setUpIsOneCarRemaining(NUMBER_ACTIVE_CARS);
         Assertions.assertFalse(sampleGame.isOneCarRemaining());
     }
 
@@ -617,8 +623,6 @@ public class GameTest {
      */
     @Test
     public void isOneCarRemaining_ImpossibleNumberOfCars_False() {
-        TrackStub trackStub = new TrackStub();
-        sampleGame = new Game(trackStub);
         final int NUMBER_ACTIVE_CARS = -1;
         trackStub.setWishedActiveCarNumber(NUMBER_ACTIVE_CARS);
         Assertions.assertFalse(sampleGame.isOneCarRemaining());
