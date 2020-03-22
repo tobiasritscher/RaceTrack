@@ -1,7 +1,5 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-
 import java.util.List;
 
 public interface TrackInterface {
@@ -15,33 +13,29 @@ public interface TrackInterface {
 
     PositionVector getCarVelocity(int index) throws IllegalArgumentException;
 
-    Config.SpaceType getSpaceType(PositionVector position);
+    Config.SpaceType getSpaceType(PositionVector position) throws IllegalArgumentException;
 
     List<Car> getCars();
 
     Car getCar(int carIndex) throws IllegalArgumentException;
 
-    boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position);
+    boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) throws IllegalArgumentException;
 
-    void accelerateCar(int carIndex, PositionVector.Direction acceleration);
+    void accelerateCar(int carIndex, PositionVector.Direction acceleration) throws IllegalArgumentException;
 
-    PositionVector getCarNextPosition(int carIndex);
+    PositionVector getCarNextPosition(int carIndex) throws IllegalArgumentException;
 
-    void crashCar(int carIndex, PositionVector crashLocation);
+    void crashCar(int carIndex, PositionVector crashLocation) throws IllegalArgumentException;
 
-    void moveCar(int carIndex);
+    void moveCar(int carIndex) throws IllegalArgumentException;
 
-    boolean isCarCrashed(int carIndex);
+    boolean isCarCrashed(int carIndex) throws IllegalArgumentException;
 
     int getNumberActiveCarsRemaining();
 
-    boolean isOnFinishLine(PositionVector position);
+    boolean isOnFinishLine(PositionVector position) throws IllegalArgumentException;
 
-    boolean isTrackBound(PositionVector position);
-
-    void setStrategy(MoveStrategy moveStrategy, Car car);
-
-    void checkPosition(PositionVector position);
+    boolean isTrackBound(PositionVector position) throws IllegalArgumentException;
 
     @Override
     String toString();

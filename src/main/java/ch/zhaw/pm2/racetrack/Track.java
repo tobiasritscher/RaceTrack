@@ -143,6 +143,7 @@ public class Track implements TrackInterface {
         for (Car car : cars) {
             if (!car.equals(cars.get(currentCarIndex)) && car.getCarPosition().equals(position)) {
                 isOtherCarHere = true;
+                break;
             }
         }
         return isOtherCarHere;
@@ -254,13 +255,12 @@ public class Track implements TrackInterface {
         return getSpaceType(position).equals(Config.SpaceType.WALL);
     }
 
-    @Override
     public void setStrategy(MoveStrategy moveStrategy, Car car) {
         car.setCarMoveStrategy(moveStrategy);
     }
 
     /**
-     * @param carIndex
+     * @param carIndex The zero-based carIndex number.
      */
     public void checkCarIndex(int carIndex) {
         if (carIndex > cars.size() - 1 || carIndex < 0) {
@@ -268,7 +268,6 @@ public class Track implements TrackInterface {
         }
     }
 
-    @Override
     public void checkPosition(PositionVector position) {
         if (position.getX() > xDimension - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();

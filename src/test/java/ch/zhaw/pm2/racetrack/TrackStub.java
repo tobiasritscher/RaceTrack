@@ -95,6 +95,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public PositionVector getCarVelocity(int index) {
+        givenCarIndex = index;
         return wishedCarVelocity;
     }
 
@@ -176,14 +177,5 @@ public class TrackStub implements TrackInterface {
         return isTrackBound;
     }
 
-    @Override
-    public void setStrategy(MoveStrategy moveStrategy, Car car) {
-
-    }
-
-    @Override
-    public void checkPosition(PositionVector position) {
-
-    }
 
 }

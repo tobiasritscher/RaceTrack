@@ -704,12 +704,31 @@ public class GameTest {
         final int ARBITRARY_CAR_INDEX = 0;
         Assertions.assertFalse(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
     }
-
+    // getCarId(), getCarVelocity(), getCarPosition(),
     @Test
-    public void getCarId_IndexPassedCorrectly() {
+    public void carGetters_IndexPassedCorrectly() {
         setUpGameWithDefaultTrackStub();
-        final int ARBITRARY_INDEX = 333;
-        sampleGame.getCarId(ARBITRARY_INDEX);
-        Assertions.assertEquals(ARBITRARY_INDEX, trackStub.getGivenCarIndex());
+        final int ARBITRARY_INDEX_1 = 331;
+        sampleGame.getCarId(ARBITRARY_INDEX_1);
+        Assertions.assertEquals(ARBITRARY_INDEX_1, trackStub.getGivenCarIndex());
+        final int ARBITRARY_INDEX_2 = 332;
+        sampleGame.getCarPosition(ARBITRARY_INDEX_2);
+        Assertions.assertEquals(ARBITRARY_INDEX_2, trackStub.getGivenCarIndex());
+        final int ARBITRARY_INDEX_3 = 333;
+        sampleGame.getCarVelocity(ARBITRARY_INDEX_3);
+        Assertions.assertEquals(ARBITRARY_INDEX_3, trackStub.getGivenCarIndex());
+
     }
+
+    //getCurrentCarIndex()
+
+    /**
+     * CurrentCarIndex should be initialized to Game.FIRST_TURN_CAR_INDEX.
+     */
+    @Test
+    public void getCurrentCarIndex_CorrectlyInitialized(){
+        setUpGameWithDefaultTrackStub();
+        Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX,sampleGame.getCurrentCarIndex());
+    }
+
 }
