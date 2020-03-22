@@ -464,8 +464,11 @@ public class GameTest {
 
 
     /**
-     * Car "a" crashes into car "b".
-     * After the crash car "a" stays crashed und don't move.
+     * Track with test track set up will be loaded, which expects,if cars are moved to the right and car "b" is not moved for one turn:
+     * <ol>
+     *     <li>Car "a" will crash into car "b".</li>
+     * </ol>
+     * After the crash car "a" stays crashed und don't move until there is a winner.
      */
     @Test
     public void doCarTurn_CrashedCarStaysCrashed() throws IOException, InvalidTrackFormatException {
@@ -486,7 +489,10 @@ public class GameTest {
     }
 
     /**
-     * Car "a" crashes in car "b".
+     * Track with test track set up will be loaded, which expects,if cars are moved to the right and car "b" is not moved for one turn:
+     * <ol>
+     *     <li>Car "a" will crash into car "b".</li>
+     * </ol>
      * The test checks if car "b" can still move.
      */
     @Test
