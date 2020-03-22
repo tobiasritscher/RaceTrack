@@ -95,16 +95,19 @@ public class Track implements TrackInterface {
 
     @Override
     public char getCarId(int index) {
+        checkCarIndex(index);
         return cars.get(index).getId();
     }
 
     @Override
     public PositionVector getCarPosition(int index) {
+        checkCarIndex(index);
         return cars.get(index).getCarPosition();
     }
 
     @Override
     public PositionVector getCarVelocity(int index) {
+        checkCarIndex(index);
         return cars.get(index).getVelocity();
     }
 
@@ -150,7 +153,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex     The index of a car.
      * @param acceleration Acceleration vector of the car.
-     * @throws IllegalArgumentException
      */
     @Override
     public void accelerateCar(int carIndex, PositionVector.Direction acceleration) {
@@ -163,7 +165,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex The zero-based car index number.
      * @return Car next position.
-     * @throws IllegalArgumentException
      */
     @Override
     public PositionVector getCarNextPosition(int carIndex) {
@@ -177,7 +178,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex      The zero-based car index number.
      * @param crashLocation A location of the crash.
-     * @throws IllegalArgumentException
      */
     @Override
     public void crashCar(int carIndex, PositionVector crashLocation) {
@@ -202,7 +202,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex The zero-based car index number.
      * @return True, if the car is crashed
-     * @throws IllegalArgumentException
      */
     @Override
     public boolean isCarCrashed(int carIndex) {
@@ -262,9 +261,7 @@ public class Track implements TrackInterface {
 
     /**
      * @param carIndex
-     * @throws IllegalArgumentException
      */
-    @Override
     public void checkCarIndex(int carIndex) {
         if (carIndex > cars.size() - 1 || carIndex < 0) {
             throw new IllegalArgumentException();
@@ -282,16 +279,6 @@ public class Track implements TrackInterface {
     }
 
     @Override
-    public int getyDimension() {
-        return yDimension;
-    }
-
-    @Override
-    public int getxDimension() {
-        return xDimension;
-    }
-
-    @Override
     public String toString() {
         StringBuilder gridString = new StringBuilder();
         char[][] charGrid = new char[yDimension][xDimension];
@@ -303,19 +290,19 @@ public class Track implements TrackInterface {
         }
 
         //map crashed cars
-        for(Car car: cars){
+        for (Car car : cars) {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
-            if(car.isCrashed()){
+            if (car.isCrashed()) {
                 charGrid[y][x] = 'x';
             }
         }
 
         //map active cars
-        for(Car car: cars){
+        for (Car car : cars) {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
-            if(!car.isCrashed()){
+            if (!car.isCrashed()) {
                 charGrid[y][x] = car.getId();
             }
         }

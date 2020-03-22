@@ -9,17 +9,17 @@ public interface TrackInterface {
 
     int getCarCount();
 
-    char getCarId(int index);
+    char getCarId(int index) throws IllegalArgumentException;
 
-    PositionVector getCarPosition(int index);
+    PositionVector getCarPosition(int index) throws IllegalArgumentException;
 
-    PositionVector getCarVelocity(int index);
+    PositionVector getCarVelocity(int index) throws IllegalArgumentException;
 
     Config.SpaceType getSpaceType(PositionVector position);
 
     List<Car> getCars();
 
-    Car getCar(int carIndex);
+    Car getCar(int carIndex) throws IllegalArgumentException;
 
     boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position);
 
@@ -41,13 +41,7 @@ public interface TrackInterface {
 
     void setStrategy(MoveStrategy moveStrategy, Car car);
 
-    void checkCarIndex(int carIndex);
-
     void checkPosition(PositionVector position);
-
-    int getyDimension();
-
-    int getxDimension();
 
     @Override
     String toString();
