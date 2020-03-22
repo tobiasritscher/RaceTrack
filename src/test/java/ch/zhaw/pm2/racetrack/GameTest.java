@@ -1,5 +1,6 @@
 package ch.zhaw.pm2.racetrack;
 
+import ch.zhaw.pm2.racetrack.exceptions.GameException;
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,8 @@ import static org.mockito.Mockito.when;
 
 public class GameTest {
 
-    public static final boolean THIS_CAR_IS_CRASHED = true;
-    public static final boolean THIS_CAR_IS_NOT_CRASHED = false;
-    public static final PositionVector ARBITRARY_VALID_FINISH_POSITION = new PositionVector(1, 0);
-    public static final PositionVector ARBITRARY_INVALID_FINISH_POSITION = new PositionVector(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    public static final PositionVector ARBITRARY_POSITION = new PositionVector(1, 0);
     public static final PositionVector ZERO_POSITION_VECTOR = new PositionVector(0, 0);
-    public static final PositionVector ARBITRARY_VALID_CAR_POSITION = new PositionVector(1, 0);
 
     Random random = new Random();
 
@@ -40,65 +37,39 @@ public class GameTest {
         sampleGame = new Game(trackStub);
     }
 
+    /**
+     * Does the following:
+     * <ol>
+     *     <li>Place wished finish type at wished position.</li>
+     *     <li>Check if expected unit vector was ordered.</li>
+     * </ol>
+     */
     @Test
-    public void getFinishDirectionUnitVector_FinishUp() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        when(mockedTrack.getSpaceType(ARBITRARY_VALID_FINISH_POSITION)).thenReturn(Config.SpaceType.FINISH_UP);
-        Assertions.assertEquals(PositionVector.Direction.UP.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_VALID_FINISH_POSITION));
+    public void getFinishDirectionUnitVector_PositionIsValidFinishType() {
+        setUpGameWithDefaultTrackStub();
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.FINISH_UP);
+        Assertions.assertEquals(PositionVector.Direction.UP.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.FINISH_DOWN);
+        Assertions.assertEquals(PositionVector.Direction.DOWN.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.FINISH_LEFT);
+        Assertions.assertEquals(PositionVector.Direction.LEFT.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.FINISH_RIGHT);
+        Assertions.assertEquals(PositionVector.Direction.RIGHT.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
     }
-
+    
     @Test
-    public void getFinishDirectionUnitVector_FinishDown() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        when(mockedTrack.getSpaceType(ARBITRARY_VALID_FINISH_POSITION)).thenReturn(Config.SpaceType.FINISH_DOWN);
-        Assertions.assertEquals(PositionVector.Direction.DOWN.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_VALID_FINISH_POSITION));
-    }
-
-    @Test
-    public void getFinishDirectionUnitVector_FinishLeft() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        when(mockedTrack.getSpaceType(ARBITRARY_VALID_FINISH_POSITION)).thenReturn(Config.SpaceType.FINISH_LEFT);
-        Assertions.assertEquals(PositionVector.Direction.LEFT.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_VALID_FINISH_POSITION));
-    }
-
-    @Test
-    public void getFinishDirectionUnitVector_FinishRight() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        when(mockedTrack.getSpaceType(ARBITRARY_VALID_FINISH_POSITION)).thenReturn(Config.SpaceType.FINISH_RIGHT);
-        Assertions.assertEquals(PositionVector.Direction.RIGHT.vector, sampleGame.getFinishDirectionUnitVector(ARBITRARY_VALID_FINISH_POSITION));
-    }
-
-    @Test
-    public void getFinishDirectionUnitVector_PositionIsTrack() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        when(mockedTrack.getSpaceType(ARBITRARY_VALID_FINISH_POSITION)).thenReturn(Config.SpaceType.TRACK);
-        Assertions.assertEquals(ZERO_POSITION_VECTOR, sampleGame.getFinishDirectionUnitVector(ARBITRARY_VALID_FINISH_POSITION));
-    }
-
-    @Test
-    public void getFinishDirectionUnitVector_PositionIsWall() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        when(mockedTrack.getSpaceType(ARBITRARY_VALID_FINISH_POSITION)).thenReturn(Config.SpaceType.WALL);
-        Assertions.assertEquals(ZERO_POSITION_VECTOR, sampleGame.getFinishDirectionUnitVector(ARBITRARY_VALID_FINISH_POSITION));
-    }
-
-    @Test
-    public void getFinishDirectionUnitVector_NoSuchPosition() {
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        Assertions.assertEquals(ZERO_POSITION_VECTOR, sampleGame.getFinishDirectionUnitVector(ARBITRARY_INVALID_FINISH_POSITION));
+    public void getFinishDirectionUnitVector_PositionIsInvalidFinishType() {
+        setUpGameWithDefaultTrackStub();
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.TRACK);
+        Assertions.assertThrows(GameException.class, ()->sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.WALL);
+        Assertions.assertThrows(GameException.class, ()->sampleGame.getFinishDirectionUnitVector(ARBITRARY_POSITION));
     }
 
     /**
      * Makes mockedTrack.getCarCount() return number.
      *
-     * @param number Th positive integer number of cars.
+     * @param number The positive integer number of cars.
      */
     private void initializeMockedTrackWithGivenNumberCars(int number) {
         if (number < 0) {
@@ -113,7 +84,7 @@ public class GameTest {
      * The caller must make sure valid parameter is passed.
      *
      * @param numberCars The integer number of cars > 0.
-     * @return a non null list of cars, which position is initialized with ARBITRARY_VALID_CAR_POSITION and carId is set to ASCII symbols starting by 'a'
+     * @return a non null list of cars, which position is initialized with ARBITRARY_POSITION and carId is set to ASCII symbols starting by 'a'
      * @throws IllegalArgumentException numberCars < 1
      */
     private List<Car> getCarsList(int numberCars) {
@@ -123,7 +94,7 @@ public class GameTest {
         List<Car> cars = new ArrayList<>();
         for (int i = 0; i < numberCars; i++) {
             final int ASCII_MAX = 128;
-            cars.add(new Car(ARBITRARY_VALID_CAR_POSITION, (char) (('a' + i) % ASCII_MAX)));
+            cars.add(new Car(ARBITRARY_POSITION, (char) (('a' + i) % ASCII_MAX)));
         }
         return cars;
     }
@@ -170,11 +141,11 @@ public class GameTest {
             Collections.sort(activeCarIndexes);
         }
         for (Integer activeCarIndex : activeCarIndexes) {
-            when(mockedTrack.isCarCrashed(activeCarIndex)).thenReturn(THIS_CAR_IS_NOT_CRASHED);
+            when(mockedTrack.isCarCrashed(activeCarIndex)).thenReturn(false);
         }
         for (int i = 0; i < NUMBER_CARS; i++) {
             if (!activeCarIndexes.contains(i)) {
-                when(mockedTrack.isCarCrashed(i)).thenReturn(THIS_CAR_IS_CRASHED);
+                when(mockedTrack.isCarCrashed(i)).thenReturn(true);
             }
         }
 
@@ -209,12 +180,12 @@ public class GameTest {
             activeCarsIndexes.add(randomlyPickedCarIndex);
         }
         for (int i = 0; i < activeCarsIndexes.size(); i++) {
-            when(mockedTrack.isCarCrashed(activeCarsIndexes.indexOf(i))).thenReturn(THIS_CAR_IS_NOT_CRASHED);
+            when(mockedTrack.isCarCrashed(activeCarsIndexes.indexOf(i))).thenReturn(false);
         }
         Collections.sort(activeCarsIndexes);
         for (int i = 0; i < NUMBER_CARS; i++) {
             if (!activeCarsIndexes.contains(i)) {
-                when(mockedTrack.isCarCrashed(i)).thenReturn(THIS_CAR_IS_CRASHED);
+                when(mockedTrack.isCarCrashed(i)).thenReturn(true);
             }
         }
 
@@ -239,8 +210,7 @@ public class GameTest {
             when(mockedTrack.getCar(i)).thenReturn(cars.get(i));
         }
         for (int i = 0; i < NUMBER_CARS; i++) {
-            final boolean THIS_CAR_IS_CRASHED = true;
-            when(mockedTrack.isCarCrashed(i)).thenReturn(THIS_CAR_IS_CRASHED);
+            when(mockedTrack.isCarCrashed(i)).thenReturn(true);
         }
 
         final int NO_ACTIVE_CARS = -1;
@@ -260,11 +230,10 @@ public class GameTest {
     public void calculatePath_SamePoint() {
         setUpGameWithDefaultTrackStub();
         final PositionVector START_POINT = ZERO_POSITION_VECTOR;
-        final PositionVector END_POINT = START_POINT;
 
         List<PositionVector> expectedPath = new ArrayList<>();
         expectedPath.add(ZERO_POSITION_VECTOR);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, START_POINT));
     }
 
     /**
@@ -437,7 +406,7 @@ public class GameTest {
 
         final int WINNER_CAR_INDEX = random.nextInt(NUMBER_CARS);
 
-        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ARBITRARY_VALID_CAR_POSITION);
+        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ARBITRARY_POSITION);
 
         //do some turns without crashes
         final int NUMBER_TURNS_WITHOUT_CRASHES = 5;
@@ -490,7 +459,7 @@ public class GameTest {
             expectedIndex = trackStub.getActiveCarsList().get(1);
         }
 
-        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ARBITRARY_VALID_CAR_POSITION);
+        setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ARBITRARY_POSITION);
 
         //crash current car
         trackStub.setWishedIsTrackBound(true);
@@ -740,28 +709,28 @@ public class GameTest {
     public void willCarCrash_OnlyWallHere_True() {
         setUpWillCarCrash(true, false);
         final int ARBITRARY_CAR_INDEX = 0;
-        Assertions.assertTrue(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
+        Assertions.assertTrue(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_POSITION));
     }
 
     @Test
     public void willCarCrash_OnlySomeOtherCarHere_True() {
         setUpWillCarCrash(false, true);
         final int ARBITRARY_CAR_INDEX = 0;
-        Assertions.assertTrue(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
+        Assertions.assertTrue(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_POSITION));
     }
 
     @Test
     public void willCarCrash_SomeOtherCarAndWallHere_True() {
         setUpWillCarCrash(true, true);
         final int ARBITRARY_CAR_INDEX = 0;
-        Assertions.assertTrue(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
+        Assertions.assertTrue(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_POSITION));
     }
 
     @Test
     public void willCarCrash_NoCarNoWallHere_False() {
         setUpWillCarCrash(false, false);
         final int ARBITRARY_CAR_INDEX = 0;
-        Assertions.assertFalse(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
+        Assertions.assertFalse(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_POSITION));
     }
 
     // getCarId(), getCarVelocity(), getCarPosition(),

@@ -20,6 +20,9 @@ public class GameException extends RuntimeException {
             case NO_ACTIVE_CARS:
                 errorMessage += "There are no active cars left.";
                 break;
+            case NOT_ON_FINISH_LINE:
+                errorMessage += "Given position is not on finish line.";
+                break;
             default:
         }
         return errorMessage;
