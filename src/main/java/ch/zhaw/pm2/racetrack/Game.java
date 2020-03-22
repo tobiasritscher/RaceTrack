@@ -277,7 +277,6 @@ public class Game {
         }
     }
 
-
     /**
      * Returns all of the grid positions in the path between two positions, for use in determining line of sight.
      * Determine the 'pixels/positions' on a raster/grid using Bresenham's line algorithm.
@@ -292,12 +291,10 @@ public class Game {
      * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
      */
     public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
-        // todo test
         List<PositionVector> path = new ArrayList<>();
         int diffX = endPosition.getX() - startPosition.getX();
         int diffY = endPosition.getY() - startPosition.getY();
 
-        //choose sampling direction
         int distX = Math.abs(diffX);
         int distY = Math.abs(diffY);
 
@@ -309,15 +306,12 @@ public class Game {
         int diagonalStepX, diagonalStepY;
 
         if (distX > distY) {
-            // x axis is the 'fast' direction
-            //1,4,5,8 octant
             parallelStepX = dirX;
             parallelStepY = 0;
             diagonalStepX = dirX;
             diagonalStepY = dirY;
             distanceFastAxis = distX;
         } else {
-            // y axis is the 'fast' direction
             parallelStepX = 0;
             parallelStepY = dirY;
             diagonalStepX = dirX;

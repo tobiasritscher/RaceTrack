@@ -251,71 +251,133 @@ public class GameTest {
         }
     }
 
+    // calculatePath()
+
+    /**
+     * The list (0,0) is expected.
+     */
     @Test
     public void calculatePath_SamePoint() {
+        setUpGameWithDefaultTrackStub();
         final PositionVector START_POINT = ZERO_POSITION_VECTOR;
         final PositionVector END_POINT = START_POINT;
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
+
         List<PositionVector> expectedPath = new ArrayList<>();
         expectedPath.add(ZERO_POSITION_VECTOR);
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
     }
 
+    /**
+     * The list (0,0),(0,1),(0,2) is expected.
+     */
     @Test
-    public void calculatePath_inX_LengthOne() {
-        final int PATH_LENGTH = 1;
-        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
-        final PositionVector END_POINT = new PositionVector(PATH_LENGTH, 0);
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
+    public void calculatePath_xLine() {
+        setUpGameWithDefaultTrackStub();
+        //build line
         List<PositionVector> expectedPath = new ArrayList<>();
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
         expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(1, 0));
+        final PositionVector END_POINT = new PositionVector(2, 0);
         expectedPath.add(END_POINT);
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
     }
 
+    /**
+     * The list (2,0),(1,0),(0,0) is expected.
+     */
     @Test
-    public void calculatePath_inX_StraightLine() {
-        final int PATH_LENGTH = 20;
-        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
-        final PositionVector END_POINT = new PositionVector(PATH_LENGTH, 0);
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
+    public void calculatePath_xReversedLine() {
+        setUpGameWithDefaultTrackStub();
+        //build line
         List<PositionVector> expectedPath = new ArrayList<>();
-        for (int x = 0; x <= PATH_LENGTH; x++) {
-            expectedPath.add(new PositionVector(x, 0));
-        }
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
-    }
-
-    @Test
-    public void calculatePath_inY_LengthOne() {
-        final int PATH_LENGTH = 1;
-        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
-        final PositionVector END_POINT = new PositionVector(0, PATH_LENGTH);
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
-        List<PositionVector> expectedPath = new ArrayList<>();
+        final PositionVector START_POINT = new PositionVector(2, 0);
         expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(1, 0));
+        final PositionVector END_POINT = ZERO_POSITION_VECTOR;
         expectedPath.add(END_POINT);
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
     }
 
+    /**
+     * The list (0,0),(0,1),(0,2) is expected.
+     */
     @Test
-    public void calculatePath_inY_StraightLine() {
-        final int PATH_LENGTH = 20;
-        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
-        final PositionVector END_POINT = new PositionVector(0, PATH_LENGTH);
-        mockedTrack = mock(Track.class);
-        sampleGame = new Game(mockedTrack);
+    public void calculatePath_YLine() {
+        setUpGameWithDefaultTrackStub();
+        //build the line
         List<PositionVector> expectedPath = new ArrayList<>();
-        for (int y = 0; y <= PATH_LENGTH; y++) {
-            expectedPath.add(new PositionVector(0, y));
-        }
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(0, 1));
+        final PositionVector END_POINT = new PositionVector(0, 2);
+        expectedPath.add(END_POINT);
         Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
     }
 
+    /**
+     * The list (0,2),(0,1),(0,0) is expected.
+     */
+    @Test
+    public void calculatePath_YReversedLine() {
+        setUpGameWithDefaultTrackStub();
+        //build the line
+        List<PositionVector> expectedPath = new ArrayList<>();
+        final PositionVector START_POINT = new PositionVector(0, 2);
+        expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(0, 1));
+        final PositionVector END_POINT = ZERO_POSITION_VECTOR;
+        expectedPath.add(END_POINT);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    /**
+     * The list (0,0),(1,1),(2,2),(3,3) is expected.
+     */
+    @Test
+    public void calculatePath_DiagonalLine() {
+        setUpGameWithDefaultTrackStub();
+        List<PositionVector> expectedPath = new ArrayList<>();
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(1, 1));
+        expectedPath.add(new PositionVector(2, 2));
+        final PositionVector END_POINT = new PositionVector(3, 3);
+        expectedPath.add(END_POINT);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    /**
+     * The list (3,3),(2,2),(1,1),(0,0) is expected.
+     */
+    @Test
+    public void calculatePath_DiagonalLineReversed() {
+        setUpGameWithDefaultTrackStub();
+        List<PositionVector> expectedPath = new ArrayList<>();
+        final PositionVector START_POINT = new PositionVector(3, 3);
+        expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(2, 2));
+        expectedPath.add(new PositionVector(1, 1));
+        final PositionVector END_POINT = ZERO_POSITION_VECTOR;
+        expectedPath.add(END_POINT);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
+
+    /**
+     * The list (0,0),(1,0),(2,1),(3,1) is expected.
+     */
+    @Test
+    public void calculatePath_xyLine() {
+        setUpGameWithDefaultTrackStub();
+        List<PositionVector> expectedPath = new ArrayList<>();
+        final PositionVector START_POINT = ZERO_POSITION_VECTOR;
+        expectedPath.add(START_POINT);
+        expectedPath.add(new PositionVector(1, 0));
+        expectedPath.add(new PositionVector(2, 1));
+        final PositionVector END_POINT = new PositionVector(3, 1);
+        expectedPath.add(END_POINT);
+        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+    }
     //do carTurn()
 
     /**
@@ -450,9 +512,6 @@ public class GameTest {
     public void doCarTurn_CrossLineInFalseDirectionGoReverseTheWinnerIsNoWinner() {
         final int NUMBER_CARS = Config.MIN_CARS;
         setUpDoCarTurn(NUMBER_CARS);
-
-        trackStub.setWishedIsCarCrashed(0, false);
-        trackStub.setWishedIsCarCrashed(1, false);
 
         //set up path
         final int TEST_PATH_LENGTH = 3;
@@ -704,6 +763,7 @@ public class GameTest {
         final int ARBITRARY_CAR_INDEX = 0;
         Assertions.assertFalse(sampleGame.willCarCrash(ARBITRARY_CAR_INDEX, ARBITRARY_VALID_CAR_POSITION));
     }
+
     // getCarId(), getCarVelocity(), getCarPosition(),
     @Test
     public void carGetters_IndexPassedCorrectly() {
@@ -726,9 +786,9 @@ public class GameTest {
      * CurrentCarIndex should be initialized to Game.FIRST_TURN_CAR_INDEX.
      */
     @Test
-    public void getCurrentCarIndex_CorrectlyInitialized(){
+    public void getCurrentCarIndex_CorrectlyInitialized() {
         setUpGameWithDefaultTrackStub();
-        Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX,sampleGame.getCurrentCarIndex());
+        Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX, sampleGame.getCurrentCarIndex());
     }
 
 }
