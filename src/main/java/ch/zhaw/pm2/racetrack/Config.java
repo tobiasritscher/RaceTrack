@@ -5,10 +5,9 @@ import java.io.File;
 public class Config {
     public static final int MIN_CARS = 2;
     public static final int MAX_CARS = 9;
-    public static final int NUMBER_OF_LAPS = 1;
     private static final String TRACK_DIRECTORY = "tracks";
     private static final String MOVE_LIST_DIRECTORY = "moveLists";
-
+    static int numberLaps = 1;
     // Directory containing the track files
     private static File trackDirectory = new File(TRACK_DIRECTORY);
     // Directory containing the strategy files
@@ -20,6 +19,18 @@ public class Config {
 
     public static File getMoveListDirectory() {
         return moveListDirectory;
+    }
+
+    /**
+     * Set the number of laps.
+     * @param numberLaps
+     * @throws IllegalArgumentException numberLaps < 1
+     */
+    public static void setNumberLaps(int numberLaps) throws IllegalArgumentException {
+        if (numberLaps < 1) {
+            throw new IllegalArgumentException("Number must be greater than zero.");
+        }
+        Config.numberLaps = numberLaps;
     }
 
     public enum StrategyType {

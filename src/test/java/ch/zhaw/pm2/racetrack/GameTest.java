@@ -794,6 +794,63 @@ public class GameTest {
     public void adjustPenaltyPointsForActiveCar_NotOnFinishLine() {
         setUpGameWithDefaultTrackStub();
         trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.TRACK);
-        Assertions.assertThrows(GameException.class, ()->sampleGame.adjustPenaltyPointsForActiveCar(ARBITRARY_POSITION));
+        Assertions.assertThrows(GameException.class, () -> sampleGame.adjustPenaltyPointsForActiveCar(ARBITRARY_POSITION));
+    }
+
+    /**
+     * The test was set up as follow:
+     * <ol>
+     *     <li>Number of laps will be set to two, in order to be able continue the test if a car arrives on the finish line.</li>
+     *     <li>Car "a" will be moved to the right, it arrives on the finish line: ">". Therefore should become +1 point.</li>
+     *     <li>Car "b" will be skipped(Is there because of Config.MIN_CARS).</li>
+     *     <li>Car "a" will be moved to the right, it leaves the finish line: ">". Therefore should become +1 point.</li>
+     * </ol>
+     *
+     * @throws IOException                 Invalid file path.
+     * @throws InvalidTrackFormatException Invalid track format.
+     */
+    @Test
+    public void adjustPenaltyPointsForActiveCar_ProperDirectionMovementPointsAddition() throws IOException, InvalidTrackFormatException {
+        Config.setNumberLaps(2);
+        setUpTrackAndGame("testtracks/game-testtracks/penalty_points.txt");
+        //car "a" goes on finish line
+        int indexCarA = sampleGame.getCurrentCarIndex();
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS + 1, sampleGame.getNumberPenaltyPoints(indexCarA));
+        //car "b" is standing still
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
+        //car "a" leaves the finish line
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS + 2, sampleGame.getNumberPenaltyPoints(indexCarA));
+    }
+
+    /**
+     * The test was set up as follow:
+     * <ol>
+     *     <li>Number of laps will be set to two, in order to be able continue the test if a car arrives on the finish line.</li>
+     *     <li>Car "a" will be skipped(Is there because of Config.MIN_CARS).</li>
+     *     <li>Car "b" will be moved to the right, it arrives on the finish line: "<". Therefore should become -1 point.</li>
+     *     <li>Car "a" will be skipped.</li>
+     *     <li>Car "b" will be moved to the right, it leaves the finish line: ">". Therefore should become -1 point.</li>
+     * </ol>
+     *
+     * @throws IOException                 Invalid file path.
+     * @throws InvalidTrackFormatException Invalid track format.
+     */
+    @Test
+    public void adjustPenaltyPointsForActiveCar_WrongDirectionMovementPointsSubtraction() throws IOException, InvalidTrackFormatException {
+        Config.setNumberLaps(2);
+        setUpTrackAndGame("testtracks/game-testtracks/penalty_points.txt");
+        //car "a" is standing still
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
+        //car "b" goes on finish line
+        int indexCarB = sampleGame.getCurrentCarIndex();
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS - 1, sampleGame.getNumberPenaltyPoints(indexCarB));
+        //car "a" is standing still
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
+        //car "b" leaves the finish line
+        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS - 2, sampleGame.getNumberPenaltyPoints(indexCarB));
     }
 }

@@ -21,7 +21,7 @@ public class Game {
 
     public static final int NO_WINNER = -1;
     public static final int FIRST_TURN_CAR_INDEX = 0;
-    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -Config.NUMBER_OF_LAPS * 2 + 1;
+    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -Config.numberLaps * 2 + 1;
     private Map<Integer, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
     private TrackInterface raceTrack;
@@ -167,7 +167,7 @@ public class Game {
      * The function does the following:
      * <ol>
      *     <li> Create an entry for the penalty points map, if does not exist yet, initialize with INITIAL_NUMBER_OF_PENALTY_POINTS.</li>
-     *     <li> Decide whether to add or subtract points.</li>
+     *     <li> Decide whether to add or subtract points. Use addition if velocity vector in the same direction as finish line direction vector.</li>
      * </ol>
      *
      * @throws GameException if given position is not on finish line.
@@ -190,13 +190,13 @@ public class Game {
     /**
      * Returns number of penalty points car with index "carIndex" has.
      * <p>
-     * Note: The function is intended for test purposes only.
+     * Note: The function is intended to be for test purposes only.
      *
-     * @param carIndex
+     * @param carIndex The zero-based carIndex number.
      * @throws IllegalArgumentException If map doesn't contain a given carIndex.
      */
-    int getNumberPenaltyPoints(int carIndex) throws IllegalArgumentException{
-        if(!penaltyPoints.containsKey(carIndex)){
+    int getNumberPenaltyPoints(int carIndex) throws IllegalArgumentException {
+        if (!penaltyPoints.containsKey(carIndex)) {
             throw new IllegalArgumentException("No entry for given key.");
         }
         return penaltyPoints.get(carIndex);
