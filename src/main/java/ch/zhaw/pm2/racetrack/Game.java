@@ -172,7 +172,7 @@ public class Game {
      *
      * @throws GameException if given position is not on finish line.
      */
-    private void adjustPenaltyPointsForActiveCar(PositionVector finishPosition) throws GameException {
+    void adjustPenaltyPointsForActiveCar(PositionVector finishPosition) throws GameException {
         //todo test
         if (!raceTrack.isOnFinishLine(finishPosition)) {
             throw new GameException(ErrorType.NOT_ON_FINISH_LINE);
@@ -185,11 +185,26 @@ public class Game {
         } else {
             penaltyPoints.put(activeCarIndex, penaltyPoints.get(activeCarIndex) - 1);
         }
+    }
 
+    /**
+     * Returns number of penalty points car with index "carIndex" has.
+     * <p>
+     * Note: The function is intended for test purposes only.
+     *
+     * @param carIndex
+     * @throws IllegalArgumentException If map doesn't contain a given carIndex.
+     */
+    int getNumberPenaltyPoints(int carIndex) throws IllegalArgumentException{
+        if(!penaltyPoints.containsKey(carIndex)){
+            throw new IllegalArgumentException("No entry for given key.");
+        }
+        return penaltyPoints.get(carIndex);
     }
 
     /**
      * Decide whether carVelocity crosses finishDirection vector at the angle between [0,Math.PI/2]
+     *
      * @return True, if the angle between given vectors is between zero and Math.PI/2.
      */
     boolean isValidDirection(PositionVector carVelocity, PositionVector finishDirection) {

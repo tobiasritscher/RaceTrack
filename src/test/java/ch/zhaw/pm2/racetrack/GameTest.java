@@ -88,13 +88,11 @@ public class GameTest {
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.LEFT.vector));
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.DOWN_LEFT.vector));
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.RIGHT.vector, PositionVector.Direction.DOWN.vector));
-
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.UP.vector));
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.UP_RIGHT.vector));
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.RIGHT.vector));
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.DOWN_RIGHT.vector));
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.DOWN.vector));
-
     }
 
     /**
@@ -791,4 +789,11 @@ public class GameTest {
         Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX, sampleGame.getCurrentCarIndex());
     }
 
+    //adjustPenaltyPointsForActiveCar()
+    @Test
+    public void adjustPenaltyPointsForActiveCar_NotOnFinishLine() {
+        setUpGameWithDefaultTrackStub();
+        trackStub.setWishedPositionSpaceType(ARBITRARY_POSITION, Config.SpaceType.TRACK);
+        Assertions.assertThrows(GameException.class, ()->sampleGame.adjustPenaltyPointsForActiveCar(ARBITRARY_POSITION));
+    }
 }
