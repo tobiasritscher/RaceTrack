@@ -1,7 +1,5 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +21,6 @@ public class TrackStub implements TrackInterface {
     private int numberActiveCars;
     private boolean isTrackBound;
     private boolean isSomeOtherCarHere = false;
-
-    public TrackStub() {
-
-    }
 
     List<Integer> getActiveCarsList() {
         List<Integer> activeCarsList = new ArrayList<>();

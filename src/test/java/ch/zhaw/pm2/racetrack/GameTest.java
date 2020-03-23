@@ -320,6 +320,7 @@ public class GameTest {
     @Test
     public void doCarTurn_AccelerateCar() {
         final int NUMBER_CARS = Config.MIN_CARS;
+        Config.setFirstTurnCarIndex(0);
         setUpDoCarTurn(NUMBER_CARS);
 
         setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ZERO_POSITION_VECTOR);

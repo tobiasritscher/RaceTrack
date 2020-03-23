@@ -29,7 +29,7 @@ public class Config {
      * @throws IllegalArgumentException firstTurnCarIndex > MAX_CARS or firstTurnCarIndex < MIN_CARS
      */
     public static void setFirstTurnCarIndex(int firstTurnCarIndex) {
-        if (firstTurnCarIndex > MAX_CARS || firstTurnCarIndex < MIN_CARS) {
+        if (firstTurnCarIndex >= MAX_CARS || firstTurnCarIndex < 0) {
             throw new IllegalArgumentException(firstTurnCarIndex + " is illegal car index! Must be in [Min_CARS,MAX_CARS]!");
         }
         Config.firstTurnCarIndex = firstTurnCarIndex;
