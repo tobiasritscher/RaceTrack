@@ -2,6 +2,7 @@ package ch.zhaw.pm2.racetrack;
 
 import ch.zhaw.pm2.racetrack.exceptions.GameException;
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,15 @@ public class GameTest {
     private TrackStub trackStub;
     private Game sampleGame;
     private Track sampleTrack;
+
+    @AfterEach
+    public void teardown() {
+        trackStub = null;
+        sampleGame = null;
+        sampleTrack = null;
+        Config.setNumberLaps(1);
+        Config.setFirstTurnCarIndex(0);
+    }
 
     /**
      * Game with default TackStub will be generated.
@@ -320,7 +330,6 @@ public class GameTest {
     @Test
     public void doCarTurn_AccelerateCar() {
         final int NUMBER_CARS = Config.MIN_CARS;
-        Config.setFirstTurnCarIndex(0);
         setUpDoCarTurn(NUMBER_CARS);
 
         setUpTrackStubCarPositionResponse(ZERO_POSITION_VECTOR, ZERO_POSITION_VECTOR);
