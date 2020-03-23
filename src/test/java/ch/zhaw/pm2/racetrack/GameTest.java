@@ -4,17 +4,12 @@ import ch.zhaw.pm2.racetrack.exceptions.GameException;
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class GameTest {
 
@@ -23,8 +18,6 @@ public class GameTest {
 
     Random random = new Random();
 
-    @Mock
-    private Track mockedTrack;
     private TrackStub trackStub;
     private Game sampleGame;
     private Track sampleTrack;
@@ -95,159 +88,73 @@ public class GameTest {
         Assertions.assertFalse(sampleGame.isValidDirection(PositionVector.Direction.LEFT.vector, PositionVector.Direction.DOWN.vector));
     }
 
-    /**
-     * Makes mockedTrack.getCarCount() return number.
-     *
-     * @param number The positive integer number of cars.
-     */
-    private void initializeMockedTrackWithGivenNumberCars(int number) {
-        if (number < 0) {
-            throw new IllegalArgumentException();
-        }
-        mockedTrack = mock(Track.class);
-        when(mockedTrack.getCarCount()).thenReturn(number);
-    }
-
-    /**
-     * Returns the list with given number cars.
-     * The caller must make sure valid parameter is passed.
-     *
-     * @param numberCars The integer number of cars > 0.
-     * @return a non null list of cars, which position is initialized with ARBITRARY_POSITION and carId is set to ASCII symbols starting by 'a'
-     * @throws IllegalArgumentException numberCars < 1
-     */
-    private List<Car> getCarsList(int numberCars) {
-        if (numberCars < 1) {
-            throw new IllegalArgumentException();
-        }
-        List<Car> cars = new ArrayList<>();
-        for (int i = 0; i < numberCars; i++) {
-            final int ASCII_MAX = 128;
-            cars.add(new Car(ARBITRARY_POSITION, (char) (('a' + i) % ASCII_MAX)));
-        }
-        return cars;
-    }
-
     @Test
-    public void switchToNextActiveCar_Five_Cars() {
-        final int NUMBER_ACTIVE_CARS = 5;
-        final int NUMBER_LOOPS = 3;
-
-        List<Car> cars = getCarsList(NUMBER_ACTIVE_CARS);
-
-        initializeMockedTrackWithGivenNumberCars(NUMBER_ACTIVE_CARS);
-        for (int i = 0; i < cars.size(); i++) {
-            when(mockedTrack.getCar(i)).thenReturn(cars.get(i));
-        }
-
-        sampleGame = new Game(mockedTrack);
-        for (int i = 0; i < cars.size() * NUMBER_LOOPS; i++) {
-            int expectedCarIndex = (i + Game.FIRST_TURN_CAR_INDEX) % cars.size();
-            Assertions.assertEquals(expectedCarIndex, sampleGame.getCurrentCarIndex());
+    public void switchToNextActiveCar_EightCarsSequenceAllActive() throws IOException, InvalidTrackFormatException {
+        final int NUMBER_TIMES = 5;
+        setUpTrackAndGame("testtracks/game-testtracks/switch_cars.txt");
+        sampleGame.switchToNextActiveCar();
+        int expectedIndex = sampleGame.getCurrentCarIndex();
+        for (int i = 0; i < sampleTrack.getCarCount() * NUMBER_TIMES; i++) {
+            Assertions.assertEquals(expectedIndex, sampleGame.getCurrentCarIndex());
             sampleGame.switchToNextActiveCar();
+            expectedIndex = (expectedIndex + 1) % sampleTrack.getCarCount();
         }
     }
 
     @Test
-    public void switchToNextActiveCar_TenCars_OnlyOddsAndInitialAreActive() {
-        final int NUMBER_CARS = 10;
-        final int NUMBER_LOOPS = 3;
-
-        List<Car> cars = getCarsList(NUMBER_CARS);
-
-        initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
-        for (int i = 0; i < cars.size(); i++) {
-            when(mockedTrack.getCar(i)).thenReturn(cars.get(i));
-        }
-        List<Integer> activeCarIndexes = new ArrayList<>();
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            if (i % 2 != 0) {
-                activeCarIndexes.add(i);
+    public void switchToNextActiveCar_TwoAndSevenActive() throws IOException, InvalidTrackFormatException {
+        final int NUMBER_TIMES = 50;
+        List<Integer> activeCars = new ArrayList<>();
+        activeCars.add(2);
+        activeCars.add(7);
+        int listIndex = 1;
+        int expectedCarIndex = activeCars.get(listIndex);
+        Config.setFirstTurnCarIndex(expectedCarIndex);
+        setUpTrackAndGame("testtracks/game-testtracks/switch_cars.txt");
+        //crash rest
+        for (int i = 0; i < sampleTrack.getCarCount(); i++) {
+            if (!activeCars.contains(i)) {
+                sampleTrack.crashCar(i, ZERO_POSITION_VECTOR);
             }
         }
-        if (!activeCarIndexes.contains(Game.FIRST_TURN_CAR_INDEX)) {
-            activeCarIndexes.add(Game.FIRST_TURN_CAR_INDEX);
-            Collections.sort(activeCarIndexes);
+        for (int i = 0; i < NUMBER_TIMES; i++) {
+            Assertions.assertEquals(expectedCarIndex, sampleGame.getCurrentCarIndex());
+            sampleGame.switchToNextActiveCar();
+            listIndex = (listIndex + 1) % activeCars.size();
+            expectedCarIndex = activeCars.get(listIndex);
         }
-        for (Integer activeCarIndex : activeCarIndexes) {
-            when(mockedTrack.isCarCrashed(activeCarIndex)).thenReturn(false);
-        }
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            if (!activeCarIndexes.contains(i)) {
-                when(mockedTrack.isCarCrashed(i)).thenReturn(true);
+    }
+
+    @Test
+    public void switchToNextActiveCar_EightCarsSequenceOddsActive() throws IOException, InvalidTrackFormatException {
+        final int NUMBER_TIMES = 50;
+        setUpTrackAndGame("testtracks/game-testtracks/switch_cars.txt");
+        //crash each second car
+        for (int i = 0; i < sampleTrack.getCarCount(); i++) {
+            if (i % 2 == 0) {
+                sampleTrack.crashCar(i, new PositionVector(0, 0));
             }
         }
-
-        sampleGame = new Game(mockedTrack);
-        for (int i = 0; i < (cars.size() * NUMBER_LOOPS); i++) {
-            int expectedCarIndex = activeCarIndexes.get((activeCarIndexes.indexOf(Game.FIRST_TURN_CAR_INDEX) + i) % activeCarIndexes.size());
-            Assertions.assertEquals(expectedCarIndex, sampleGame.getCurrentCarIndex());
+        int expectedIndex = sampleGame.getCurrentCarIndex();
+        if (sampleGame.getCurrentCarIndex() % 2 == 0) {
+            expectedIndex = (expectedIndex + 1) % sampleTrack.getCarCount();
+            sampleGame.switchToNextActiveCar();
+        }
+        for (int i = 0; i < NUMBER_TIMES; i++) {
+            Assertions.assertEquals(expectedIndex, sampleGame.getCurrentCarIndex());
+            expectedIndex = (expectedIndex + 1) % sampleTrack.getCarCount();
+            while (expectedIndex % 2 == 0) {
+                expectedIndex = (expectedIndex + 1) % sampleTrack.getCarCount();
+            }
             sampleGame.switchToNextActiveCar();
         }
     }
 
     @Test
-    public void switchToNextActiveCar_TwentyCars_InitialAndTwoRandomCarsAreActive() {
-        final int NUMBER_CARS = 20;
-        final int NUMBER_ACTIVE_CARS = 3;
-
-        initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
-
-        List<Car> cars = getCarsList(NUMBER_CARS);
-        for (int i = 0; i < cars.size(); i++) {
-            when(mockedTrack.getCar(i)).thenReturn(cars.get(i));
-        }
-
-
-        List<Integer> activeCarsIndexes = new ArrayList<>();
-        activeCarsIndexes.add(Game.FIRST_TURN_CAR_INDEX);
-        for (int i = 0; i < NUMBER_ACTIVE_CARS - 1; i++) {
-            int randomlyPickedCarIndex;
-            do {
-                randomlyPickedCarIndex = random.nextInt(NUMBER_CARS);
-            } while (activeCarsIndexes.contains(randomlyPickedCarIndex));
-            activeCarsIndexes.add(randomlyPickedCarIndex);
-        }
-        for (int i = 0; i < activeCarsIndexes.size(); i++) {
-            when(mockedTrack.isCarCrashed(activeCarsIndexes.indexOf(i))).thenReturn(false);
-        }
-        Collections.sort(activeCarsIndexes);
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            if (!activeCarsIndexes.contains(i)) {
-                when(mockedTrack.isCarCrashed(i)).thenReturn(true);
-            }
-        }
-
-        sampleGame = new Game(mockedTrack);
-        for (int i = 0; i < cars.size(); i++) {
-            int index = (i + activeCarsIndexes.indexOf(Game.FIRST_TURN_CAR_INDEX)) % activeCarsIndexes.size();
-            int expectedCarIndex = activeCarsIndexes.get(index);
-            Assertions.assertEquals(expectedCarIndex, sampleGame.getCurrentCarIndex());
-            sampleGame.switchToNextActiveCar();
-        }
-    }
-
-    @Test
-    public void switchToNextActiveCar_TwentyCars_NoActiveCars() {
-        final int NUMBER_CARS = 20;
-
-
-        List<Car> cars = getCarsList(NUMBER_CARS);
-
-        initializeMockedTrackWithGivenNumberCars(NUMBER_CARS);
-        for (int i = 0; i < cars.size(); i++) {
-            when(mockedTrack.getCar(i)).thenReturn(cars.get(i));
-        }
-        for (int i = 0; i < NUMBER_CARS; i++) {
-            when(mockedTrack.isCarCrashed(i)).thenReturn(true);
-        }
-
-        final int NO_ACTIVE_CARS = -1;
-        sampleGame = new Game(mockedTrack);
-        for (int i = 0; i < cars.size(); i++) {
-            sampleGame.switchToNextActiveCar();
-            Assertions.assertEquals(NO_ACTIVE_CARS, sampleGame.getCurrentCarIndex());
-        }
+    public void switchToNextActiveCar_NoActiveCarsLeft() {
+        setUpGameWithDefaultTrackStub();
+        trackStub.setWishedActiveCarNumber(0);
+        Assertions.assertThrows(GameException.class, () -> sampleGame.switchToNextActiveCar());
     }
 
     // calculatePath()
@@ -419,7 +326,7 @@ public class GameTest {
 
         sampleGame.doCarTurn(PositionVector.Direction.UP);
         Assertions.assertEquals(PositionVector.Direction.UP, trackStub.getGivenAcceleration());
-        Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX, trackStub.getGivenCarIndex());
+        Assertions.assertEquals(Config.firstTurnCarIndex, trackStub.getGivenCarIndex());
     }
 
     /**
@@ -641,7 +548,7 @@ public class GameTest {
      */
     @Test
     public void doCarTurn_CollisionWithObstacles() throws IOException, InvalidTrackFormatException {
-        setUpTrackAndGame("testtracks/game-testtracks/crashes_into_onstacles.txt");
+        setUpTrackAndGame("testtracks/game-testtracks/crashes_into_obstacles.txt");
         //crash a with car b
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
         Assertions.assertTrue(sampleTrack.isCarCrashed(0));
@@ -786,7 +693,7 @@ public class GameTest {
     @Test
     public void getCurrentCarIndex_CorrectlyInitialized() {
         setUpGameWithDefaultTrackStub();
-        Assertions.assertEquals(Game.FIRST_TURN_CAR_INDEX, sampleGame.getCurrentCarIndex());
+        Assertions.assertEquals(Config.firstTurnCarIndex, sampleGame.getCurrentCarIndex());
     }
 
     //adjustPenaltyPointsForActiveCar()
@@ -820,14 +727,13 @@ public class GameTest {
         //car "b" is standing still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
         //car "a" leaves the finish line
-        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
         Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS + 2, sampleGame.getNumberPenaltyPoints(indexCarA));
     }
 
     /**
      * The test was set up as follow:
      * <ol>
-     *     <li>Number of laps will be set to two, in order to be able continue the test if a car arrives on the finish line.</li>
      *     <li>Car "a" will be skipped(Is there because of Config.MIN_CARS).</li>
      *     <li>Car "b" will be moved to the right, it arrives on the finish line: "<". Therefore should become -1 point.</li>
      *     <li>Car "a" will be skipped.</li>
@@ -839,7 +745,6 @@ public class GameTest {
      */
     @Test
     public void adjustPenaltyPointsForActiveCar_WrongDirectionMovementPointsSubtraction() throws IOException, InvalidTrackFormatException {
-        Config.setNumberLaps(2);
         setUpTrackAndGame("testtracks/game-testtracks/penalty_points.txt");
         //car "a" is standing still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
@@ -850,7 +755,7 @@ public class GameTest {
         //car "a" is standing still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
         //car "b" leaves the finish line
-        sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
+        sampleGame.doCarTurn(PositionVector.Direction.NONE);
         Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS - 2, sampleGame.getNumberPenaltyPoints(indexCarB));
     }
 }

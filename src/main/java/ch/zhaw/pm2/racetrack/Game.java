@@ -20,12 +20,11 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 public class Game {
 
     public static final int NO_WINNER = -1;
-    public static final int FIRST_TURN_CAR_INDEX = 0;
     public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -Config.numberLaps * 2 + 1;
     private Map<Integer, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
     private TrackInterface raceTrack;
-    private int activeCarIndex = FIRST_TURN_CAR_INDEX;
+    private int activeCarIndex = Config.firstTurnCarIndex;
 
     /**
      * Constructor of the class Game.
@@ -157,8 +156,9 @@ public class Game {
                 raceTrack.moveCar(activeCarIndex);
             }
         }
-        switchToNextActiveCar();
-
+        if (raceTrack.getNumberActiveCarsRemaining() > 0) {
+            switchToNextActiveCar();
+        }
     }
 
     /**
@@ -173,7 +173,6 @@ public class Game {
      * @throws GameException if given position is not on finish line.
      */
     void adjustPenaltyPointsForActiveCar(PositionVector finishPosition) throws GameException {
-        //todo test
         if (!raceTrack.isOnFinishLine(finishPosition)) {
             throw new GameException(ErrorType.NOT_ON_FINISH_LINE);
         }
@@ -267,21 +266,15 @@ public class Game {
      * <p>
      * Not: If there are no active cars left activeCarIndex = NO_WINNER will be set.
      */
-    public void switchToNextActiveCar() {
-        //todo use exception
-        if (activeCarIndex != NO_WINNER) {
-            int nextCarIndex = (activeCarIndex + 1) % raceTrack.getCarCount();
-            while (raceTrack.isCarCrashed(nextCarIndex) && activeCarIndex != nextCarIndex) {
-                nextCarIndex = (nextCarIndex + 1) % raceTrack.getCarCount();
-            }
-            //at this point actviteCarIndex==nextCarIndex or nextCarIndex car is not crashed
-            if (activeCarIndex == nextCarIndex) {
-                //we made a loop and found no cars
-                activeCarIndex = NO_WINNER;
-            } else {
-                activeCarIndex = nextCarIndex;
-            }
+    public void switchToNextActiveCar() throws GameException {
+        if (raceTrack.getNumberActiveCarsRemaining() == 0) {
+            throw new GameException(ErrorType.NO_ACTIVE_CARS);
         }
+        int nextCarIndex = activeCarIndex;
+        do {
+            nextCarIndex = (nextCarIndex + 1) % raceTrack.getCarCount();
+        } while (raceTrack.isCarCrashed(nextCarIndex));
+        activeCarIndex = nextCarIndex;
     }
 
     /**

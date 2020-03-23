@@ -7,6 +7,7 @@ public class Config {
     public static final int MAX_CARS = 9;
     private static final String TRACK_DIRECTORY = "tracks";
     private static final String MOVE_LIST_DIRECTORY = "moveLists";
+    public static int firstTurnCarIndex = 0;
     static int numberLaps = 1;
     // Directory containing the track files
     private static File trackDirectory = new File(TRACK_DIRECTORY);
@@ -22,8 +23,22 @@ public class Config {
     }
 
     /**
+     * Set the index of car which goes first.
+     *
+     * @param firstTurnCarIndex Zero based index of the car which should be first to take turn.
+     * @throws IllegalArgumentException firstTurnCarIndex > MAX_CARS or firstTurnCarIndex < MIN_CARS
+     */
+    public static void setFirstTurnCarIndex(int firstTurnCarIndex) {
+        if (firstTurnCarIndex > MAX_CARS || firstTurnCarIndex < MIN_CARS) {
+            throw new IllegalArgumentException(firstTurnCarIndex + " is illegal car index! Must be in [Min_CARS,MAX_CARS]!");
+        }
+        Config.firstTurnCarIndex = firstTurnCarIndex;
+    }
+
+    /**
      * Set the number of laps.
-     * @param numberLaps
+     *
+     * @param numberLaps The number of laps.
      * @throws IllegalArgumentException numberLaps < 1
      */
     public static void setNumberLaps(int numberLaps) throws IllegalArgumentException {
