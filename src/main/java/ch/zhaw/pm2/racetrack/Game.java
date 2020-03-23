@@ -20,7 +20,7 @@ import static ch.zhaw.pm2.racetrack.PositionVector.Direction;
 public class Game {
 
     public static final int NO_WINNER = -1;
-    public static final int INITIAL_NUMBER_OF_PENALTY_POINTS = -Config.numberLaps * 2 + 1;
+    private int initialNumberPenaltyPoints = -Config.numberLaps * 2 + 1;
     private Map<Integer, Integer> penaltyPoints = new HashMap<>();
     private int winnerIndex = NO_WINNER;
     private TrackInterface raceTrack;
@@ -34,6 +34,15 @@ public class Game {
      */
     public Game(TrackInterface track) {
         this.raceTrack = track;
+    }
+
+    /**
+     * Returns the initial number of penalty point for the game, each car gets.
+     *
+     * @return A negative integer number.
+     */
+    public int getInitialNumberPenaltyPoints() {
+        return initialNumberPenaltyPoints;
     }
 
     /**
@@ -177,7 +186,7 @@ public class Game {
             throw new GameException(ErrorType.NOT_ON_FINISH_LINE);
         }
         if (!penaltyPoints.containsKey(activeCarIndex)) {
-            penaltyPoints.put(activeCarIndex, INITIAL_NUMBER_OF_PENALTY_POINTS);
+            penaltyPoints.put(activeCarIndex, getInitialNumberPenaltyPoints());
         }
         if (isValidDirection(getCarVelocity(activeCarIndex), getFinishDirectionUnitVector(finishPosition))) {
             penaltyPoints.put(activeCarIndex, penaltyPoints.get(activeCarIndex) + 1);

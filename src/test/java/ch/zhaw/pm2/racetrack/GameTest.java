@@ -733,12 +733,12 @@ public class GameTest {
         //car "a" goes on finish line
         int indexCarA = sampleGame.getCurrentCarIndex();
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
-        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS + 1, sampleGame.getNumberPenaltyPoints(indexCarA));
+        Assertions.assertEquals(sampleGame.getInitialNumberPenaltyPoints() + 1, sampleGame.getNumberPenaltyPoints(indexCarA));
         //car "b" is standing still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
         //car "a" leaves the finish line
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
-        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS + 2, sampleGame.getNumberPenaltyPoints(indexCarA));
+        Assertions.assertEquals(sampleGame.getInitialNumberPenaltyPoints() + 2, sampleGame.getNumberPenaltyPoints(indexCarA));
     }
 
     /**
@@ -761,11 +761,11 @@ public class GameTest {
         //car "b" goes on finish line
         int indexCarB = sampleGame.getCurrentCarIndex();
         sampleGame.doCarTurn(PositionVector.Direction.RIGHT);
-        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS - 1, sampleGame.getNumberPenaltyPoints(indexCarB));
+        Assertions.assertEquals(sampleGame.getInitialNumberPenaltyPoints() - 1, sampleGame.getNumberPenaltyPoints(indexCarB));
         //car "a" is standing still
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
         //car "b" leaves the finish line
         sampleGame.doCarTurn(PositionVector.Direction.NONE);
-        Assertions.assertEquals(Game.INITIAL_NUMBER_OF_PENALTY_POINTS - 2, sampleGame.getNumberPenaltyPoints(indexCarB));
+        Assertions.assertEquals(sampleGame.getInitialNumberPenaltyPoints() - 2, sampleGame.getNumberPenaltyPoints(indexCarB));
     }
 }
