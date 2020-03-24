@@ -135,6 +135,15 @@ public class GameTest {
         }
     }
 
+    /**
+     * <ol>
+     *     <li>Load test track.</li>
+     *     <li>Crash cars wih even index number.</li>
+     *     <li>Validate if switching goes as expected.</li></l>
+     * </ol>
+     * @throws IOException                 Invalid file path.
+     * @throws InvalidTrackFormatException Invalid track format.
+     */
     @Test
     public void switchToNextActiveCar_EightCarsSequenceOddsActive() throws IOException, InvalidTrackFormatException {
         final int NUMBER_TIMES = 50;
