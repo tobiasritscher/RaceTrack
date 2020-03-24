@@ -51,7 +51,7 @@ public class Car {
     public boolean isCrashed() {
         return isCrashed;
     }
-    //todo isActive vs is Crashed
+
     /**
      * Calculate the next position from to current position and calculated velocity at this turn.
      * <p>The formula used for calculation is: p<sub>n</sub>=p<sub>n-1</sub>+v<sub>n</sub></p>

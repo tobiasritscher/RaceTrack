@@ -138,7 +138,6 @@ public class Track implements TrackInterface {
      */
     @Override
     public boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) {
-        //todo test
         boolean isOtherCarHere = false;
         for (Car car : cars) {
             if (!car.equals(cars.get(currentCarIndex)) && car.getCarPosition().equals(position)) {
