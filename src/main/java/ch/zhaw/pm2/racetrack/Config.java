@@ -49,7 +49,7 @@ public class Config {
     }
 
     public enum StrategyType {
-        DO_NOT_MOVE, USER, MOVE_LIST
+        DO_NOT_MOVE, USER, MOVE_LIST, PATH_FOLLOWER
     }
 
     /**
