@@ -7,6 +7,8 @@ public class Config {
     public static final int MAX_CARS = 9;
     private static final String TRACK_DIRECTORY = "tracks";
     private static final String MOVE_LIST_DIRECTORY = "moveLists";
+    private static final String PATHFOLLOWER_DIRECTORY_PATH = "strategies/teststrategies";
+
     public static int firstTurnCarIndex = 0;
     static int numberLaps = 1;
     // Directory containing the track files
@@ -21,6 +23,11 @@ public class Config {
     public static File getMoveListDirectory() {
         return moveListDirectory;
     }
+
+    public static String getPathFollowerDirectoryPath() {
+        return PATHFOLLOWER_DIRECTORY_PATH;
+    }
+
 
     /**
      * Set the index of car which goes first.

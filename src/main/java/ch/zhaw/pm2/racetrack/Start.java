@@ -4,10 +4,13 @@ import ch.zhaw.pm2.racetrack.Config.StrategyType;
 import ch.zhaw.pm2.racetrack.exceptions.InvalidTrackFormatException;
 import ch.zhaw.pm2.racetrack.strategy.DoNotMoveStrategy;
 import ch.zhaw.pm2.racetrack.strategy.MoveListStrategy;
+import ch.zhaw.pm2.racetrack.strategy.PathFollowerStrategy;
 import ch.zhaw.pm2.racetrack.strategy.UserStrategy;
 
 import java.io.File;
 import java.io.IOException;
+
+import static ch.zhaw.pm2.racetrack.Config.StrategyType.PATH_FOLLOWER;
 
 /**
  * Class starts the game with the needed setup and strategy initialization
@@ -63,7 +66,6 @@ public class Start {
         }
     }
 
-
     /**
      * lets the players decide on their strategies for the game
      *
@@ -84,10 +86,33 @@ public class Start {
                 case MOVE_LIST:
                     track.setStrategy(new MoveListStrategy(chooseMoveList()), car);
                     break;
+                case PATH_FOLLOWER:
+                    track.setStrategy(new PathFollowerStrategy(chooseFile(PATH_FOLLOWER)), car);
+                    break;
                 default:
                     io.print("ups, something went wrong");
             }
         }
+    }
+
+    public static File chooseFile(StrategyType strategyType) {
+        String filePath;
+        switch (strategyType) {
+            case PATH_FOLLOWER:
+                filePath = Config.getPathFollowerDirectoryPath();
+                break;
+            default:
+                throw new RuntimeException("There are no lists for given strategy.");
+        }
+        assert filePath != null && new File(filePath).isDirectory() : "Directory was not set properly. Please check Config.java.";
+        String[] files = (new File(filePath)).list();
+        io.print("\nAll files:\n");
+        for (int i = 0; i < files.length; ++i) {
+            io.print("  " + (i + INDEX_OFFSET) + ": " + files[i] + "\n");
+        }
+        //choose moveList from files
+        int fileChoosen = io.intInputReader(1, files.length, "Choose your file [1-" + files.length + "]:") - INDEX_OFFSET;
+        return new File(filePath + "\\" + files[fileChoosen]);
     }
 
     /**

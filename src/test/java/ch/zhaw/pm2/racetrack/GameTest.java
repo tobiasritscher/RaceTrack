@@ -188,7 +188,7 @@ public class GameTest {
 
         List<PositionVector> expectedPath = new ArrayList<>();
         expectedPath.add(ZERO_POSITION_VECTOR);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, START_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, START_POINT));
     }
 
     /**
@@ -204,7 +204,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(1, 0));
         final PositionVector END_POINT = new PositionVector(2, 0);
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
 
     /**
@@ -220,7 +220,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(1, 0));
         final PositionVector END_POINT = ZERO_POSITION_VECTOR;
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
 
     /**
@@ -236,7 +236,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(0, 1));
         final PositionVector END_POINT = new PositionVector(0, 2);
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
 
     /**
@@ -252,7 +252,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(0, 1));
         final PositionVector END_POINT = ZERO_POSITION_VECTOR;
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
 
     /**
@@ -268,7 +268,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(2, 2));
         final PositionVector END_POINT = new PositionVector(3, 3);
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
 
     /**
@@ -284,7 +284,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(1, 1));
         final PositionVector END_POINT = ZERO_POSITION_VECTOR;
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
 
     /**
@@ -300,7 +300,7 @@ public class GameTest {
         expectedPath.add(new PositionVector(2, 1));
         final PositionVector END_POINT = new PositionVector(3, 1);
         expectedPath.add(END_POINT);
-        Assertions.assertEquals(expectedPath, sampleGame.calculatePath(START_POINT, END_POINT));
+        Assertions.assertEquals(expectedPath, Game.calculatePath(START_POINT, END_POINT));
     }
     //do carTurn()
 
@@ -441,7 +441,7 @@ public class GameTest {
         final int TEST_PATH_LENGTH = 3;
         final PositionVector CAR_START_POSITION = new PositionVector(1, 0);
         final PositionVector CAR_END_POSITION = new PositionVector(TEST_PATH_LENGTH, 0);
-        List<PositionVector> testPath = sampleGame.calculatePath(CAR_START_POSITION, CAR_END_POSITION);
+        List<PositionVector> testPath = Game.calculatePath(CAR_START_POSITION, CAR_END_POSITION);
         trackStub.setWishedPositionSpaceType(testPath.get(0), Config.SpaceType.TRACK);
         trackStub.setWishedPositionSpaceType(testPath.get(1), Config.SpaceType.FINISH_LEFT);
         trackStub.setWishedPositionSpaceType(testPath.get(2), Config.SpaceType.TRACK);

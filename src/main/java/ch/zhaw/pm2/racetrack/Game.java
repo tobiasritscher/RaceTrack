@@ -299,7 +299,7 @@ public class Game {
      * @param endPosition   Ending position as a PositionVector
      * @return Intervening grid positions as a List of PositionVector's, including the starting and ending positions.
      */
-    public List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
+    public static List<PositionVector> calculatePath(PositionVector startPosition, PositionVector endPosition) {
         List<PositionVector> path = new ArrayList<>();
         int diffX = endPosition.getX() - startPosition.getX();
         int diffY = endPosition.getY() - startPosition.getY();
