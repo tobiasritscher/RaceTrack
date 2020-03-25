@@ -1,53 +1,41 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-
 import java.util.List;
 
 public interface TrackInterface {
     Config.SpaceType[][] getGrid();
 
+    char getCarId(int index) throws IllegalArgumentException;
+
+    PositionVector getCarPosition(int index) throws IllegalArgumentException;
+
+    PositionVector getCarNextPosition(int carIndex) throws IllegalArgumentException;
+
+    PositionVector getCarVelocity(int index) throws IllegalArgumentException;
+
+    void accelerateCar(int carIndex, PositionVector.Direction acceleration) throws IllegalArgumentException;
+
+    void crashCar(int carIndex, PositionVector crashLocation) throws IllegalArgumentException;
+
+    void moveCar(int carIndex) throws IllegalArgumentException;
+
     int getCarCount();
-
-    char getCarId(int index);
-
-    PositionVector getCarPosition(int index);
-
-    PositionVector getCarVelocity(int index);
-
-    Config.SpaceType getSpaceType(PositionVector position);
-
-    List<Car> getCars();
-
-    Car getCar(int carIndex);
-
-    boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position);
-
-    void accelerateCar(int carIndex, PositionVector.Direction acceleration);
-
-    PositionVector getCarNextPosition(int carIndex);
-
-    void crashCar(int carIndex, PositionVector crashLocation);
-
-    void moveCar(int carIndex);
-
-    boolean isCarCrashed(int carIndex);
 
     int getNumberActiveCarsRemaining();
 
-    boolean isOnFinishLine(PositionVector position);
+    List<Car> getCars();
 
-    boolean isTrackBound(PositionVector position);
+    Car getCar(int carIndex) throws IllegalArgumentException;
 
-    void setStrategy(MoveStrategy moveStrategy, Car car);
+    Config.SpaceType getSpaceType(PositionVector position) throws IllegalArgumentException;
 
-    void checkCarIndex(int carIndex);
+    boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) throws IllegalArgumentException;
 
-    void checkPosition(PositionVector position);
+    boolean isCarCrashed(int carIndex) throws IllegalArgumentException;
 
-    int getyDimension();
+    boolean isOnFinishLine(PositionVector position) throws IllegalArgumentException;
 
-    int getxDimension();
+    boolean isTrackBound(PositionVector position) throws IllegalArgumentException;
 
     @Override
     String toString();

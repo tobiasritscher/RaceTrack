@@ -34,9 +34,6 @@ dependencies {
 
     implementation fileTree(dir: 'lib', include: ['*.jar'])
 
-    // Use Mockito for writing tests
-    testImplementation "org.mockito:mockito-core:2.+"
-
 }
 
 application {

@@ -7,7 +7,7 @@ public class UserStrategy implements MoveStrategy {
     IO io = new IO();
 
     /**
-     * askes the user what direction he wants to use for the next turn
+     * Asks the user for the direction he wants to use for the next turn
      *
      * @return the chosen direction
      */

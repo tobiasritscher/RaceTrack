@@ -1,5 +1,7 @@
 package ch.zhaw.pm2.racetrack;
 
+import java.util.Objects;
+
 /**
  * Holds a position (vector to x,y-position of the car on the track grid)
  * or a velocity vector (x,y-components of the velocity vector of a car).
@@ -120,6 +122,11 @@ public final class PositionVector implements Cloneable {
     @Override
     public String toString() {
         return "(X:" + x + ", Y:" + y + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     /**

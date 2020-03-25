@@ -1,7 +1,5 @@
 package ch.zhaw.pm2.racetrack;
 
-import ch.zhaw.pm2.racetrack.strategy.MoveStrategy;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +10,7 @@ public class TrackStub implements TrackInterface {
 
     private PositionVector wishedCarPosition;
     private PositionVector wishedNextCarPosition;
+    private PositionVector wishedCarVelocity;
 
     private int givenCarIndex;
     private PositionVector.Direction givenAcceleration;
@@ -21,18 +20,19 @@ public class TrackStub implements TrackInterface {
     private Map<Integer, Boolean> isTheCarCrashed = new HashMap<>();
     private int numberActiveCars;
     private boolean isTrackBound;
-
-    public TrackStub(int carCount) {
-        this.wishedCarCount = carCount;
-    }
+    private boolean isSomeOtherCarHere = false;
 
     List<Integer> getActiveCarsList() {
         List<Integer> activeCarsList = new ArrayList<>();
-        for(Integer i : isTheCarCrashed.keySet())
-        if(!isTheCarCrashed.get(i)){
-            activeCarsList.add(i);
-        }
+        for (Integer i : isTheCarCrashed.keySet())
+            if (!isTheCarCrashed.get(i)) {
+                activeCarsList.add(i);
+            }
         return activeCarsList;
+    }
+
+    public void setWishedCarCount(int carCount) {
+        wishedCarCount = carCount;
     }
 
     @Override
@@ -59,6 +59,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public char getCarId(int index) {
+        givenCarIndex = index;
         return 0;
     }
 
@@ -73,6 +74,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public PositionVector getCarPosition(int index) {
+        givenCarIndex = index;
         return wishedCarPosition;
     }
 
@@ -81,14 +83,19 @@ public class TrackStub implements TrackInterface {
         return wishedNextCarPosition;
     }
 
+    public void setWishedCarVelocity(PositionVector velocity) {
+        wishedCarVelocity = velocity;
+    }
+
     @Override
     public PositionVector getCarVelocity(int index) {
-        return null;
+        givenCarIndex = index;
+        return wishedCarVelocity;
     }
 
     @Override
     public Config.SpaceType getSpaceType(PositionVector position) {
-        return null;
+        return fakeGrid.get(position);
     }
 
     @Override
@@ -101,9 +108,13 @@ public class TrackStub implements TrackInterface {
         return null;
     }
 
+    public void setWishedIsSomeOtherCarHere(boolean isSomeOtherCarHere) {
+        this.isSomeOtherCarHere = isSomeOtherCarHere;
+    }
+
     @Override
     public boolean isSomeOtherCarHere(int currentCarIndex, PositionVector position) {
-        return false;
+        return isSomeOtherCarHere;
     }
 
     @Override
@@ -136,6 +147,10 @@ public class TrackStub implements TrackInterface {
         return isTheCarCrashed.get(carIndex);
     }
 
+    public void setWishedActiveCarNumber(int carNumber) {
+        numberActiveCars = carNumber;
+    }
+
     @Override
     public int getNumberActiveCarsRemaining() {
         return numberActiveCars;
@@ -143,7 +158,7 @@ public class TrackStub implements TrackInterface {
 
     @Override
     public boolean isOnFinishLine(PositionVector position) {
-        return false;
+        return fakeGrid.get(position) == Config.SpaceType.FINISH_LEFT || fakeGrid.get(position) == Config.SpaceType.FINISH_RIGHT;
     }
 
 
@@ -156,28 +171,5 @@ public class TrackStub implements TrackInterface {
         return isTrackBound;
     }
 
-    @Override
-    public void setStrategy(MoveStrategy moveStrategy, Car car) {
 
-    }
-
-    @Override
-    public void checkCarIndex(int carIndex) {
-
-    }
-
-    @Override
-    public void checkPosition(PositionVector position) {
-
-    }
-
-    @Override
-    public int getyDimension() {
-        return 0;
-    }
-
-    @Override
-    public int getxDimension() {
-        return 0;
-    }
 }

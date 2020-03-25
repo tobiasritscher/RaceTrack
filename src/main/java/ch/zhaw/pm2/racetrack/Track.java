@@ -95,16 +95,19 @@ public class Track implements TrackInterface {
 
     @Override
     public char getCarId(int index) {
+        checkCarIndex(index);
         return cars.get(index).getId();
     }
 
     @Override
     public PositionVector getCarPosition(int index) {
+        checkCarIndex(index);
         return cars.get(index).getCarPosition();
     }
 
     @Override
     public PositionVector getCarVelocity(int index) {
+        checkCarIndex(index);
         return cars.get(index).getVelocity();
     }
 
@@ -150,7 +153,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex     The index of a car.
      * @param acceleration Acceleration vector of the car.
-     * @throws IllegalArgumentException
      */
     @Override
     public void accelerateCar(int carIndex, PositionVector.Direction acceleration) {
@@ -163,7 +165,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex The zero-based car index number.
      * @return Car next position.
-     * @throws IllegalArgumentException
      */
     @Override
     public PositionVector getCarNextPosition(int carIndex) {
@@ -177,7 +178,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex      The zero-based car index number.
      * @param crashLocation A location of the crash.
-     * @throws IllegalArgumentException
      */
     @Override
     public void crashCar(int carIndex, PositionVector crashLocation) {
@@ -202,7 +202,6 @@ public class Track implements TrackInterface {
      *
      * @param carIndex The zero-based car index number.
      * @return True, if the car is crashed
-     * @throws IllegalArgumentException
      */
     @Override
     public boolean isCarCrashed(int carIndex) {
@@ -255,23 +254,19 @@ public class Track implements TrackInterface {
         return getSpaceType(position).equals(Config.SpaceType.WALL);
     }
 
-    @Override
     public void setStrategy(MoveStrategy moveStrategy, Car car) {
         car.setCarMoveStrategy(moveStrategy);
     }
 
     /**
-     * @param carIndex
-     * @throws IllegalArgumentException
+     * @param carIndex The zero-based carIndex number.
      */
-    @Override
     public void checkCarIndex(int carIndex) {
         if (carIndex > cars.size() - 1 || carIndex < 0) {
             throw new IllegalArgumentException();
         }
     }
 
-    @Override
     public void checkPosition(PositionVector position) {
         if (position.getX() > xDimension - 1 || position.getX() < 0) {
             throw new IllegalArgumentException();
@@ -279,16 +274,6 @@ public class Track implements TrackInterface {
         if (position.getY() > yDimension - 1 || position.getY() < 0) {
             throw new IllegalArgumentException();
         }
-    }
-
-    @Override
-    public int getyDimension() {
-        return yDimension;
-    }
-
-    @Override
-    public int getxDimension() {
-        return xDimension;
     }
 
     @Override
@@ -301,25 +286,25 @@ public class Track implements TrackInterface {
                 charGrid[y][x] = grid[y][x].getValue();
             }
         }
-        //map cars
+
+        //map crashed cars
         for (Car car : cars) {
             int x = car.getCarPosition().getX();
             int y = car.getCarPosition().getY();
             if (car.isCrashed()) {
-                //if two carsh crash, remaining car is shown on grid
-                //if car crashes into wall, an x is shown at it's position
-                for (Car car2 : cars) {
-                    if (car.getCarPosition().equals(car2.getCarPosition()) && !isOnFinishLine(new PositionVector(x,y))) {
-                        break;
-                    } else {
-                        charGrid[y][x] = 'x';
-                    }
-                }
+                charGrid[y][x] = 'x';
+            }
+        }
 
-            } else {
+        //map active cars
+        for (Car car : cars) {
+            int x = car.getCarPosition().getX();
+            int y = car.getCarPosition().getY();
+            if (!car.isCrashed()) {
                 charGrid[y][x] = car.getId();
             }
         }
+
         //build string
         for (char[] chars : charGrid) {
             String charGridString = new String(chars);
