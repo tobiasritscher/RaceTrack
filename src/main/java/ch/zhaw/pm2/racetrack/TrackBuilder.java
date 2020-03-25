@@ -34,7 +34,7 @@ public class TrackBuilder {
      * @param file (provided by IO)
      * @return trackArray Config.SpaceType array for use with the game
      * @throws IOException                 if the file couldn't be found
-     * @throws InvalidTrackFormatException if file requirements haven't been met //TODO decide where exactly the exception is thrown
+     * @throws InvalidTrackFormatException if file requirements haven't been met
      */
 
     public Config.SpaceType[][] buildTrack(File file) throws IOException, InvalidTrackFormatException {
