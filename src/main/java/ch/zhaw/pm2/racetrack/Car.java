@@ -101,6 +101,11 @@ public class Car {
         velocity = PositionVector.add(velocity, acceleration.vector);
     }
 
+    /**
+     * overrides the equals method to suit our purposes
+     * @param obj takes in an object that needs to be compared
+     * @return true if the carID matches the other one
+     */
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Car)){

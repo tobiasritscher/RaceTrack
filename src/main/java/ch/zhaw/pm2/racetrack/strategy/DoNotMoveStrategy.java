@@ -5,7 +5,7 @@ import ch.zhaw.pm2.racetrack.PositionVector;
 public class DoNotMoveStrategy implements MoveStrategy {
 
     /**
-     * returns allways null as direction
+     * returns always null as direction
      *
      * @return null as direction
      */
