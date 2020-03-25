@@ -42,6 +42,10 @@ Choose wisely since the speed adds up.
 
 ![Screenshot](controls.png)
 
+# Test Documentation
+
+[Document](documentations/TestsDocumentation.xlsx)
+
 # Screenshot
 ![Screenshot](StartScreenShot.png)
 
