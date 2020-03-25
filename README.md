@@ -44,7 +44,7 @@ Choose wisely since the speed adds up.
 
 # Test Documentation
 
-[Document](documentations/TestsDocumentation.xlsx)
+[Document](https://docs.google.com/spreadsheets/d/1w20l1VQXoUrh0EXgTRF9j3ib8hm6gpOrUfubB8RiVio/edit#gid=1605639631)
 
 # Screenshot
 ![Screenshot](StartScreenShot.png)
