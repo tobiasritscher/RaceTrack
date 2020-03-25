@@ -42,10 +42,6 @@ Choose wisely since the speed adds up.
 
 ![Screenshot](controls.png)
 
-# Test Documentation
-
-[Document](https://docs.google.com/spreadsheets/d/1w20l1VQXoUrh0EXgTRF9j3ib8hm6gpOrUfubB8RiVio/edit#gid=1605639631)
-
 # Screenshot
 ![Screenshot](StartScreenShot.png)
 
@@ -56,3 +52,7 @@ If you are lucky enough and win it will look like this.
 # Class Diagram
 
 ![Screenshot](classdiagram.jpg)
+
+# Test Documentation
+
+[Document](https://docs.google.com/spreadsheets/d/1w20l1VQXoUrh0EXgTRF9j3ib8hm6gpOrUfubB8RiVio/edit#gid=1605639631)
