@@ -13,7 +13,6 @@ public class TrackBuilderTest {
 
     @BeforeEach
     public void init() {
-        // TODO: initialize variables
         trackBuilder = new TrackBuilder();
     }
 
